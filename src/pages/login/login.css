@@ -1,0 +1,7 @@
+#main-login{
+  background-image: url('../../assets/images/login-background.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  grid-row: 1 / 4;
+}

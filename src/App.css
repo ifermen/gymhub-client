@@ -1,0 +1,9 @@
+#root {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.border-3 {
+  border-width: 3px;
+}
