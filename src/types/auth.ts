@@ -7,12 +7,16 @@ export interface LoginResponse {
   token: string
 }
 
+export interface VerifyResponse {
+  valid: true
+}
+
 export interface UserType {
   id: number;
   name: string;
   email: string;
   role: 'admin' | 'employee' | 'client';
-  creation: Date
+  creationDate: Date
 }
 
 export interface JwtPayload {

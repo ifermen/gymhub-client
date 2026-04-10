@@ -1,6 +1,11 @@
 import logo from "../../assets/icons/logo.svg"
+import profile from "../../assets/icons/profile-white.svg"
+import { useUserContext } from "../../contexts/UserContext"
 
-export function Header(){
+export function Header() {
+
+  const { user } = useUserContext();
+
   return (
     <header className="
         flex
@@ -15,16 +20,18 @@ export function Header(){
           w-fit
           flex
           gap-1
+          items-center
         ">
         <img src={logo} alt="Logo de GymHub" className="w-16" />
-        <h1 className="font-extrabold text-5xl h-full">GymHub</h1>
+        <h1 className="font-extrabold text-5xl">GymHub</h1>
       </div>
       <div className="
           w-fit
           flex
           items-center
         ">
-        <span className="text-xl">Username</span>
+        <span className="text-xl">{user?.name}</span>
+        <img src={profile} alt="Logo de GymHub" className="w-14" />
       </div>
     </header>
   )

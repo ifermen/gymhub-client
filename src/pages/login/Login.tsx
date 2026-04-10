@@ -4,10 +4,12 @@ import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input/Input";
 import "./login.css";
 import { useUserContext } from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
   const { loginContext } = useUserContext();
+  const navigate = useNavigate();
 
   const formLoginDefault = {
     email: "",
@@ -27,7 +29,9 @@ export default function Login() {
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     loginContext(formLogin.email, formLogin.password)
-      .then()
+      .then(() => {
+        navigate('/home')
+      })
       .catch(error => {
         console.log(error)
         setIsLoginError(true);
@@ -61,10 +65,11 @@ export default function Login() {
               className="
                 w-full
                 pt-1
+                px-3
                 bg-danger-900
                 border-3
                 border-danger-500
-                rounded-full
+                rounded-3xl
                 text-center
                 text-lg
                 font-bold

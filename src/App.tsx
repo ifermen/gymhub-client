@@ -5,20 +5,23 @@ import Login from './pages/login/Login'
 import { UserContextProvider } from './contexts/UserContext'
 import { Layout } from './layouts/Layout'
 import { Home } from './pages/home/Home'
+import { AuthGuard } from './guards/AuthGuard'
 
 function App() {
 
   return (
-    <UserContextProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <UserContextProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path='/' element={<Layout />}>
-            <Route path='/home' element={<Home />} />
+            <Route element={<AuthGuard />}>
+              <Route path='/home' element={<Home />} />
+            </Route>
           </Route>
         </Routes>
-      </BrowserRouter>
-    </UserContextProvider>
+      </UserContextProvider>
+    </BrowserRouter>
   )
 }
 
