@@ -22,38 +22,55 @@ export function Footer() {
         ">Proyecto Realizado por Iván Fernández Méndez</span>
       </div>
       <div className="
-      flex
-      justify-between
+        flex
+        flex-col
+        sm:flex-row
+        justify-between
       ">
         <div className="
-          w-fit
+          w-full
+          sm:w-fit
+          justify-center
           flex
           gap-2
           cursor-pointer
           items-center
         ">
-          <img src={linkedin} alt="Icono de LinkedIn" className="w-8" />
+          <img src={linkedin} alt="Icono de LinkedIn" className="
+            w-6
+            sm:w-8
+          " />
           <span className="mt-1">LinkedIn</span>
         </div>
         <div className="
-          w-fit
+          w-full
+          sm:w-fit
+          justify-center
           flex
           gap-2
           cursor-pointer
           items-center
         ">
-          <img src={api} alt="Icono de Api" className="w-8" />
-          <span className="mt-1">Api - Repository</span>
+          <img src={api} alt="Icono de Api" className="
+            w-6
+            sm:w-8
+          " />
+          <span className="mt-1">Api - Repositorio</span>
         </div>
         <div className="
-          w-fit
+          w-full
+          sm:w-fit
+          justify-center
           flex
           gap-2
           cursor-pointer
           items-center
         ">
-          <img src={github} alt="Logo de GitHub" className="w-8" />
-          <span className="mt-1">Repository</span>
+          <img src={github} alt="Logo de GitHub" className="
+            w-6
+            sm:w-8
+          " />
+          <span className="mt-1">Repositorio</span>
         </div>
       </div>
     </footer>

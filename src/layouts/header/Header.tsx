@@ -19,6 +19,7 @@ export function Header() {
   return (
     <header className="
         flex
+        flex-row
         justify-between
         p-2
         bg-gradient-to-br
@@ -33,8 +34,17 @@ export function Header() {
           cursor-pointer
           items-center
         ">
-        <img src={logo} alt="Logo de GymHub" className="w-16" />
-        <h1 className="font-extrabold text-5xl h-fit mt-2">GymHub</h1>
+        <img src={logo} alt="Logo de GymHub" className="
+          w-12
+          sm:w-16
+        " />
+        <h1 className="
+          font-extrabold
+          text-2xl
+          sm:text-5xl
+          h-fit
+          mt-2
+        ">GymHub</h1>
       </div>
       <div onClick={clickProfileHandler} className="
           w-fit
@@ -43,8 +53,17 @@ export function Header() {
           cursor-pointer
           gap-2
         ">
-        <span className="text-xl h-fit mt-1">{user?.name}</span>
-        <img src={profile} alt="Logo de GymHub" className="w-14" />
+        <span className="
+          text-2xl
+          hidden
+          sm:block
+          h-fit
+          mt-1
+        ">{user?.name}</span>
+        <img src={profile} alt="Logo de GymHub" className="
+          w-12
+          sm:w-16
+        " />
       </div>
     </header>
   )
