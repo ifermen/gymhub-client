@@ -1,10 +1,20 @@
 import logo from "../../assets/icons/logo.svg"
 import profile from "../../assets/icons/profile-white.svg"
 import { useUserContext } from "../../contexts/UserContext"
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
 
   const { user } = useUserContext();
+  const navegate = useNavigate();
+
+  const clickProfileHandler = () => {
+    navegate("/profile")
+  }
+
+  const clickBrandHandler = () => {
+    navegate("/home")
+  }
 
   return (
     <header className="
@@ -16,21 +26,24 @@ export function Header() {
         to-background-200
         text-text-950
       ">
-      <div className="
+      <div onClick={clickBrandHandler} className="
           w-fit
           flex
-          gap-1
+          gap-2
+          cursor-pointer
           items-center
         ">
         <img src={logo} alt="Logo de GymHub" className="w-16" />
-        <h1 className="font-extrabold text-5xl">GymHub</h1>
+        <h1 className="font-extrabold text-5xl h-fit mt-2">GymHub</h1>
       </div>
-      <div className="
+      <div onClick={clickProfileHandler} className="
           w-fit
           flex
           items-center
+          cursor-pointer
+          gap-2
         ">
-        <span className="text-xl">{user?.name}</span>
+        <span className="text-xl h-fit mt-1">{user?.name}</span>
         <img src={profile} alt="Logo de GymHub" className="w-14" />
       </div>
     </header>

@@ -6,6 +6,7 @@ import { UserContextProvider } from './contexts/UserContext'
 import { Layout } from './layouts/Layout'
 import { Home } from './pages/home/Home'
 import { AuthGuard } from './guards/AuthGuard'
+import { Profile } from './pages/profile/Profile'
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path='/' element={<Layout />}>
             <Route element={<AuthGuard />}>
-              <Route path='/home' element={<Home />} />
+              <Route index path='/home' element={<Home />} />
+              <Route path='/profile' element={<Profile />} />
             </Route>
           </Route>
         </Routes>

@@ -10,6 +10,11 @@ export const HTTPRequest = {
       }
     });
     const data = await response.json();
+
+    if (!response.ok) {
+      throw { ...data } as ApiError;
+    }
+
     return data;
   },
 

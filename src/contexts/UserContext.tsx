@@ -64,7 +64,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
       email: decoded.email,
       role: decoded.role,
       //TODO arreglar el parse a date en mapJwtUser
-      creationDate: new Date(decoded.creation),
+      creationDate: new Date(decoded.creationDate),
     };
   }
 
