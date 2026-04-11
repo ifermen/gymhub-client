@@ -1,5 +1,5 @@
 import { Button } from "../../components/Button/Button";
-import { Line } from "../../components/Line/Line";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import { useUserContext } from "../../contexts/UserContext"
 import { TitlePage } from '../../components/TitlePage/TitlePage';
 import { Main } from "../../components/Main/Main";
@@ -60,7 +60,7 @@ export function Profile() {
               user?.role == "ADMIN" ? "Administrador" :
                 user?.role == "EMPLOYEE" ? "Empleado" :
                   user?.role == "CLIENT" ? "Cliente" : ""}</span>
-          <Line></Line>
+          <LineHorizontal></LineHorizontal>
         </div>
         <span className="
           font-semibold

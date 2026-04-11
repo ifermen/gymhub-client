@@ -2,6 +2,8 @@ import logo from "../../assets/icons/logo.svg"
 import profile from "../../assets/icons/profile-white.svg"
 import { useUserContext } from "../../contexts/UserContext"
 import { useNavigate } from 'react-router-dom';
+import { NavMenu } from "../navMenu/NavMenu";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
 
 export function Header() {
 
@@ -17,54 +19,60 @@ export function Header() {
   }
 
   return (
-    <header className="
-        flex
-        flex-row
-        justify-between
-        p-2
+    <>
+      <header className="
         bg-gradient-to-br
         from-background-100
         to-background-200
         text-text-950
       ">
-      <div onClick={clickBrandHandler} className="
+        <div className="
+          flex
+          flex-row
+          justify-between
+          p-2">
+          <div onClick={clickBrandHandler} className="
           w-fit
           flex
           gap-2
           cursor-pointer
           items-center
         ">
-        <img src={logo} alt="Logo de GymHub" className="
+            <img src={logo} alt="Logo de GymHub" className="
           w-12
           sm:w-16
         " />
-        <h1 className="
+            <h1 className="
           font-extrabold
           text-2xl
           sm:text-5xl
           h-fit
           mt-2
         ">GymHub</h1>
-      </div>
-      <div onClick={clickProfileHandler} className="
+          </div>
+          <div onClick={clickProfileHandler} className="
           w-fit
           flex
           items-center
           cursor-pointer
           gap-2
         ">
-        <span className="
+            <span className="
           text-2xl
           hidden
           sm:block
           h-fit
           mt-1
         ">{user?.name}</span>
-        <img src={profile} alt="Logo de GymHub" className="
+            <img src={profile} alt="Logo de GymHub" className="
           w-12
           sm:w-16
         " />
-      </div>
-    </header>
+          </div>
+        </div>
+        <LineHorizontal variant="white"></LineHorizontal>
+        <NavMenu></NavMenu>
+      </header>
+    </>
   )
 }
