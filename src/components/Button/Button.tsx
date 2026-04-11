@@ -1,24 +1,28 @@
 import type { ReactNode } from "react"
 
 interface ButtonProps {
-  children:ReactNode,
-  id:string,
-  type:'button'|'submit',
-  variant?: 'primary' | 'secondary',
-  handleClick:() => void
+  children: ReactNode,
+  id: string,
+  type: 'button' | 'submit',
+  variant?: 'primary' | 'secondary' | 'accent',
+  handleClick: () => void
 }
-export function Button({children,id,type,variant = "primary",handleClick}:ButtonProps){
+export function Button({ children, id, type, variant = "primary", handleClick }: ButtonProps) {
 
   const variants = {
-  primary: `
+    primary: `
     to-primary-500 from-primary-600 border-primary-500
     hover:to-primary-600 hover:from-primary-700 hover:border-primary-600
   `,
-  secondary: `
+    secondary: `
     to-secondary-500 from-secondary-600 border-secondary-500
     hover:to-secondary-600 hover:from-secondary-700 hover:border-secondary-600
+  `,
+    accent: `
+    to-accent-500 from-accent-600 border-accent-500
+    hover:to-accent-600 hover:from-accent-700 hover:border-accent-600
   `
-}
+  }
 
   return (
     <button

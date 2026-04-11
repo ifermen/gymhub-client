@@ -8,5 +8,9 @@ export const LocalStorageUtility = {
 
   saveToken: (token: string) => {
     localStorage.setItem(TOKEN_KEY, token);
+  },
+
+  deleteToken: () => {
+    localStorage.removeItem(TOKEN_KEY);
   }
 }

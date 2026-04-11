@@ -3,10 +3,10 @@ import type { ChangeEvent } from "react";
 interface InputProps {
   id: string;
   name: string;
-  type: "email" | "type" | "password";
+  type: "email" | "text" | "password";
   placeholder: string;
-  value: string|number;
-  handleChange: (event:ChangeEvent<HTMLInputElement>) => void;
+  value: string | number;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function Input({ id, name, type, placeholder, value, handleChange }: InputProps) {

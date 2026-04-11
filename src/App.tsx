@@ -7,6 +7,7 @@ import { Layout } from './layouts/Layout'
 import { Home } from './pages/home/Home'
 import { AuthGuard } from './guards/AuthGuard'
 import { Profile } from './pages/profile/Profile'
+import { EditProfile } from './pages/editProfile/EditProfile'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route element={<AuthGuard />}>
               <Route index path='/home' element={<Home />} />
               <Route path='/profile' element={<Profile />} />
+              <Route path='/profile/edit' element={<EditProfile />} />
             </Route>
           </Route>
         </Routes>

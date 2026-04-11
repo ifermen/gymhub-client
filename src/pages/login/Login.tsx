@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
-  const { loginContext } = useUserContext();
+  const { login: loginContext } = useUserContext();
   const navigate = useNavigate();
 
   const formLoginDefault = {

@@ -6,7 +6,8 @@ import { LocalStorageUtility } from "../utilities/LocalStorage";
 import { useNavigate } from "react-router-dom";
 
 interface UserContextType {
-  loginContext: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
   user: UserType | null;
   isLoading: boolean;
 }
@@ -68,7 +69,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     };
   }
 
-  const loginContext = async (email: string, password: string): Promise<void> => {
+  const login = async (email: string, password: string): Promise<void> => {
     try {
       const data: LoginResponse = await AuthService.login(email, password);
       LocalStorageUtility.saveToken(data.token);
@@ -84,9 +85,15 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   };
 
+  const logout = () => {
+    LocalStorageUtility.deleteToken();
+    navigate("/login")
+  }
+
   return (
     <UserContext.Provider value={{
-      loginContext,
+      login,
+      logout,
       user,
       isLoading
     }}>

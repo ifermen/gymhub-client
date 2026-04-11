@@ -36,5 +36,44 @@ export const HTTPRequest = {
     }
 
     return data;
+  },
+
+  put: async <T>(url: string, body: any): Promise<T> => {
+    const token = LocalStorageUtility.getToken();
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data: T = await response.json();
+
+    if (!response.ok) {
+      throw { ...data } as ApiError;
+    }
+
+    return data;
+  },
+
+  delete: async (url: string): Promise<void> => {
+    const token = LocalStorageUtility.getToken();
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw { ...data } as ApiError;
+    }
+
+    return data;
   }
 }

@@ -24,5 +24,5 @@ export interface JwtPayload {
   name: string;
   email: string;
   role: 'ADMIN' | 'EMPLOYEE' | 'CLIENT';
-  creationDate: Date
+  creationDate: Date;
 }
