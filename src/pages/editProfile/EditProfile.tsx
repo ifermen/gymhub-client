@@ -5,6 +5,11 @@ import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
 import { useForm, Controller } from 'react-hook-form';
 import { useUserContext } from "../../contexts/UserContext";
+import { ClientService } from "../../services/clientService";
+import type { ClientUpdateRequest } from "../../types/client";
+import { EmployeeService } from "../../services/employeeService";
+import type { EmployeeUpdateRequest } from "../../types/employee";
+import { useNavigate } from "react-router-dom";
 
 interface UserEditForm {
   name: string;
@@ -14,7 +19,8 @@ interface UserEditForm {
 }
 
 export function EditProfile() {
-  const { user } = useUserContext();
+  const { user, updateUser } = useUserContext();
+  const navegate = useNavigate();
   const { control, handleSubmit, watch, formState: { errors } } = useForm<UserEditForm>({
     defaultValues: {
       name: user?.name || '',
@@ -25,9 +31,40 @@ export function EditProfile() {
   });
 
   const onSubmit = (data: UserEditForm) => {
-    console.log(data);
-    // Aquí iría la lógica para enviar los datos al servidor
+    if (user!.role == "CLIENT") {
+      const clientUpdateRequest: Partial<ClientUpdateRequest> = {
+        name: data.name,
+        email: data.email,
+      }
+      if (data.newPassword != "") {
+        clientUpdateRequest.password = data.newPassword;
+      }
+      ClientService.updateClient(user!.id, clientUpdateRequest).then(client => {
+        updateUser(client);
+        navegate("/profile");
+      }).catch(error => {
+        console.log(error);
+      });
+    } else if (user!.role == "ADMIN" || user!.role == "EMPLOYEE") {
+      const employeeUpdateRequest: Partial<EmployeeUpdateRequest> = {
+        name: data.name,
+        email: data.email,
+      }
+      if (data.newPassword != "") {
+        employeeUpdateRequest.password = data.newPassword;
+      }
+      EmployeeService.updateEmployee(user!.id, employeeUpdateRequest).then(employee => {
+        updateUser(employee);
+        navegate("/profile");
+      }).catch(error => {
+        console.log(error);
+      })
+    }
   };
+
+  const btnCancel = () => {
+    navegate("/profile");
+  }
 
   const newPassword = watch('newPassword');
 
@@ -120,7 +157,7 @@ export function EditProfile() {
             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
           </div>
           <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
-          <Button id="btnCacelar" variant="secondary" type="button" handleClick={() => { }}>Cancelar</Button>
+          <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
         </form>
       </DivContent>
     </Main>

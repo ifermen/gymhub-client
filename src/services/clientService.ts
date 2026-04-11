@@ -21,7 +21,7 @@ export const ClientService = {
     return response;
   },
 
-  updateClient: async (id: number, data: ClientUpdateRequest) => {
+  updateClient: async (id: number, data: Partial<ClientUpdateRequest>) => {
     const response = await HTTPRequest.put<ClientData>(`${URL_BASE}${PATH}/${id}`, data);
 
     return response;

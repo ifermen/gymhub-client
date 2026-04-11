@@ -96,6 +96,7 @@ export function Profile() {
                   text-2xl
                   font-semibold
                   w-full
+                  pt-1
                   flex
                   items-center
                   text-center

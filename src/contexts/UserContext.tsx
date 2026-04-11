@@ -4,11 +4,14 @@ import { jwtDecode } from "jwt-decode";
 import { AuthService } from "../services/authService";
 import { LocalStorageUtility } from "../utilities/LocalStorage";
 import { useNavigate } from "react-router-dom";
+import type { ClientData } from "../types/client";
+import type { EmployeeData } from "../types/employee";
 
 interface UserContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   user: UserType | null;
+  updateUser: (userData: ClientData | EmployeeData) => void;
   isLoading: boolean;
 }
 
@@ -90,11 +93,24 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     navigate("/login")
   }
 
+  const updateUser = (userData: ClientData | EmployeeData) => {
+    const data: UserType = {
+      id: user!.id,
+      name: userData.name,
+      email: userData.email,
+      creationDate: user!.creationDate,
+      role: user!.role,
+    }
+
+    setUser(data);
+  }
+
   return (
     <UserContext.Provider value={{
       login,
       logout,
       user,
+      updateUser,
       isLoading
     }}>
       {children}
