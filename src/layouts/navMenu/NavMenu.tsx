@@ -27,7 +27,7 @@ export function NavMenu() {
     navegate("/employee");
   }
 
-  if (user!.role == "CLIENT") {
+  if (user?.role == "CLIENT") {
     return (
       <nav className="
         flex
@@ -36,19 +36,28 @@ export function NavMenu() {
         p-2
       ">
         <span onClick={btnExercisesHandler} className="
+          text-center
+          w-full
+          cursor-pointer
           sm:text-xl
         ">Tabla de ejercicios</span>
         <LineVertical variant="white" />
         <span onClick={btnClassHandler} className="
+          text-center
+          w-full
+          cursor-pointer
           sm:text-xl
         ">Clases</span>
         <LineVertical variant="white" />
         <span onClick={btnReportHandler} className="
+          text-center
+          w-full
+          cursor-pointer
           sm:text-xl
         ">Incidencias</span>
       </nav>
     )
-  } else if (user!.role == "EMPLOYEE") {
+  } else if (user?.role == "EMPLOYEE") {
     return (
       <nav className="
         flex
@@ -57,19 +66,25 @@ export function NavMenu() {
         p-2
       ">
         <span onClick={btnClientHandler} className="
+          text-center
+          cursor-pointer
           sm:text-xl
         ">Clientes</span>
         <LineVertical variant="white" />
         <span onClick={btnClassHandler} className="
+          text-center
+          cursor-pointer
           sm:text-xl
         ">Clases</span>
         <LineVertical variant="white" />
         <span onClick={btnReportHandler} className="
+          text-center
+          cursor-pointer
           sm:text-xl
         ">Incidencias</span>
       </nav>
     )
-  } else if (user!.role == "ADMIN") {
+  } else if (user?.role == "ADMIN") {
     return (
       <nav className="
         flex
@@ -78,18 +93,26 @@ export function NavMenu() {
         p-2
       ">
         <span onClick={btnClientHandler} className="
+          text-center
+          cursor-pointer
           sm:text-xl
         ">Clientes</span>
         <LineVertical variant="white" />
         <span onClick={btnEmployeeHandler} className="
+          text-center
+          cursor-pointer
           sm:text-xl
         ">Empleados</span>
         <LineVertical variant="white" />
         <span onClick={btnClassHandler} className="
+          text-center
+          cursor-pointer
           sm:text-xl
         ">Clases</span>
         <LineVertical variant="white" />
         <span onClick={btnReportHandler} className="
+          text-center
+          cursor-pointer
           sm:text-xl
         ">Incidencias</span>
       </nav>

@@ -25,7 +25,7 @@ export function Footer() {
         flex
         flex-col
         sm:flex-row
-        justify-between
+        justify-around
       ">
         <div className="
           w-full

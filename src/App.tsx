@@ -7,7 +7,9 @@ import { Layout } from './layouts/Layout'
 import { Home } from './pages/home/Home'
 import { AuthGuard } from './guards/AuthGuard'
 import { Profile } from './pages/profile/Profile'
-import { EditProfile } from './pages/editProfile/EditProfile'
+import { EditProfile } from './pages/profile/EditProfile'
+import { ReportList } from './pages/report/ReportList'
+import { ReportById } from './pages/report/ReportById'
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
               <Route index path='/home' element={<Home />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/profile/edit' element={<EditProfile />} />
+              <Route path='/report' element={<ReportList />} />
+              <Route path='/report/{id}' element={<ReportById />} />
             </Route>
           </Route>
         </Routes>
