@@ -5,9 +5,10 @@ interface ButtonProps {
   id: string,
   type: 'button' | 'submit',
   variant?: 'primary' | 'secondary' | 'accent' | 'dark' | 'light',
+  style?: string
   handleClick: () => void
 }
-export function ButtonPage({ children, id, type, variant = "primary", handleClick }: ButtonProps) {
+export function ButtonPage({ children, id, type, variant = "primary", style, handleClick }: ButtonProps) {
 
   const variants = {
     primary: `
@@ -44,9 +45,11 @@ export function ButtonPage({ children, id, type, variant = "primary", handleClic
         px-2
         rounded-xl
         border-3
-        text-xl
+        text-base
+        sm:text-xl
         font-bold
         bg-gradient-to-br
+        ${style}
         ${variants[variant]}
       `}>
       {children}

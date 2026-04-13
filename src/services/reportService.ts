@@ -1,5 +1,5 @@
 import type { ListParams, PageResponse } from "../types/api";
-import type { ReportData } from "../types/report";
+import type { ReportData, ResolveReportRequest } from "../types/report";
 import { HTTPRequest } from "../utilities/HTTPRequest";
 
 const URL_BASE = import.meta.env.VITE_URL_BASE;
@@ -26,6 +26,22 @@ export const ReportService = {
     })
 
     response.content = data;
+
+    return response;
+  },
+
+  reportById: async (id: number) => {
+    const response = await HTTPRequest.get<ReportData>(`${URL_BASE}${PATH}/${id}`);
+
+    response.creationDate = new Date(response.creationDate);
+
+    return response;
+  },
+
+  resolveReport: async (resolveReportRequest: ResolveReportRequest) => {
+    const response = await HTTPRequest.post<ReportData>(`${URL_BASE}${PATH}/resolve`, resolveReportRequest);
+
+    response.creationDate = new Date(response.creationDate);
 
     return response;
   }

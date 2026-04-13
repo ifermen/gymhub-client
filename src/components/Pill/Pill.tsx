@@ -25,7 +25,7 @@ export function Pill({ variant = "primary", children }: PillProps) {
       font-bold
       bg-gradient-to-br
       border-3
-      text-md
+      text-xl
       ${variants[variant]}
     `}>
       {children}

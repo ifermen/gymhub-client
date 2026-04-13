@@ -24,7 +24,7 @@ function App() {
               <Route path='/profile' element={<Profile />} />
               <Route path='/profile/edit' element={<EditProfile />} />
               <Route path='/report' element={<ReportList />} />
-              <Route path='/report/{id}' element={<ReportById />} />
+              <Route path='/report/:id' element={<ReportById />} />
             </Route>
           </Route>
         </Routes>

@@ -11,7 +11,7 @@ export function Main({ children }: MainProps) {
       flex
       flex-col
       items-center
-      sm:justify-center
+      justify-center
     ">{children}</main>
   )
 }

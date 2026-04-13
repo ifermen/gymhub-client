@@ -10,15 +10,25 @@ interface ModalProps {
 export function Modal({ isOpen, onClose, children }: ModalProps) {
   if (!isOpen) return null;
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="
+    <div
+      className="
       fixed
       inset-0 flex
       items-center
       justify-center
       bg-black/50
-      z-50">
-      <div className="
+      z-50"
+      onClick={handleBackdropClick}
+    >
+      <div
+        className="
         bg-white
         p-5
         rounded-xl
@@ -27,7 +37,9 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
         flex
         flex-col
         gap-1
-        w-5/6">
+        w-5/6"
+        onClick={(e) => e.stopPropagation()}
+      >
 
         <button
           onClick={onClose}

@@ -3,9 +3,10 @@ interface DropdownProps {
   title: string;
   options: Map<string, string>;
   handlerChange: (value: string) => void;
+  defaultValue?: string;
 }
 
-export function Dropdown({ id, title, options, handlerChange }: DropdownProps) {
+export function Dropdown({ id, title, options, handlerChange, defaultValue }: DropdownProps) {
   return (
     <div className="
       flex
@@ -14,9 +15,14 @@ export function Dropdown({ id, title, options, handlerChange }: DropdownProps) {
       items-center
       px-2
       py-1
-      sm:gap-2
+      sm:justify-between
       rounded-3xl
       sm:rounded-full
+      sm:gap-2
+      sm:pl-3
+      sm:pr-1
+      w-full
+      sm:w-fit
       border-3
       text-xl
       font-bold
@@ -39,6 +45,7 @@ export function Dropdown({ id, title, options, handlerChange }: DropdownProps) {
       <select
         id={id}
         name={id}
+        defaultValue={defaultValue}
         onChange={(e) => handlerChange(e.target.value)}
         className="
           rounded-full

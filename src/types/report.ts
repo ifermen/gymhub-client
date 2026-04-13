@@ -9,3 +9,8 @@ export interface ReportData {
   userSolverId: number;
   userSolverName: string;
 }
+
+export interface ResolveReportRequest {
+  id: number;
+  status: 'PENDING' | 'CANCELED' | 'RESOLVED';
+}

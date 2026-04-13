@@ -9,10 +9,13 @@ import { Pill } from "../../components/Pill/Pill";
 import { Button } from '../../components/Button/Button';
 import { Modal } from '../../components/Modal/Modal';
 import { PageButtonSection } from "../../components/PageButtonSection/PageButtonSection";
+import { useNavigate } from "react-router-dom";
+import { LineVertical } from "../../components/Line/LineVertical";
 
 export function ReportList() {
 
   const { logout } = useUserContext();
+  const navegate = useNavigate();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [sort, setSort] = useState("creationDate");
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
@@ -57,6 +60,10 @@ export function ReportList() {
     setIsOpenModal(false);
   }
 
+  const viewReport = (id: number) => {
+    navegate("/report/" + id)
+  }
+
   return (
     <Main>
       <TitlePage>Incidencias</TitlePage>
@@ -94,6 +101,7 @@ export function ReportList() {
           {reportList.map(report => (
             <div
               key={report.id}
+              onClick={() => viewReport(report.id)}
               className="
                 flex
                 flex-col
@@ -131,9 +139,6 @@ export function ReportList() {
                   text-xl
                   w-full
                   ">{report.title}</span>
-                <span className="
-                  text-md
-                ">Creador: {report.userCreatorName}</span>
               </div>
             </div>
           ))}
