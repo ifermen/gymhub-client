@@ -14,3 +14,8 @@ export interface ResolveReportRequest {
   id: number;
   status: 'PENDING' | 'CANCELED' | 'RESOLVED';
 }
+
+export interface ReportCreate {
+  title: string;
+  description: string;
+}

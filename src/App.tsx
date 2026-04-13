@@ -10,6 +10,7 @@ import { Profile } from './pages/profile/Profile'
 import { EditProfile } from './pages/profile/EditProfile'
 import { ReportList } from './pages/report/ReportList'
 import { ReportById } from './pages/report/ReportById'
+import { ReportForm } from './pages/report/ReportForm'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
               <Route path='/profile' element={<Profile />} />
               <Route path='/profile/edit' element={<EditProfile />} />
               <Route path='/report' element={<ReportList />} />
+              <Route path='/report/create' element={<ReportForm />} />
               <Route path='/report/:id' element={<ReportById />} />
             </Route>
           </Route>

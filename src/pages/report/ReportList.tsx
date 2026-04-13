@@ -10,7 +10,6 @@ import { Button } from '../../components/Button/Button';
 import { Modal } from '../../components/Modal/Modal';
 import { PageButtonSection } from "../../components/PageButtonSection/PageButtonSection";
 import { useNavigate } from "react-router-dom";
-import { LineVertical } from "../../components/Line/LineVertical";
 
 export function ReportList() {
 
@@ -64,31 +63,38 @@ export function ReportList() {
     navegate("/report/" + id)
   }
 
+  const createReport = () => {
+    navegate("/report/create")
+  }
+
   return (
     <Main>
       <TitlePage>Incidencias</TitlePage>
       <div className="
         w-full
-        md:w-3/4
         lg:w-2/3
         xl:w-2/4
         p-1
       ">
         <div className="
-          md:flex
+          sm:flex
           hidden
           flex-row
           gap-1
-          justify-end
+          justify-between
         ">
-          <Dropdown id="sort" title="Ordenar por" options={sortOption} handlerChange={changeSort}></Dropdown>
-          <Dropdown id="direction" title="Dirección" options={directionOption} handlerChange={changeDirection}></Dropdown>
+          <Button id="btnCreateReport" type="button" variant="success" width="fit" handleClick={createReport}>Añadir</Button>
+          <div className="flex">
+            <Dropdown id="sort" title="Ordenar por" options={sortOption} handlerChange={changeSort}></Dropdown>
+            <Dropdown id="direction" title="Dirección" options={directionOption} handlerChange={changeDirection}></Dropdown>
+          </div>
         </div>
         <div className="flex sm:hidden flex-col">
           <Button id="btnShowOptions" type="button" handleClick={openModal}>Opciones</Button>
           <Modal isOpen={isOpenModal} onClose={closeModal}>
             <Dropdown id="sort" title="Ordenar por" options={sortOption} handlerChange={changeSort}></Dropdown>
             <Dropdown id="direction" title="Dirección" options={directionOption} handlerChange={changeDirection}></Dropdown>
+            <Button id="btnCreateReport" type="button" width="full" handleClick={createReport}>Añadir incidencia</Button>
           </Modal>
         </div>
         <div className="
@@ -123,7 +129,7 @@ export function ReportList() {
                   h-fit
                 ">{report.creationDate.toLocaleDateString()}</span>
                 {report.status == "PENDING" ?
-                  <Pill variant="danger">Pendiente</Pill> :
+                  <Pill variant="warning">Pendiente</Pill> :
                   report.status == "RESOLVED" ?
                     <Pill variant="success">Resuelto</Pill> :
                     report.status == "CANCELED" ?

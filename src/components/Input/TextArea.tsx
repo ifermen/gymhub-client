@@ -3,18 +3,16 @@ import type { ChangeEvent } from "react";
 interface InputProps {
   id: string;
   name: string;
-  type: "email" | "text" | "password";
   placeholder: string;
   value: string | number;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export function Input({ id, name, type, placeholder, value, handleChange }: InputProps) {
+export function TextArea({ id, name, placeholder, value, handleChange }: InputProps) {
   return (
-    <input
+    <textarea
       id={id}
       name={name}
-      type={type}
       placeholder={placeholder}
       value={value}
       onChange={handleChange}
@@ -24,7 +22,7 @@ export function Input({ id, name, type, placeholder, value, handleChange }: Inpu
         pt-1
         border-3
         border-primary-500
-        rounded-full
+        rounded-2xl
         bg-background-900
         text-xl
         font-bold
