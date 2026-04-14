@@ -6,17 +6,17 @@ import { useUserContext } from "../../contexts/UserContext";
 import type { ReportData, ResolveReportRequest } from "../../types/report";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
-import { Button } from "../../components/Button/Button";
+import { Button } from '../../components/Button/Button';
 import { Dropdown } from '../../components/Dropdown/Dropdown';
 import { Pill } from '../../components/Pill/Pill';
-import { Modal } from "../../components/Modal/Modal";
 import { LineVertical } from "../../components/Line/LineVertical";
+import { Modal } from "../../components/Modal/Modal";
 
 export function ReportById() {
   const { user, logout } = useUserContext();
   const navegate = useNavigate();
   const { id } = useParams();
-  const [isOpenModel, setIsOpenModal] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const [report, setReport] = useState<ReportData | null>(null);
   const statusOption = new Map<string, string>([["-1", "Nuevo Estado"], ["PENDING", "Pendiente"], ["RESOLVED", "Resuelto"], ["CANCELED", "Cancelado"]]);
 
@@ -44,16 +44,26 @@ export function ReportById() {
     }
   }
 
+  const clickEditHandler = () => {
+    navegate("/report/" + report?.id + "/edit")
+  }
+
+  const deleteReport = () => {
+    ReportService.deleteReport(report!.id).then(() => {
+      navegate("/report")
+    })
+  }
+
+  const clickBackHandler = () => {
+    navegate("/report")
+  }
+
   const openModal = () => {
     setIsOpenModal(true);
   }
 
   const closeModal = () => {
     setIsOpenModal(false);
-  }
-
-  const clickBackHandler = () => {
-    navegate("/report")
   }
 
   return (
@@ -145,17 +155,26 @@ export function ReportById() {
           </> : ""}
         </div>
         <div className="flex sm:hidden w-full">
-          <Button id="btnShowOptions" type="button" handleClick={openModal}>Opciones</Button>
-          <Modal isOpen={isOpenModel} onClose={closeModal}>
-            <Dropdown
-              id="ddChangeStatus"
-              title="Cambiar Estado"
-              defaultValue={"-1"}
-              options={statusOption}
-              handlerChange={changeStatusHandler}></Dropdown>
-          </Modal>
+          <Dropdown
+            id="ddChangeStatus"
+            title="Cambiar Estado"
+            defaultValue={"-1"}
+            options={statusOption}
+            handlerChange={changeStatusHandler}></Dropdown>
         </div>
-
+        {user?.id == report?.userCreatorId ?
+          <>
+            <Button id="btnEdit" type="button" variant="accent" handleClick={clickEditHandler}>Editar</Button>
+            <Button id="btnDelete" type="button" variant="danger" handleClick={openModal}>Eliminar</Button>
+            <Modal isOpen={isOpenModal} onClose={closeModal}>
+              <span className="text-center text-lg">¿Estas seguro que quieres eliminar esta incidencia?</span>
+              <div className="flex w-full gap-1">
+                <Button id="btnCancelDelete" type="button" variant="secondary" handleClick={() => setIsOpenModal(false)}>Cancelar</Button>
+                <Button id="btnModalDelete" type="button" variant="danger" handleClick={deleteReport}>Eliminar</Button>
+              </div>
+            </Modal>
+          </> :
+          ""}
         <Button id="btnBack" type="button" variant="secondary" handleClick={clickBackHandler}>Volver</Button>
       </div>
     </Main>

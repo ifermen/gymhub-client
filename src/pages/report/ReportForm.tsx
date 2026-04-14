@@ -1,14 +1,16 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { DivContent } from '../../components/DivContent/DivContent';
 import { Input } from "../../components/Input/Input";
 import { Controller, useForm } from "react-hook-form";
-import type { ReportCreate } from "../../types/report";
-import { useState } from "react";
+import type { ReportCreate, ReportData } from "../../types/report";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/Button/Button";
 import { ReportService } from "../../services/reportService";
 import { TextArea } from "../../components/Input/TextArea";
+import { useUserContext } from "../../contexts/UserContext";
+import type { ReportUpdate } from '../../types/report';
 
 interface ReportFormForm {
   title: string;
@@ -16,25 +18,58 @@ interface ReportFormForm {
 }
 
 export function ReportForm() {
+  const { user, logout } = useUserContext();
   const location = useLocation();
   const navegate = useNavigate();
   const mode = location.pathname.includes("edit") ? "edit" : "create";
-  const [report, setReport] = useState<ReportCreate | null>(null);
-  const { control, handleSubmit, watch, formState: { errors } } = useForm<ReportFormForm>({
+  const [report, setReport] = useState<ReportData | null>(null);
+  const { control, handleSubmit, reset, formState: { errors } } = useForm<ReportFormForm>({
     defaultValues: {
-      title: report?.title || '',
-      description: report?.description || '',
+      title: '',
+      description: '',
     }
   });
 
+  if (mode == "edit") {
+    const { id } = useParams();
+    useEffect(() => {
+      ReportService.reportById(Number(id)).then(response => {
+        if (response.userCreatorId != user?.id) {
+          //TODO: Debería redirigir a una página de error
+          navegate("/report");
+        } else {
+          setReport(response);
+          reset({
+            title: response.title,
+            description: response.description
+          })
+        }
+      }).catch(error => {
+        if (error.status == 401) {
+          logout();
+        }
+      })
+    }, [])
+  }
+
   const onSubmit = (data: ReportFormForm) => {
-    const reportCreate: ReportCreate = {
-      title: data.title,
-      description: data.description
+    if (mode == "create") {
+      const reportCreate: ReportCreate = {
+        title: data.title,
+        description: data.description
+      }
+      ReportService.createReport(reportCreate).then(() => {
+        navegate("/report")
+      })
+    } else if (mode == "edit") {
+      const reportUpdate: ReportUpdate = {
+        title: data.title,
+        description: data.description
+      }
+      ReportService.updateReport(report!.id, reportUpdate).then(() => {
+        navegate("/report")
+      })
     }
-    ReportService.createReport(reportCreate).then(() => {
-      navegate("/report")
-    })
   }
 
   const btnCancel = () => {

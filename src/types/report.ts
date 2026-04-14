@@ -19,3 +19,8 @@ export interface ReportCreate {
   title: string;
   description: string;
 }
+
+export interface ReportUpdate {
+  title: string;
+  description: string;
+}

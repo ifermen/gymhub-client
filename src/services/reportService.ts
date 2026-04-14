@@ -1,5 +1,5 @@
 import type { ListParams, PageResponse } from "../types/api";
-import type { ReportCreate, ReportData, ResolveReportRequest } from "../types/report";
+import type { ReportCreate, ReportData, ReportUpdate, ResolveReportRequest } from "../types/report";
 import { HTTPRequest } from "../utilities/HTTPRequest";
 
 const URL_BASE = import.meta.env.VITE_URL_BASE;
@@ -50,6 +50,20 @@ export const ReportService = {
     const response = await HTTPRequest.post<ReportData>(`${URL_BASE}${PATH}`, reportCreate);
 
     response.creationDate = new Date(response.creationDate);
+
+    return response;
+  },
+
+  updateReport: async (id: number, reportUpdate: ReportUpdate) => {
+    const response = await HTTPRequest.put<ReportData>(`${URL_BASE}${PATH}/${id}`, reportUpdate);
+
+    response.creationDate = new Date(response.creationDate);
+
+    return response;
+  },
+
+  deleteReport: async (id: number) => {
+    const response = await HTTPRequest.delete(`${URL_BASE}${PATH}/${id}`);
 
     return response;
   }

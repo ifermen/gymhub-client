@@ -27,6 +27,7 @@ function App() {
               <Route path='/report' element={<ReportList />} />
               <Route path='/report/create' element={<ReportForm />} />
               <Route path='/report/:id' element={<ReportById />} />
+              <Route path='/report/:id/edit' element={<ReportForm />} />
             </Route>
           </Route>
         </Routes>

@@ -68,12 +68,10 @@ export const HTTPRequest = {
       }
     });
 
-    const data = await response.json();
 
     if (!response.ok) {
+      const data = await response.json();
       throw { ...data } as ApiError;
     }
-
-    return data;
   }
 }

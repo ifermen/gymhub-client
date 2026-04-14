@@ -84,7 +84,7 @@ export function ReportList() {
           justify-between
         ">
           <Button id="btnCreateReport" type="button" variant="success" width="fit" handleClick={createReport}>Añadir</Button>
-          <div className="flex">
+          <div className="flex gap-1">
             <Dropdown id="sort" title="Ordenar por" options={sortOption} handlerChange={changeSort}></Dropdown>
             <Dropdown id="direction" title="Dirección" options={directionOption} handlerChange={changeDirection}></Dropdown>
           </div>

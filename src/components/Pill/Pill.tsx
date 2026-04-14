@@ -19,13 +19,13 @@ export function Pill({ variant = "primary", children }: PillProps) {
   return (
     <span className={`
       pt-1
-      px-2
+      px-3
       h-fit
       rounded-full
       font-bold
       bg-gradient-to-br
       border-3
-      text-xl
+      text-base
       ${variants[variant]}
     `}>
       {children}
