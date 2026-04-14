@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Login from './pages/login/Login'
 import { UserContextProvider } from './contexts/UserContext'
@@ -11,6 +11,8 @@ import { EditProfile } from './pages/profile/EditProfile'
 import { ReportList } from './pages/report/ReportList'
 import { ReportById } from './pages/report/ReportById'
 import { ReportForm } from './pages/report/ReportForm'
+import { ClassList } from './pages/class/ClassList'
+import { ClassById } from './pages/class/ClassById'
 
 function App() {
 
@@ -21,13 +23,19 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path='/' element={<Layout />}>
             <Route element={<AuthGuard />}>
-              <Route index path='/home' element={<Home />} />
+              <Route index element={<Navigate to={"/home"} />} />
+              <Route path='/home' element={<Home />} />
+
               <Route path='/profile' element={<Profile />} />
               <Route path='/profile/edit' element={<EditProfile />} />
+
               <Route path='/report' element={<ReportList />} />
               <Route path='/report/create' element={<ReportForm />} />
               <Route path='/report/:id' element={<ReportById />} />
               <Route path='/report/:id/edit' element={<ReportForm />} />
+
+              <Route path='/class' element={<ClassList />} />
+              <Route path='/class/:id' element={<ClassById />} />
             </Route>
           </Route>
         </Routes>

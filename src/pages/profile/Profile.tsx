@@ -7,7 +7,6 @@ import { ClientService } from "../../services/clientService";
 import { useEffect, useState } from "react";
 import type { RenewalDataWithoutClient } from "../../types/client";
 import { useNavigate } from "react-router-dom";
-import { DivContent } from "../../components/DivContent/DivContent";
 
 export function Profile() {
   const { user, logout } = useUserContext();
@@ -40,7 +39,7 @@ export function Profile() {
   return (
     <Main>
       <TitlePage>Perfil Personal</TitlePage>
-      <DivContent>
+      <div className="flex w-full flex-col items-center justify-center gap-3 rounded-3xl p-3 sm:w-3/4 sm:border-4 sm:border-text-600 sm:bg-background-950 sm:shadow-md md:w-2/3 lg:w-2/4 xl:w-1/3">
         <div className="      
           flex
           flex-col
@@ -164,7 +163,7 @@ export function Profile() {
         }
         <Button id="btnEdit" type="button" handleClick={clickEditProfileHandler}>Editar Perfil</Button>
         <Button id="btnEdit" variant="secondary" type="button" handleClick={clickLogoutHandler}>Cerrar Sesión</Button>
-      </DivContent>
+      </div>
     </Main>
   )
 }

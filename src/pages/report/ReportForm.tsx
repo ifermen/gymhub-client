@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
-import { DivContent } from '../../components/DivContent/DivContent';
+import { DivContent } from '../../components/Div/DivContent';
 import { Input } from "../../components/Input/Input";
 import { Controller, useForm } from "react-hook-form";
 import type { ReportCreate, ReportData } from "../../types/report";

@@ -1,58 +1,56 @@
+import { useEffect, useState } from "react";
+import { Div } from "../../components/Div/Div";
+import { DivList } from "../../components/Div/DivList";
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
-import { Dropdown } from "../../components/Dropdown/Dropdown";
-import { useEffect, useState } from "react";
-import { ReportService } from "../../services/reportService";
-import type { ReportData } from "../../types/report";
+import type { ClassData } from "../../types/class";
+import { ClassService } from "../../services/classService";
 import { useUserContext } from "../../contexts/UserContext";
-import { Pill } from "../../components/Pill/Pill";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
+import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Modal } from "../../components/Modal/Modal";
 import { PageButtonSection } from "../../components/PageButtonSection/PageButtonSection";
-import { useNavigate } from "react-router-dom";
-import { Div } from "../../components/Div/Div";
-import { DivList } from '../../components/Div/DivList';
 
-export function ReportList() {
-  const { logout } = useUserContext();
+export function ClassList() {
+  const { user, logout } = useUserContext();
   const navegate = useNavigate();
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [sort, setSort] = useState("creationDate");
+  const [sort, setSort] = useState("id");
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [reportList, setReportList] = useState<ReportData[]>([]);
+  const [classes, setClasses] = useState<ClassData[]>([]);
   const directionOption = new Map<string, string>([
+    ["-1", "Por defecto"],
     ["DESC", "Descendente"],
     ["ASC", "Ascendente"],
   ]);
   const sortOption = new Map<string, string>([
-    ["creationDate", "Fecha"],
+    ["-1", "Por defecto"],
     ["title", "Título"],
-    ["status", "Estado"],
+    ["teacher", "Profesor"]
   ]);
 
   useEffect(() => {
-    ReportService.listReports({
+    ClassService.listClasses({
       direction: direction,
-      sort: sort,
       pageKey: pageKey,
-    })
-      .then((response) => {
-        setReportList(response.content);
-        setTotalPages(response.totalPages);
-      })
-      .catch((error) => {
-        if (error.status == 401) {
-          logout();
-        } else {
-          console.log(error);
-        }
-      });
-  }, [sort, direction, pageKey]);
+      sort: sort,
+    }).then(response => {
+      setClasses(response.content);
+      setTotalPages(response.totalPages);
+    }).catch(error => {
+      if (error.status == 401) {
+        logout();
+      }
+    });
+  }, [sort, direction, pageKey, totalPages]);
 
   const changeSort = (value: string) => {
-    setSort(value);
+    if (value != "-1") {
+      setSort(value);
+    }
   };
 
   const changeDirection = (value: string) => {
@@ -73,28 +71,31 @@ export function ReportList() {
     setIsOpenModal(false);
   };
 
-  const viewReport = (id: number) => {
-    navegate("/report/" + id);
-  };
+  const createClass = () => {
+    navegate("/class/create")
+  }
 
-  const createReport = () => {
-    navegate("/report/create");
-  };
+  const viewClass = (id: number) => {
+    navegate("/class/" + id);
+  }
 
   return (
     <Main>
-      <TitlePage>Incidencias</TitlePage>
+      <TitlePage>Clases</TitlePage>
       <Div>
         <div className="hidden flex-row justify-between gap-1 sm:flex">
-          <Button
-            id="btnCreateReport"
-            type="button"
-            variant="primary"
-            width="fit"
-            handleClick={createReport}
-          >
-            Añadir
-          </Button>
+          {user?.role == "ADMIN" ?
+            <Button
+              id="btnCreateReport"
+              type="button"
+              variant="primary"
+              width="fit"
+              handleClick={createClass}
+            >
+              Añadir
+            </Button> :
+            <div></div>
+          }
           <div className="flex gap-1">
             <Dropdown
               id="sort"
@@ -131,45 +132,31 @@ export function ReportList() {
               id="btnCreateReport"
               type="button"
               width="full"
-              handleClick={createReport}
+              handleClick={createClass}
             >
-              Añadir incidencia
+              Añadir Clase
             </Button>
           </Modal>
         </div>
         <DivList>
-          {reportList.map((report) => (
+          {classes.map(classData => (
             <div
-              key={report.id}
-              onClick={() => viewReport(report.id)}
+              key={classData.id}
+              onClick={() => viewClass(classData.id)}
               className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1"
             >
-              <div className="flex flex-row items-center justify-between">
-                <span className="text-md h-fit">
-                  {report.creationDate.toLocaleDateString()}
-                </span>
-                {report.status == "PENDING" ? (
-                  <Pill variant="warning">Pendiente</Pill>
-                ) : report.status == "RESOLVED" ? (
-                  <Pill variant="success">Resuelto</Pill>
-                ) : report.status == "CANCELED" ? (
-                  <Pill variant="secondary">Cancelado</Pill>
-                ) : (
-                  ""
-                )}
-              </div>
               <div className="flex w-full flex-col">
-                <span className="w-full text-xl">{report.title}</span>
+                <span className="w-full text-xl">{classData.title}</span>
+              </div>
+              <div className="flex flex-row items-center justify-between">
+                <span className="text-md h-fit">{classData.nameTeacher}</span>
+                <span className="text-md h-fit">{classData.numJoined}/{classData.capacity}</span>
               </div>
             </div>
           ))}
         </DivList>
-        <PageButtonSection
-          pageKey={pageKey}
-          setPageKey={changePageKey}
-          totalPages={totalPages}
-        ></PageButtonSection>
+        <PageButtonSection pageKey={pageKey} setPageKey={changePageKey} totalPages={totalPages}></PageButtonSection>
       </Div>
     </Main>
-  );
+  )
 }
