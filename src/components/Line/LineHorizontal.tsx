@@ -1,8 +1,9 @@
 export interface LineProps {
-  variant?: "black" | "white"
+  variant?: "black" | "white";
+  style?: string;
 }
 
-export function LineHorizontal({ variant = "black" }: LineProps) {
+export function LineHorizontal({ variant = "black", style = "" }: LineProps) {
 
   const variants = {
     black: "border-background-50",
@@ -10,6 +11,6 @@ export function LineHorizontal({ variant = "black" }: LineProps) {
   }
 
   return (
-    <hr className={`border-t w-full ${variants[variant]}`} />
+    <hr className={`border-t w-full ${variants[variant]} ${style}`} />
   )
 }

@@ -8,7 +8,7 @@ export function NavMenu() {
   const navegate = useNavigate();
 
   const btnExercisesHandler = () => {
-    navegate("/exercises");
+    navegate("/exercise");
   }
 
   const btnClassHandler = () => {

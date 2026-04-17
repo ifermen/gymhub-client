@@ -1,8 +1,9 @@
 export interface LineProps {
-  variant?: "black" | "white"
+  variant?: "black" | "white";
+  style?: string;
 }
 
-export function LineVertical({ variant = "black" }: LineProps) {
+export function LineVertical({ variant = "black", style = "" }: LineProps) {
 
   const variants = {
     black: "border-background-50",
@@ -10,6 +11,6 @@ export function LineVertical({ variant = "black" }: LineProps) {
   }
 
   return (
-    <div className={`border-l self-stretch ${variants[variant]}`} />
+    <div className={`border-l self-stretch ${variants[variant]} ${style}`} />
   )
 }

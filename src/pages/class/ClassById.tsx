@@ -7,7 +7,7 @@ import { Main } from "../../components/Main/Main";
 import { useUserContext } from "../../contexts/UserContext";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import { Button } from "../../components/Button/Button";
-import { DivContent } from "../../components/Div/DivContent";
+import DivContent from "../../components/Div/DivContent";
 import { Pill } from '../../components/Pill/Pill';
 
 export function ClassById() {

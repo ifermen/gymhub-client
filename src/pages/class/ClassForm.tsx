@@ -2,7 +2,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { Controller, useForm } from "react-hook-form";
-import { DivContent } from "../../components/Div/DivContent";
+import DivContent from "../../components/Div/DivContent";
 import { Input } from "../../components/Input/Input";
 import { TextArea } from "../../components/Input/TextArea";
 import { Button } from "../../components/Button/Button";

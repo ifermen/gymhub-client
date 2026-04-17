@@ -14,6 +14,7 @@ import { ReportForm } from './pages/report/ReportForm'
 import { ClassList } from './pages/class/ClassList'
 import { ClassById } from './pages/class/ClassById'
 import { ClassForm } from './pages/class/ClassForm'
+import { ExerciseTable } from './pages/exercises/ExerciseTable'
 
 function App() {
 
@@ -39,6 +40,8 @@ function App() {
               <Route path='/class/create' element={<ClassForm />} />
               <Route path='/class/:id' element={<ClassById />} />
               <Route path='/class/:id/edit' element={<ClassForm />} />
+
+              <Route path='/exercise' element={<ExerciseTable />} />
             </Route>
           </Route>
         </Routes>

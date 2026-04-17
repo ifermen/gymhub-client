@@ -11,7 +11,7 @@ import { Modal } from "../../components/Modal/Modal";
 import { PageButtonSection } from "../../components/PageButtonSection/PageButtonSection";
 import { useNavigate } from "react-router-dom";
 import { Div } from "../../components/Div/Div";
-import { DivList } from '../../components/Div/DivList';
+import DivList from '../../components/Div/DivList';
 
 export function ReportList() {
   const { logout } = useUserContext();

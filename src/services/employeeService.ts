@@ -67,3 +67,5 @@ export const EmployeeService = {
     return response;
   }
 }
+
+export default EmployeeService

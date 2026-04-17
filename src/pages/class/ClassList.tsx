@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Div } from "../../components/Div/Div";
-import { DivList } from "../../components/Div/DivList";
+import DivList from "../../components/Div/DivList";
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import type { ClassData } from "../../types/class";

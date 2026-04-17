@@ -1,15 +1,15 @@
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
-import { DivContent } from '../../components/Div/DivContent';
 import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
 import { useForm, Controller } from 'react-hook-form';
 import { useUserContext } from "../../contexts/UserContext";
 import { ClientService } from "../../services/clientService";
 import type { ClientUpdateRequest } from "../../types/client";
-import { EmployeeService } from "../../services/employeeService";
+import EmployeeService from "../../services/employeeService";
 import type { EmployeeUpdateRequest } from "../../types/employee";
 import { useNavigate } from "react-router-dom";
+import DivContent from "../../components/Div/DivContent";
 
 interface UserEditForm {
   name: string;

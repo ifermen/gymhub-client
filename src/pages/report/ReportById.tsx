@@ -11,7 +11,7 @@ import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Pill } from "../../components/Pill/Pill";
 import { LineVertical } from "../../components/Line/LineVertical";
 import { Modal } from "../../components/Modal/Modal";
-import { DivContent } from "../../components/Div/DivContent";
+import DivContent from "../../components/Div/DivContent";
 
 export function ReportById() {
   const { user, logout } = useUserContext();
@@ -93,7 +93,7 @@ export function ReportById() {
               <Dropdown
                 id="ddChangeStatus"
                 title="Cambiar Estado"
-                defaultValue={"-1"}
+                value={"-1"}
                 options={statusOption}
                 handlerChange={changeStatusHandler}
               ></Dropdown>
@@ -156,7 +156,7 @@ export function ReportById() {
           <Dropdown
             id="ddChangeStatus"
             title="Cambiar Estado"
-            defaultValue={"-1"}
+            value={"-1"}
             options={statusOption}
             handlerChange={changeStatusHandler}
           ></Dropdown>
