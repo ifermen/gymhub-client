@@ -1,5 +1,5 @@
 import type { ListParams, PageResponse } from "../types/api";
-import type { ClassData } from "../types/class";
+import type { ClassCreate, ClassData } from "../types/class";
 import { HTTPRequest } from "../utilities/HTTPRequest";
 
 const URL_BASE = import.meta.env.VITE_URL_BASE;
@@ -37,4 +37,12 @@ export const ClassService = {
 
     return response;
   },
+
+  createClass: async (data: ClassCreate) => {
+    const response = await HTTPRequest.post<ClassData>(`${URL_BASE}${PATH}`, data);
+
+    response.endDate = new Date(response.endDate);
+
+    return response;
+  }
 }

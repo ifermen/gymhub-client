@@ -28,6 +28,10 @@ export function ClassById() {
       });
   }, [id]);
 
+  const clickEditHandler = () => {
+    navegate("/class/" + classData?.id + "/edit");
+  }
+
   const clickBackHandler = () => {
     navegate("/class");
   }
@@ -54,6 +58,16 @@ export function ClassById() {
         </div>
         <span className="text-base sm:text-2xl">{classData?.description}</span>
         <LineHorizontal></LineHorizontal>
+        {user?.role == "ADMIN" ?
+          <Button
+            id="btnEdit"
+            type="button"
+            variant="accent"
+            handleClick={clickEditHandler}
+          >
+            Editar
+          </Button> : ""
+        }
         <Button
           id="btnBack"
           type="button"

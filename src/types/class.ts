@@ -10,3 +10,12 @@ export interface ClassData {
   idTeacher: number;
   nameTeacher: string;
 }
+
+export interface ClassCreate {
+  title: string;
+  description: string;
+  teacher: number;
+  capacity: number;
+  facility: string;
+  schedule: string;
+}

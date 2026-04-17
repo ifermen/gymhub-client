@@ -59,5 +59,11 @@ export const EmployeeService = {
     const response = await HTTPRequest.get<PageResponse<EmployeeData>>(url);
 
     return response;
+  },
+
+  listAllEmployees: async () => {
+    const response = await HTTPRequest.get<EmployeeData[]>(`${URL_BASE}${PATH}/all`);
+
+    return response;
   }
 }
