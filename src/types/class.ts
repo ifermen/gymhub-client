@@ -19,3 +19,16 @@ export interface ClassCreate {
   facility: string;
   schedule: string;
 }
+
+export interface ClassUpdate {
+  title: string;
+  description: string;
+  teacher: number;
+  capacity: number;
+  facility: string;
+  schedule: string;
+}
+
+export interface JoinClass {
+  idClass: number;
+}

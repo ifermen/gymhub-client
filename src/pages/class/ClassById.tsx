@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { ClassData } from "../../types/class";
+import type { ClassData, JoinClass } from "../../types/class";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClassService } from "../../services/classService";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
@@ -9,9 +9,11 @@ import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import { Button } from "../../components/Button/Button";
 import DivContent from "../../components/Div/DivContent";
 import { Pill } from '../../components/Pill/Pill';
+import toast from "react-hot-toast";
 
 export function ClassById() {
   const { user, logout } = useUserContext();
+  const [joinedClasses, setJoinedClasses] = useState<ClassData[]>([]);
   const navegate = useNavigate();
   const { id } = useParams();
   const [classData, setClassData] = useState<ClassData | null>();
@@ -26,15 +28,55 @@ export function ClassById() {
           logout();
         }
       });
-  }, [id]);
+  }, [id, joinedClasses]);
+
+  if (user?.role == "CLIENT") {
+    useEffect(() => {
+      ClassService.joinedClasses().then(response => {
+        setJoinedClasses(response);
+      })
+    }, [])
+  }
 
   const clickEditHandler = () => {
     navegate("/class/" + classData?.id + "/edit");
   }
 
+  const clickJoinHandler = () => {
+    const classJoin: JoinClass = {
+      idClass: classData!.id
+    }
+    ClassService.joinClass(classJoin).then(response => {
+      setJoinedClasses([...joinedClasses, response])
+      toast.success("Te has unido a la clase")
+    }).catch(error => {
+      if (error.status == 401) {
+        logout();
+      } else if (error.status == 409) {
+        toast.error(error.message)
+      } else {
+        console.log(error)
+      }
+    })
+  }
+
+  const clickLeaveHandler = () => {
+    ClassService.leaveClass(classData!.id).then(() => {
+      setJoinedClasses(joinedClasses.filter(c => c.id != classData!.id));
+      toast.success("Has dejado la clase")
+    }).catch(error => {
+      if (error.status == 401) {
+        logout();
+      } else {
+        console.log(error)
+      }
+    })
+  }
+
   const clickBackHandler = () => {
     navegate("/class");
   }
+
 
   return (
     <Main>
@@ -66,7 +108,24 @@ export function ClassById() {
             handleClick={clickEditHandler}
           >
             Editar
-          </Button> : ""
+          </Button> :
+          user?.role == "CLIENT" && joinedClasses?.some(c => c.id == classData?.id) ?
+            <Button
+              id="btnLeave"
+              type="button"
+              variant="danger"
+              handleClick={clickLeaveHandler}
+            >
+              Dejar clase
+            </Button> :
+            user?.role == "CLIENT" ?
+              <Button
+                id="btnJoin"
+                type="button"
+                handleClick={clickJoinHandler}
+              >
+                Unirse
+              </Button> : ""
         }
         <Button
           id="btnBack"

@@ -15,12 +15,18 @@ import { ClassList } from './pages/class/ClassList'
 import { ClassById } from './pages/class/ClassById'
 import { ClassForm } from './pages/class/ClassForm'
 import { ExerciseTable } from './pages/exercises/ExerciseTable'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
 
   return (
     <BrowserRouter>
       <UserContextProvider>
+        <Toaster position='top-center' toastOptions={{
+          success: {
+            className: "!bg-success-800 !font-bold !rounded-full !pb-1 !border-2 border-success-600 !text-success-50"
+          }
+        }} />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path='/' element={<Layout />}>

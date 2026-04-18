@@ -9,7 +9,7 @@ import { Button } from "../../components/Button/Button";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { useEffect, useState } from "react";
 import { EmployeeService } from "../../services/employeeService";
-import type { ClassCreate, ClassData } from "../../types/class";
+import type { ClassCreate, ClassData, ClassUpdate } from "../../types/class";
 import { ClassService } from "../../services/classService";
 import { useUserContext } from "../../contexts/UserContext";
 
@@ -75,24 +75,38 @@ export function ClassForm() {
   }, []);
 
   const onSubmit = (data: ClassFormForm) => {
-    const classCreate: ClassCreate = {
-      title: data.title,
-      description: data.description,
-      teacher: data.teacher,
-      capacity: data.capacity,
-      facility: data.facility,
-      schedule: data.schedule
-    }
-
-    ClassService.createClass(classCreate).then(() => {
-      navegate("/class")
-    }).catch(error => {
-      if (error.status == 401) {
-        logout();
-      } else {
-        console.log(error)
+    if (mode == "create") {
+      const classCreate: ClassCreate = {
+        title: data.title,
+        description: data.description,
+        teacher: data.teacher,
+        capacity: data.capacity,
+        facility: data.facility,
+        schedule: data.schedule
       }
-    })
+
+      ClassService.createClass(classCreate).then(() => {
+        navegate("/class")
+      }).catch(error => {
+        if (error.status == 401) {
+          logout();
+        } else {
+          console.log(error)
+        }
+      })
+    } else {
+      const classUpdate: ClassUpdate = {
+        title: data.title,
+        description: data.description,
+        teacher: data.teacher,
+        capacity: data.capacity,
+        facility: data.facility,
+        schedule: data.schedule
+      }
+      ClassService.updateClass(classData!.id, classUpdate).then(() => {
+        navegate("/class")
+      })
+    }
   }
 
   const btnCancel = () => {

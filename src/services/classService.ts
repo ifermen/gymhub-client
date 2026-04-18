@@ -1,5 +1,5 @@
 import type { ListParams, PageResponse } from "../types/api";
-import type { ClassCreate, ClassData } from "../types/class";
+import type { ClassCreate, ClassData, ClassUpdate, JoinClass } from "../types/class";
 import { HTTPRequest } from "../utilities/HTTPRequest";
 
 const URL_BASE = import.meta.env.VITE_URL_BASE;
@@ -42,6 +42,32 @@ export const ClassService = {
     const response = await HTTPRequest.post<ClassData>(`${URL_BASE}${PATH}`, data);
 
     response.endDate = new Date(response.endDate);
+
+    return response;
+  },
+
+  updateClass: async (id: number, data: ClassUpdate) => {
+    const response = await HTTPRequest.put<ClassData>(`${URL_BASE}${PATH}/${id}`, data);
+
+    response.endDate = new Date(response.endDate);
+
+    return response;
+  },
+
+  joinClass: async (data: JoinClass) => {
+    const response = await HTTPRequest.post<ClassData>(`${URL_BASE}${PATH}/join`, data);
+
+    return response;
+  },
+
+  leaveClass: async (id: number) => {
+    const response = await HTTPRequest.delete(`${URL_BASE}${PATH}/leave/${id}`);
+
+    return response;
+  },
+
+  joinedClasses: async () => {
+    const response = await HTTPRequest.get<ClassData[]>(`${URL_BASE}${PATH}/joined`);
 
     return response;
   }
