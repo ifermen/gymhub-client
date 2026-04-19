@@ -46,16 +46,19 @@ export const ClientService = {
     if (params?.pageSize !== undefined) queryParams.set('pageSize', String(params.pageSize));
     if (params?.sort) queryParams.set('sort', params.sort);
     if (params?.direction) queryParams.set('direction', params.direction);
+    if (params?.filter && params.filter != "") queryParams.set('filter', params.filter);
 
     const queryString = queryParams.toString();
     const url = `${URL_BASE}${PATH}${queryString ? `?${queryString}` : ''}`;
-    const response = await HTTPRequest.get<PageResponse<ClientData>>(url);
+    const response = await HTTPRequest.get<PageResponse<ClientData[]>>(url);
 
     return response;
   },
 
   clientById: async (id: number) => {
     const response = await HTTPRequest.get<ClientData>(`${URL_BASE}${PATH}/${id}`);
+
+    response.creationDate = new Date(response.creationDate);
 
     return response
   },
@@ -68,10 +71,11 @@ export const ClientService = {
     if (params?.pageSize !== undefined) queryParams.set('pageSize', String(params.pageSize));
     if (params?.sort) queryParams.set('sort', params.sort);
     if (params?.direction) queryParams.set('direction', params.direction);
+    if (params?.filter && params.filter != "") queryParams.set('filter', params.filter);
 
     const queryString = queryParams.toString();
     const url = `${URL_BASE}${PATH}/search${queryString ? `?${queryString}` : ''}`;
-    const response = await HTTPRequest.get<PageResponse<ClientData>>(url);
+    const response = await HTTPRequest.get<PageResponse<ClientData[]>>(url);
 
     return response;
   },

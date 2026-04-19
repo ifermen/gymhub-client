@@ -115,7 +115,7 @@ export function ClassForm() {
 
   return (
     <Main>
-      <TitlePage>{mode == "create" ? "Crear incidencia" : "Editar incidencia"}</TitlePage>
+      <TitlePage>{mode == "create" ? "Crear clase" : "Editar clase"}</TitlePage>
       <DivContent>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3">
           <div>

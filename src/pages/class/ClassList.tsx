@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Modal } from "../../components/Modal/Modal";
-import { PageButtonSection } from "../../components/PageButtonSection/PageButtonSection";
+import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 
 export function ClassList() {
   const { user, logout } = useUserContext();

@@ -8,7 +8,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import { Pill } from "../../components/Pill/Pill";
 import { Button } from "../../components/Button/Button";
 import { Modal } from "../../components/Modal/Modal";
-import { PageButtonSection } from "../../components/PageButtonSection/PageButtonSection";
+import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { useNavigate } from "react-router-dom";
 import { Div } from "../../components/Div/Div";
 import DivList from '../../components/Div/DivList';

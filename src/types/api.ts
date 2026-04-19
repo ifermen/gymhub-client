@@ -2,7 +2,8 @@ export interface ListParams {
   pageKey: number;
   pageSize: number;
   sort: string;
-  direction: 'ASC' | 'DESC'
+  direction: 'ASC' | 'DESC';
+  filter: string;
 }
 
 export interface PageResponse<T> {

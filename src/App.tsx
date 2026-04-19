@@ -16,6 +16,9 @@ import { ClassById } from './pages/class/ClassById'
 import { ClassForm } from './pages/class/ClassForm'
 import { ExerciseTable } from './pages/exercises/ExerciseTable'
 import { Toaster } from 'react-hot-toast'
+import { ClientList } from './pages/client/ClientList'
+import ClientById from './pages/client/ClientById'
+import ClientForm from './pages/client/ClientForm'
 
 function App() {
 
@@ -48,6 +51,11 @@ function App() {
               <Route path='/class/:id/edit' element={<ClassForm />} />
 
               <Route path='/exercise' element={<ExerciseTable />} />
+
+              <Route path='/client' element={<ClientList />} />
+              <Route path='/client/create' element={<ClientForm />} />
+              <Route path='/client/:id' element={<ClientById />} />
+              <Route path='/client/:id/edit' element={<ClientForm />} />
             </Route>
           </Route>
         </Routes>
