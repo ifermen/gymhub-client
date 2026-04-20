@@ -132,11 +132,11 @@ export function EmployeeList() {
       <Div>
         <div className="flex flex-row py-1 gap-1">
           <div className="flex justify-center items-center bg-primary-600 rounded-full w-full">
-            <img className="h-10 bg-background-950 border-3 border-primary-500 rounded-full p-1" src={search} alt="" />
+            <img className="h-10 bg-white border-3 border-primary-500 rounded-full p-1" src={search} alt="" />
             <Input id="search" name="search" placeholder="Buscar..." type="text" handleChange={changeSearchString} value={searchString}></Input>
           </div>
           <div className="hidden md:flex">
-            <Dropdown id="filtro" title="Filtro" options={filterOption} handlerChange={changeFilter}></Dropdown>
+            <Dropdown id="filtro" title="Filtro" options={filterOption} handlerChange={changeFilter} value={filter}></Dropdown>
           </div>
         </div>
         <div className="hidden flex-row justify-between gap-1 md:flex">
@@ -159,13 +159,13 @@ export function EmployeeList() {
               title="Ordenar por"
               options={sortOption}
               handlerChange={changeSort}
-            />
+              value={sort} />
             <Dropdown
               id="direction"
               title="Dirección"
               options={directionOption}
               handlerChange={changeDirection}
-            />
+              value={direction} />
           </div>
         </div>
         <div className="flex flex-col md:hidden">
@@ -177,20 +177,21 @@ export function EmployeeList() {
               id="sort"
               title="Ordenar por"
               options={sortOption}
-              handlerChange={changeSort}>
+              handlerChange={changeSort}
+              value={sort}>
             </Dropdown>
             <Dropdown
               id="direction"
               title="Dirección"
               options={directionOption}
-              handlerChange={changeDirection}>
-            </Dropdown>
+              handlerChange={changeDirection}
+              value={direction} />
             <Dropdown
               id="filtro"
               title="Filtro"
               options={filterOption}
-              handlerChange={changeFilter}>
-            </Dropdown>
+              handlerChange={changeFilter}
+              value={filter} />
             <Button
               id="btnCreateReport"
               type="button"

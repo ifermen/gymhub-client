@@ -102,13 +102,13 @@ export function ClassList() {
               title="Ordenar por"
               options={sortOption}
               handlerChange={changeSort}
-            />
+              value={sort} />
             <Dropdown
               id="direction"
               title="Dirección"
               options={directionOption}
               handlerChange={changeDirection}
-            />
+              value={direction} />
           </div>
         </div>
         <div className="flex flex-col md:hidden">
@@ -121,13 +121,13 @@ export function ClassList() {
               title="Ordenar por"
               options={sortOption}
               handlerChange={changeSort}
-            ></Dropdown>
+              value={sort} />
             <Dropdown
               id="direction"
               title="Dirección"
               options={directionOption}
               handlerChange={changeDirection}
-            ></Dropdown>
+              value={direction} />
             <Button
               id="btnCreateReport"
               type="button"

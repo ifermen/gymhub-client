@@ -138,7 +138,7 @@ export function ClientList() {
             <Input id="search" name="search" placeholder="Buscar..." type="text" handleChange={changeSearchString} value={searchString}></Input>
           </div>
           <div className="hidden md:flex">
-            <Dropdown id="filtro" title="Filtro" options={filterOption} handlerChange={changeFilter}></Dropdown>
+            <Dropdown id="filtro" title="Filtro" options={filterOption} handlerChange={changeFilter} value={filter} />
           </div>
         </div>
         <div className="hidden flex-row justify-between gap-1 md:flex">
@@ -161,12 +161,14 @@ export function ClientList() {
               title="Ordenar por"
               options={sortOption}
               handlerChange={changeSort}
+              value={sort}
             />
             <Dropdown
               id="direction"
               title="Dirección"
               options={directionOption}
               handlerChange={changeDirection}
+              value={direction}
             />
           </div>
         </div>
@@ -179,20 +181,20 @@ export function ClientList() {
               id="sort"
               title="Ordenar por"
               options={sortOption}
-              handlerChange={changeSort}>
-            </Dropdown>
+              handlerChange={changeSort}
+              value={sort} />
             <Dropdown
               id="direction"
               title="Dirección"
               options={directionOption}
-              handlerChange={changeDirection}>
-            </Dropdown>
+              handlerChange={changeDirection}
+              value={direction} />
             <Dropdown
               id="filtro"
               title="Filtro"
               options={filterOption}
-              handlerChange={changeFilter}>
-            </Dropdown>
+              handlerChange={changeFilter}
+              value={filter} />
             <Button
               id="btnCreateReport"
               type="button"
