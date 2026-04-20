@@ -21,6 +21,7 @@ import ClientById from './pages/client/ClientById'
 import ClientForm from './pages/client/ClientForm'
 import { EmployeeList } from './pages/employee/EmployeeList'
 import { EmployeeById } from './pages/employee/EmployeeById'
+import { EmployeeForm } from './pages/employee/EmployeeForm'
 
 function App() {
 
@@ -60,7 +61,9 @@ function App() {
               <Route path='/client/:id/edit' element={<ClientForm />} />
 
               <Route path='/employee' element={<EmployeeList />} />
+              <Route path='/employee/create' element={<EmployeeForm />} />
               <Route path='/employee/:id' element={<EmployeeById />} />
+              <Route path='/employee/:id/edit' element={<EmployeeForm />} />
             </Route>
           </Route>
         </Routes>
