@@ -119,7 +119,7 @@ export default function ClientById() {
       <TitlePage>Cliente</TitlePage>
       <div className="flex w-full flex-col items-center justify-center gap-3 rounded-3xl p-3 sm:w-3/4 sm:border-4 sm:border-text-600 sm:bg-background-950 sm:shadow-md md:w-2/3 lg:w-2/4 xl:w-1/3">
         <div className="flex w-full flex-col items-center justify-center">
-          <div className="flex flex-row gap-1">
+          <div className="flex flex-row gap-1 pb-1">
             <span className="text-2xl font-semibold sm:text-4xl">
               {client?.name}
             </span>
@@ -232,12 +232,12 @@ export default function ClientById() {
               "¿Estas seguro que quieres dar de alta este cliente?"}
 
           </span>
-          <div className="flex w-full gap-1">
+          <div className="flex flex-col sm:flex-row w-full gap-5 sm:gap-1 mt-3 sm:mt-0">
             <Button
               id="btnCancelDelete"
               type="button"
               variant="secondary"
-              handleClick={() => setIsOpenModal(false)}
+              handleClick={() => setIsOpenModalDelete(false)}
             >
               Cancelar
             </Button>

@@ -11,20 +11,20 @@ export function Dropdown({ id, title, options, handlerChange, value }: DropdownP
     <div className="
       flex
       flex-col
-      sm:flex-row
+      md:flex-row
       items-center
       px-1
       py-1
-      sm:px-0
-      sm:py-0
-      sm:justify-between
+      md:px-0
+      md:py-0
+      md:justify-between
       rounded-3xl
-      sm:rounded-full
-      sm:gap-2
-      sm:pl-3
-      sm:pr-1
+      md:rounded-full
+      md:gap-2
+      md:pl-3
+      md:pr-1
       w-full
-      sm:w-fit
+      md:w-fit
       border-3
       text-xl
       font-bold
@@ -52,7 +52,7 @@ export function Dropdown({ id, title, options, handlerChange, value }: DropdownP
         className="
           rounded-full
           w-full
-          sm:w-fit
+          md:w-fit
           pt-1
           px-1
         ">

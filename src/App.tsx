@@ -19,6 +19,8 @@ import { Toaster } from 'react-hot-toast'
 import { ClientList } from './pages/client/ClientList'
 import ClientById from './pages/client/ClientById'
 import ClientForm from './pages/client/ClientForm'
+import { EmployeeList } from './pages/employee/EmployeeList'
+import { EmployeeById } from './pages/employee/EmployeeById'
 
 function App() {
 
@@ -56,6 +58,9 @@ function App() {
               <Route path='/client/create' element={<ClientForm />} />
               <Route path='/client/:id' element={<ClientById />} />
               <Route path='/client/:id/edit' element={<ClientForm />} />
+
+              <Route path='/employee' element={<EmployeeList />} />
+              <Route path='/employee/:id' element={<EmployeeById />} />
             </Route>
           </Route>
         </Routes>

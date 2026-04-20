@@ -6,6 +6,6 @@ interface DivProps {
 
 export function Div({ children }: DivProps) {
   return (
-    <div className="w-full lg:w-2/3 xl:w-2/4 p-1">{children}</div>
+    <div className="w-full lg:w-3/4 xl:w-2/3 2xl:w-2/4 p-1">{children}</div>
   )
 }

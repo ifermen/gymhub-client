@@ -130,7 +130,7 @@ export function ReportById() {
             ""
           )}
         </div>
-        <span className="text-xl font-semibold hidden sm:block">
+        <span className="text-xl font-semibold hidden md:block">
           {report?.creationDate.toLocaleDateString()}
         </span>
         <span className="text-base sm:text-2xl">{report?.description}</span>
@@ -138,7 +138,7 @@ export function ReportById() {
           className={`flex w-full ${report?.userSolverId ? "justify-between" : "justify-start"}`}
         >
           <span className="text-md text-center">
-            Creador: {report?.userCreatorName}
+            Creado por: {report?.userCreatorName}
           </span>
           {report?.userSolverId ? (
             <>
@@ -152,7 +152,7 @@ export function ReportById() {
           )}
         </div>
         <LineHorizontal></LineHorizontal>
-        <div className="flex w-full sm:hidden">
+        <div className="flex w-full md:hidden">
           <Dropdown
             id="ddChangeStatus"
             title="Cambiar Estado"

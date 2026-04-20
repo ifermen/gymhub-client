@@ -38,7 +38,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
         flex-col
         gap-1
         w-5/6
-        sm:w-2/6"
+        md:w-2/6"
         onClick={(e) => e.stopPropagation()}
       >
 

@@ -83,7 +83,7 @@ export function ClassList() {
     <Main>
       <TitlePage>Clases</TitlePage>
       <Div>
-        <div className="hidden flex-row justify-between gap-1 sm:flex">
+        <div className="hidden flex-row justify-between gap-1 md:flex">
           {user?.role == "ADMIN" ?
             <Button
               id="btnCreateReport"
@@ -111,7 +111,7 @@ export function ClassList() {
             />
           </div>
         </div>
-        <div className="flex flex-col sm:hidden">
+        <div className="flex flex-col md:hidden">
           <Button id="btnShowOptions" type="button" handleClick={openModal}>
             Opciones
           </Button>

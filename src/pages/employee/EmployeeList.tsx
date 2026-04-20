@@ -1,20 +1,20 @@
-import { Main } from "../../components/Main/Main";
-import { Div } from "../../components/Div/Div";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
-import DivList from "../../components/Div/DivList";
-import type { ClientData } from "../../types/client";
-import { useEffect, useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { ClientService } from "../../services/clientService";
-import { useUserContext } from "../../contexts/UserContext";
 import { Button } from "../../components/Button/Button";
-import { Dropdown } from '../../components/Dropdown/Dropdown';
-import { Modal } from "../../components/Modal/Modal";
-import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
-import search from "../../assets/icons/search.svg";
+import { Div } from "../../components/Div/Div";
+import DivList from "../../components/Div/DivList";
+import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Input } from "../../components/Input/Input";
+import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
+import { Main } from "../../components/Main/Main";
+import { Modal } from "../../components/Modal/Modal";
+import { TitlePage } from "../../components/TitlePage/TitlePage";
+import { useUserContext } from "../../contexts/UserContext";
+import { useEffect, useState, type ChangeEvent } from "react";
+import type { EmployeeData } from "../../types/employee";
+import EmployeeService from "../../services/employeeService";
+import search from "../../assets/icons/search.svg";
 
-export function ClientList() {
+export function EmployeeList() {
   const { user, logout } = useUserContext();
   const navegate = useNavigate();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -24,7 +24,7 @@ export function ClientList() {
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [clients, setClients] = useState<ClientData[]>([]);
+  const [employees, setEmployees] = useState<EmployeeData[]>([]);
   const directionOption = new Map<string, string>([
     ["-1", "Por defecto"],
     ["DESC", "Descendente"],
@@ -39,14 +39,12 @@ export function ClientList() {
   const filterOption = new Map<string, string>([
     ["-1", "Ninguno"],
     ["isActive", "Activo"],
-    ["isRenewed", "Suscrito"],
-    ["isNotRenewed", "No Suscrito"],
     ["isDisactive", "No Activo"]
   ]);
 
   useEffect(() => {
     if (searchString == "") {
-      ClientService.listClients({
+      EmployeeService.listEmployees({
         direction: direction,
         pageKey: pageKey,
         pageSize: 20,
@@ -54,7 +52,7 @@ export function ClientList() {
         filter: filter
       })
         .then((response) => {
-          setClients(response.content);
+          setEmployees(response.content);
           setTotalPages(response.totalPages);
         })
         .catch((error) => {
@@ -63,7 +61,7 @@ export function ClientList() {
           }
         });
     } else {
-      ClientService.searchClients(
+      EmployeeService.searchEmployees(
         searchString,
         {
           direction: direction,
@@ -73,7 +71,7 @@ export function ClientList() {
           filter: filter
         })
         .then((response) => {
-          setClients(response.content);
+          setEmployees(response.content);
           setTotalPages(response.totalPages);
         })
         .catch((error) => {
@@ -120,17 +118,17 @@ export function ClientList() {
     setIsOpenModal(false);
   };
 
-  const viewClient = (id: number) => {
-    navegate("/client/" + id);
+  const viewEmployee = (id: number) => {
+    navegate("/employee/" + id);
   };
 
-  const createClient = () => {
-    navegate("/client/create");
+  const createEmployee = () => {
+    navegate("/employee/create");
   };
 
   return (
     <Main>
-      <TitlePage>Clientes</TitlePage>
+      <TitlePage>Empleados</TitlePage>
       <Div>
         <div className="flex flex-row py-1 gap-1">
           <div className="flex justify-center items-center bg-primary-600 rounded-full w-full">
@@ -148,7 +146,7 @@ export function ClientList() {
               type="button"
               variant="primary"
               width="fit"
-              handleClick={createClient}
+              handleClick={createEmployee}
             >
               Añadir
             </Button>
@@ -197,20 +195,20 @@ export function ClientList() {
               id="btnCreateReport"
               type="button"
               width="full"
-              handleClick={createClient}>
-              Añadir Cliente
+              handleClick={createEmployee}>
+              Añadir Empleado
             </Button>
           </Modal>
         </div>
         <DivList>
-          {clients.map((client) => (
+          {employees.map((employee) => (
             <div
-              key={client.id}
-              onClick={() => viewClient(client.id)}
+              key={employee.id}
+              onClick={() => viewEmployee(employee.id)}
               className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1"
             >
               <div className="flex w-full flex-col">
-                <span className="w-full text-xl">{client.name}</span>
+                <span className="w-full text-xl">{employee.name}</span>
               </div>
             </div>
           ))}
