@@ -23,6 +23,7 @@ import { EmployeeList } from './pages/employee/EmployeeList'
 import { EmployeeById } from './pages/employee/EmployeeById'
 import { EmployeeForm } from './pages/employee/EmployeeForm'
 import { OfferList } from './pages/offer/OfferList'
+import { OfferById } from './pages/offer/OfferById'
 
 function App() {
 
@@ -67,6 +68,7 @@ function App() {
               <Route path='/employee/:id/edit' element={<EmployeeForm />} />
 
               <Route path='/offer' element={<OfferList />} />
+              <Route path='/offer/:id' element={<OfferById />} />
             </Route>
           </Route>
         </Routes>

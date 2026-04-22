@@ -1,5 +1,5 @@
 import type { ListParams, PageResponse } from "../types/api";
-import type { OfferData } from "../types/offer";
+import type { OfferCreate, OfferData, OfferUpdate } from "../types/offer";
 import { HTTPRequest } from "../utilities/HTTPRequest";
 
 const URL_BASE = import.meta.env.VITE_URL_BASE;
@@ -27,7 +27,7 @@ export const OfferService = {
     const data = response.content.map(offer => {
       return {
         ...offer,
-        endDate: new Date(offer.endDate),
+        endDate: offer.endDate ? new Date(offer.endDate) : null,
       }
     })
 
@@ -35,4 +35,34 @@ export const OfferService = {
 
     return response;
   },
+
+  offerById: async (id: number) => {
+    const response = await HTTPRequest.get<OfferData>(`${URL_BASE}${PATH}/${id}`);
+
+    response.endDate = response.endDate ? new Date(response.endDate) : null;
+
+    return response;
+  },
+
+  createOffer: async (offerCreate: OfferCreate) => {
+    const response = await HTTPRequest.post<OfferData>(`${URL_BASE}${PATH}`, offerCreate);
+
+    response.endDate = response.endDate ? new Date(response.endDate) : null;
+
+    return response;
+  },
+
+  updateOffer: async (id: number, offerUpdate: OfferUpdate) => {
+    const response = await HTTPRequest.put<OfferData>(`${URL_BASE}${PATH}/${id}`, offerUpdate);
+
+    response.endDate = response.endDate ? new Date(response.endDate) : null;
+
+    return response;
+  },
+
+  deleteOffer: async (id: number) => {
+    const response = await HTTPRequest.delete(`${URL_BASE}${PATH}/${id}`);
+
+    return response;
+  }
 }
