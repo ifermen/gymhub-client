@@ -110,7 +110,7 @@ export function ClassForm() {
   }
 
   const btnCancel = () => {
-    navegate("/report");
+    navegate("/class");
   }
 
   return (
