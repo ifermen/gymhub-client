@@ -37,8 +37,10 @@ export function PageButtonSection({ pageKey, setPageKey, totalPages }: PageButto
         gap-2
         w-full
       ">
-      <ButtonPage id="btnInitPage" type="button" handleClick={toFirst}>{"<<"}</ButtonPage>
-      <ButtonPage id="btnPreviousPage" type="button" handleClick={toPrevious} style="sm:block hidden">{"<"}</ButtonPage>
+      {pageKey > 0 ? <>
+        <ButtonPage id="btnInitPage" type="button" handleClick={toFirst}>{"<<"}</ButtonPage>
+        <ButtonPage id="btnPreviousPage" type="button" handleClick={toPrevious} style="sm:block hidden">{"<"}</ButtonPage>
+      </> : ""}
       {pageKey > 2 ?
         <ButtonPage id="btn3PreviousPage" variant="light" type="button" handleClick={() => setPageKeyTo(pageKey - 3)} style="sm:block hidden">{pageKey - 2}</ButtonPage> :
         ""}
@@ -55,8 +57,11 @@ export function PageButtonSection({ pageKey, setPageKey, totalPages }: PageButto
         <ButtonPage id="btn2NextPage" variant="light" type="button" handleClick={() => setPageKeyTo(pageKey + 2)}>{pageKey + 3}</ButtonPage>}
       {pageKey >= totalPages - 3 ? "" :
         <ButtonPage id="btn3NextPage" variant="light" type="button" handleClick={() => setPageKeyTo(pageKey + 3)} style="sm:block hidden">{pageKey + 4}</ButtonPage>}
-      <ButtonPage id="btnNextPage" type="button" handleClick={toNext} style="sm:block hidden">{">"}</ButtonPage>
-      <ButtonPage id="btnLastPage" type="button" handleClick={toLast}>{">>"}</ButtonPage>
+      {pageKey >= totalPages - 1 ? "" : <>
+        <ButtonPage id="btnNextPage" type="button" handleClick={toNext} style="sm:block hidden">{">"}</ButtonPage>
+        <ButtonPage id="btnLastPage" type="button" handleClick={toLast}>{">>"}</ButtonPage>
+      </>
+      }
     </div>
   )
 }
