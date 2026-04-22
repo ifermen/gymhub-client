@@ -22,7 +22,6 @@ export function Dropdown({ id, title, options, handlerChange, value }: DropdownP
       md:rounded-full
       md:gap-2
       md:pl-3
-      md:pr-1
       w-full
       md:w-fit
       border-3

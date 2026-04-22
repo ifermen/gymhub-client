@@ -3,19 +3,15 @@ import { Div } from "../../components/Div/Div";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import DivList from "../../components/Div/DivList";
 import type { ClientData } from "../../types/client";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClientService } from "../../services/clientService";
 import { useUserContext } from "../../contexts/UserContext";
-import { Button } from "../../components/Button/Button";
-import { Dropdown } from '../../components/Dropdown/Dropdown';
-import { Modal } from "../../components/Modal/Modal";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
-import search from "../../assets/icons/search.svg";
-import { Input } from "../../components/Input/Input";
+import { SearchFilterSortAddOptions } from "../../components/ListOptions/SearchFilterSortAddOptions";
 
 export function ClientList() {
-  const { user, logout } = useUserContext();
+  const { logout } = useUserContext();
   const navegate = useNavigate();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [sort, setSort] = useState("creationDate");
@@ -108,8 +104,8 @@ export function ClientList() {
     setPageKey(newPageKey);
   };
 
-  const changeSearchString = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchString(event.target.value)
+  const changeSearchString = (searchString: string) => {
+    setSearchString(searchString)
   }
 
   const openModal = () => {
@@ -132,78 +128,23 @@ export function ClientList() {
     <Main>
       <TitlePage>Clientes</TitlePage>
       <Div>
-        <div className="flex flex-row py-1 gap-1">
-          <div className="flex justify-center items-center bg-primary-600 rounded-full w-full">
-            <img className="h-10 bg-background-950 border-3 border-primary-500 rounded-full p-1" src={search} alt="" />
-            <Input id="search" name="search" placeholder="Buscar..." type="text" handleChange={changeSearchString} value={searchString}></Input>
-          </div>
-          <div className="hidden md:flex">
-            <Dropdown id="filtro" title="Filtro" options={filterOption} handlerChange={changeFilter} value={filter} />
-          </div>
-        </div>
-        <div className="hidden flex-row justify-between gap-1 md:flex">
-          {user?.role == "ADMIN" ? (
-            <Button
-              id="btnCreateReport"
-              type="button"
-              variant="primary"
-              width="fit"
-              handleClick={createClient}
-            >
-              Añadir
-            </Button>
-          ) : (
-            <div></div>
-          )}
-          <div className="flex gap-1">
-            <Dropdown
-              id="sort"
-              title="Ordenar por"
-              options={sortOption}
-              handlerChange={changeSort}
-              value={sort}
-            />
-            <Dropdown
-              id="direction"
-              title="Dirección"
-              options={directionOption}
-              handlerChange={changeDirection}
-              value={direction}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col md:hidden">
-          <Button id="btnShowOptions" type="button" handleClick={openModal}>
-            Opciones
-          </Button>
-          <Modal isOpen={isOpenModal} onClose={closeModal}>
-            <Dropdown
-              id="sort"
-              title="Ordenar por"
-              options={sortOption}
-              handlerChange={changeSort}
-              value={sort} />
-            <Dropdown
-              id="direction"
-              title="Dirección"
-              options={directionOption}
-              handlerChange={changeDirection}
-              value={direction} />
-            <Dropdown
-              id="filtro"
-              title="Filtro"
-              options={filterOption}
-              handlerChange={changeFilter}
-              value={filter} />
-            <Button
-              id="btnCreateReport"
-              type="button"
-              width="full"
-              handleClick={createClient}>
-              Añadir Cliente
-            </Button>
-          </Modal>
-        </div>
+        <SearchFilterSortAddOptions
+          searchString={searchString}
+          changeSearchString={changeSearchString}
+          isOpenModal={isOpenModal}
+          openModal={openModal}
+          closeModal={closeModal}
+          sort={sort}
+          sortOption={sortOption}
+          changeSort={changeSort}
+          direction={direction}
+          directionOption={directionOption}
+          changeDirection={changeDirection}
+          filter={filter}
+          filterOption={filterOption}
+          changeFilter={changeFilter}
+          createNavegate={createClient}
+        />
         <DivList>
           {clients.map((client) => (
             <div
