@@ -25,6 +25,7 @@ import { EmployeeForm } from './pages/employee/EmployeeForm'
 import { OfferList } from './pages/offer/OfferList'
 import { OfferById } from './pages/offer/OfferById'
 import { OfferForm } from './pages/offer/OfferForm'
+import { RoleGuard } from './guards/RoleGuard'
 
 function App() {
 
@@ -52,26 +53,36 @@ function App() {
               <Route path='/report/:id/edit' element={<ReportForm />} />
 
               <Route path='/class' element={<ClassList />} />
-              <Route path='/class/create' element={<ClassForm />} />
               <Route path='/class/:id' element={<ClassById />} />
-              <Route path='/class/:id/edit' element={<ClassForm />} />
+              <Route element={<RoleGuard allowedRoles={["ADMIN"]} />}>
+                <Route path='/class/create' element={<ClassForm />} />
+                <Route path='/class/:id/edit' element={<ClassForm />} />
+              </Route>
 
-              <Route path='/exercise' element={<ExerciseTable />} />
+              <Route element={<RoleGuard allowedRoles={["CLIENT"]} />}>
+                <Route path='/exercise' element={<ExerciseTable />} />
+              </Route>
 
-              <Route path='/client' element={<ClientList />} />
-              <Route path='/client/create' element={<ClientForm />} />
-              <Route path='/client/:id' element={<ClientById />} />
-              <Route path='/client/:id/edit' element={<ClientForm />} />
+              <Route element={<RoleGuard allowedRoles={["ADMIN", "EMPLOYEE"]} />}>
+                <Route path='/client' element={<ClientList />} />
+                <Route path='/client/create' element={<ClientForm />} />
+                <Route path='/client/:id' element={<ClientById />} />
+                <Route path='/client/:id/edit' element={<ClientForm />} />
+              </Route>
 
-              <Route path='/employee' element={<EmployeeList />} />
-              <Route path='/employee/create' element={<EmployeeForm />} />
-              <Route path='/employee/:id' element={<EmployeeById />} />
-              <Route path='/employee/:id/edit' element={<EmployeeForm />} />
+              <Route element={<RoleGuard allowedRoles={["ADMIN"]} />}>
+                <Route path='/employee' element={<EmployeeList />} />
+                <Route path='/employee/create' element={<EmployeeForm />} />
+                <Route path='/employee/:id' element={<EmployeeById />} />
+                <Route path='/employee/:id/edit' element={<EmployeeForm />} />
+              </Route>
 
-              <Route path='/offer' element={<OfferList />} />
-              <Route path='/offer/create' element={<OfferForm />} />
-              <Route path='/offer/:id' element={<OfferById />} />
-              <Route path='/offer/:id/edit' element={<OfferForm />} />
+              <Route element={<RoleGuard allowedRoles={["ADMIN"]} />}>
+                <Route path='/offer' element={<OfferList />} />
+                <Route path='/offer/create' element={<OfferForm />} />
+                <Route path='/offer/:id' element={<OfferById />} />
+                <Route path='/offer/:id/edit' element={<OfferForm />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

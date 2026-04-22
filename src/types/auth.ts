@@ -26,3 +26,5 @@ export interface JwtPayload {
   role: 'ADMIN' | 'EMPLOYEE' | 'CLIENT';
   creationDate: Date;
 }
+
+export type Role = 'ADMIN' | 'EMPLOYEE' | 'CLIENT'
