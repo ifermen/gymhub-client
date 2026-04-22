@@ -8,11 +8,13 @@ import { useUserContext } from "../../contexts/UserContext";
 import { useEffect, useState } from "react";
 import type { OfferData } from "../../types/offer";
 import { OfferService } from "../../services/offerService";
+import { Modal } from "../../components/Modal/Modal";
 
 export function OfferById() {
   const { logout } = useUserContext();
   const navegate = useNavigate();
   const { id } = useParams();
+  const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [offer, setOffer] = useState<OfferData | null>();
 
   useEffect(() => {
@@ -33,6 +35,30 @@ export function OfferById() {
 
   const clickBackHandler = () => {
     navegate("/offer");
+  }
+
+  const openModalDelete = () => {
+    setIsOpenModalDelete(true)
+  }
+
+  const closeModalDelete = () => {
+    setIsOpenModalDelete(false)
+  }
+
+  const clickDeleteHandler = () => {
+    openModalDelete();
+  }
+
+  const deleteOffer = () => {
+    OfferService.deleteOffer(offer!.id).then(() => {
+      navegate("/offer");
+    }).catch(error => {
+      if (error.status == 401) {
+        logout();
+      } else {
+        console.log(error);
+      }
+    })
   }
 
   return (
@@ -66,6 +92,40 @@ export function OfferById() {
           variant="accent"
           handleClick={clickEditHandler}
         >Editar</Button>
+        <Button
+          id="btnDelete"
+          type="button"
+          variant={offer?.endDate == null ? "danger" : "success"}
+          handleClick={clickDeleteHandler}
+        >
+          {offer?.endDate == null ? "Desactivar" : "Activar"}
+        </Button>
+        <Modal isOpen={isOpenModalDelete} onClose={closeModalDelete}>
+          <span className="text-center text-lg">
+            {offer?.endDate == null ?
+              "¿Estas seguro que quieres desactivar esta oferta?" :
+              "¿Estas seguro que quieres activar esta oferta?"}
+
+          </span>
+          <div className="flex flex-col sm:flex-row w-full gap-5 sm:gap-1 mt-3 sm:mt-0">
+            <Button
+              id="btnCancelDelete"
+              type="button"
+              variant="secondary"
+              handleClick={() => setIsOpenModalDelete(false)}
+            >
+              Cancelar
+            </Button>
+            <Button
+              id="btnModalDelete"
+              type="button"
+              variant={offer?.endDate == null ? "danger" : "success"}
+              handleClick={deleteOffer}
+            >
+              {offer?.endDate == null ? "Desactivar" : "Activar"}
+            </Button>
+          </div>
+        </Modal>
         <Button
           id="btnBack"
           type="button"
