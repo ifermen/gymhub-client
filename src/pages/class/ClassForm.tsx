@@ -12,6 +12,7 @@ import { EmployeeService } from "../../services/employeeService";
 import type { ClassCreate, ClassData, ClassUpdate } from "../../types/class";
 import { ClassService } from "../../services/classService";
 import { useUserContext } from "../../contexts/UserContext";
+import { Loader } from "../../components/Loader/Loader";
 
 interface ClassFormForm {
   title: string;
@@ -111,6 +112,10 @@ export function ClassForm() {
 
   const btnCancel = () => {
     navegate("/class");
+  }
+
+  if (mode == "edit" && !classData) {
+    return <Loader />
   }
 
   return (

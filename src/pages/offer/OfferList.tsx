@@ -11,6 +11,7 @@ import { Button } from "../../components/Button/Button";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Modal } from "../../components/Modal/Modal";
 import { OfferService } from "../../services/offerService";
+import { Loader } from "../../components/Loader/Loader";
 
 export function OfferList() {
   const { logout } = useUserContext();
@@ -20,7 +21,7 @@ export function OfferList() {
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [offers, setOffers] = useState<OfferData[]>([]);
+  const [offers, setOffers] = useState<OfferData[] | null>();
   const directionOption = new Map<string, string>([
     ["DESC", "Descendente"],
     ["ASC", "Ascendente"],
@@ -77,6 +78,10 @@ export function OfferList() {
   const createOffer = () => {
     navegate("/offer/create");
   };
+
+  if (!offers) {
+    return <Loader />
+  }
 
   return (
     <Main>

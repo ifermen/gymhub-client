@@ -12,6 +12,7 @@ import { PageButtonSection } from "../../components/ListOptions/PageButtonSectio
 import { useNavigate } from "react-router-dom";
 import { Div } from "../../components/Div/Div";
 import DivList from '../../components/Div/DivList';
+import { Loader } from "../../components/Loader/Loader";
 
 export function ReportList() {
   const { logout } = useUserContext();
@@ -21,7 +22,7 @@ export function ReportList() {
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [reportList, setReportList] = useState<ReportData[]>([]);
+  const [reportList, setReportList] = useState<ReportData[] | null>();
   const directionOption = new Map<string, string>([
     ["DESC", "Descendente"],
     ["ASC", "Ascendente"],
@@ -80,6 +81,10 @@ export function ReportList() {
   const createReport = () => {
     navegate("/report/create");
   };
+
+  if (!reportList) {
+    return <Loader />
+  }
 
   return (
     <Main>

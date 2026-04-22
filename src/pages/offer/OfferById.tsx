@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import type { OfferData } from "../../types/offer";
 import { OfferService } from "../../services/offerService";
 import { Modal } from "../../components/Modal/Modal";
+import { Loader } from "../../components/Loader/Loader";
 
 export function OfferById() {
   const { logout } = useUserContext();
@@ -59,6 +60,10 @@ export function OfferById() {
         console.log(error);
       }
     })
+  }
+
+  if (!offer) {
+    return <Loader />
   }
 
   return (

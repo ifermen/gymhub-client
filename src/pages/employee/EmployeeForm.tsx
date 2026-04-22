@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { EmployeeCreateRequest, EmployeeData, EmployeeUpdateRequest } from "../../types/employee";
 import { useEffect, useState } from "react";
 import EmployeeService from "../../services/employeeService";
+import { Loader } from "../../components/Loader/Loader";
 
 interface EmployeeFormForm {
   name: string;
@@ -82,6 +83,10 @@ export function EmployeeForm() {
   }
 
   const newPassword = watch('newPassword');
+
+  if (mode == "edit" && !employee) {
+    return <Loader />
+  }
 
   return (
     <Main>

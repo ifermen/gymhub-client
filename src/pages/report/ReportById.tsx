@@ -12,6 +12,7 @@ import { Pill } from "../../components/Pill/Pill";
 import { LineVertical } from "../../components/Line/LineVertical";
 import { Modal } from "../../components/Modal/Modal";
 import DivContent from "../../components/Div/DivContent";
+import { Loader } from "../../components/Loader/Loader";
 
 export function ReportById() {
   const { user, logout } = useUserContext();
@@ -73,6 +74,10 @@ export function ReportById() {
   const closeModal = () => {
     setIsOpenModal(false);
   };
+
+  if (!report) {
+    return <Loader />
+  }
 
   return (
     <Main>

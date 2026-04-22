@@ -11,6 +11,7 @@ import { Button } from "../../components/Button/Button";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Modal } from "../../components/Modal/Modal";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
+import { Loader } from "../../components/Loader/Loader";
 
 export function ClassList() {
   const { user, logout } = useUserContext();
@@ -20,7 +21,7 @@ export function ClassList() {
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [classes, setClasses] = useState<ClassData[]>([]);
+  const [classes, setClasses] = useState<ClassData[] | null>();
   const directionOption = new Map<string, string>([
     ["-1", "Por defecto"],
     ["DESC", "Descendente"],
@@ -77,6 +78,10 @@ export function ClassList() {
 
   const viewClass = (id: number) => {
     navegate("/class/" + id);
+  }
+
+  if (!classes) {
+    return <Loader />
   }
 
   return (

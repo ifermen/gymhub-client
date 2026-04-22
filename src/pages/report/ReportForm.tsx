@@ -11,6 +11,7 @@ import { ReportService } from "../../services/reportService";
 import { TextArea } from "../../components/Input/TextArea";
 import { useUserContext } from "../../contexts/UserContext";
 import type { ReportUpdate } from '../../types/report';
+import { Loader } from "../../components/Loader/Loader";
 
 interface ReportFormForm {
   title: string;
@@ -74,6 +75,10 @@ export function ReportForm() {
 
   const btnCancel = () => {
     navegate("/report");
+  }
+
+  if (mode == "edit" && !report) {
+    return <Loader />
   }
 
   return (

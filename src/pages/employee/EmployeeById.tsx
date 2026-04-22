@@ -9,6 +9,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import type { EmployeeData } from "../../types/employee";
 import { useEffect, useState } from "react";
 import EmployeeService from "../../services/employeeService";
+import { Loader } from "../../components/Loader/Loader";
 
 export function EmployeeById() {
   const { logout } = useUserContext();
@@ -59,6 +60,10 @@ export function EmployeeById() {
         console.log(error);
       }
     })
+  }
+
+  if (!employee) {
+    return <Loader />
   }
 
   return (

@@ -9,6 +9,7 @@ import { ClientService } from "../../services/clientService";
 import { useUserContext } from "../../contexts/UserContext";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { SearchFilterSortAddOptions } from "../../components/ListOptions/SearchFilterSortAddOptions";
+import { Loader } from "../../components/Loader/Loader";
 
 export function ClientList() {
   const { logout } = useUserContext();
@@ -20,7 +21,7 @@ export function ClientList() {
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [clients, setClients] = useState<ClientData[]>([]);
+  const [clients, setClients] = useState<ClientData[] | null>();
   const directionOption = new Map<string, string>([
     ["-1", "Por defecto"],
     ["DESC", "Descendente"],
@@ -123,6 +124,10 @@ export function ClientList() {
   const createClient = () => {
     navegate("/client/create");
   };
+
+  if (!clients) {
+    return <Loader />
+  }
 
   return (
     <Main>

@@ -9,6 +9,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import { useEffect, useState } from "react";
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
+import { Loader } from "../../components/Loader/Loader";
 
 interface ClientFormForm {
   name: string;
@@ -82,6 +83,10 @@ export default function ClientForm() {
   }
 
   const newPassword = watch('newPassword');
+
+  if (mode == "edit" && !client) {
+    return <Loader />
+  }
 
   return (
     <Main>

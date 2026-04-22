@@ -10,6 +10,7 @@ import { Button } from "../../components/Button/Button";
 import DivContent from "../../components/Div/DivContent";
 import { Pill } from '../../components/Pill/Pill';
 import toast from "react-hot-toast";
+import { Loader } from "../../components/Loader/Loader";
 
 export function ClassById() {
   const { user, logout } = useUserContext();
@@ -77,6 +78,9 @@ export function ClassById() {
     navegate("/class");
   }
 
+  if (!classData) {
+    return <Loader />
+  }
 
   return (
     <Main>

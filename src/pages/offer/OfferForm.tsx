@@ -9,6 +9,7 @@ import { TitlePage } from "../../components/TitlePage/TitlePage";
 import DivContent from "../../components/Div/DivContent";
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
+import { Loader } from "../../components/Loader/Loader";
 
 interface OfferFormForm {
   title: string;
@@ -78,6 +79,10 @@ export function OfferForm() {
 
   const btnCancel = () => {
     navegate("/offer");
+  }
+
+  if (mode == "edit" && !offer) {
+    return <Loader />
   }
 
   return (

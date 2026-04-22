@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import type { EmployeeData } from "../../types/employee";
 import EmployeeService from "../../services/employeeService";
 import { SearchFilterSortAddOptions } from '../../components/ListOptions/SearchFilterSortAddOptions';
+import { Loader } from "../../components/Loader/Loader";
 
 export function EmployeeList() {
   const { logout } = useUserContext();
@@ -20,7 +21,7 @@ export function EmployeeList() {
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [employees, setEmployees] = useState<EmployeeData[]>([]);
+  const [employees, setEmployees] = useState<EmployeeData[] | null>();
   const directionOption = new Map<string, string>([
     ["-1", "Por defecto"],
     ["DESC", "Descendente"],
@@ -121,6 +122,10 @@ export function EmployeeList() {
   const createEmployee = () => {
     navegate("/employee/create");
   };
+
+  if (!employees) {
+    return <Loader />
+  }
 
   return (
     <Main>

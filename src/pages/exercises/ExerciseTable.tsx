@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Main } from "../../components/Main/Main";
 import { useUserContext } from "../../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
 import { ClientService } from "../../services/clientService";
 import { ExerciseService } from "../../services/exerciseService";
 import type { ExerciseTableData } from "../../types/exercise";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import DivContent from "../../components/Div/DivContent";
 import { ExerciseDay } from "./ExerciseDay";
+import { Loader } from "../../components/Loader/Loader";
 
 export function ExerciseTable() {
   const { user, logout } = useUserContext();
@@ -26,6 +26,10 @@ export function ExerciseTable() {
       }
     })
   }, [])
+
+  if (!table) {
+    return <Loader />
+  }
 
   return (
     <Main>

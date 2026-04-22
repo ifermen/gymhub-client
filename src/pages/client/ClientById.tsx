@@ -12,6 +12,7 @@ import { OfferService } from "../../services/offerService";
 import { useUserContext } from "../../contexts/UserContext";
 import type { OfferData } from '../../types/offer';
 import { Pill } from "../../components/Pill/Pill";
+import { Loader } from "../../components/Loader/Loader";
 
 export default function ClientById() {
   const { logout } = useUserContext();
@@ -112,6 +113,10 @@ export default function ClientById() {
         console.log(error);
       }
     })
+  }
+
+  if (!client) {
+    return <Loader />
   }
 
   return (
