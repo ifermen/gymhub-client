@@ -10,6 +10,7 @@ import type { EmployeeData } from "../../types/employee";
 import { useEffect, useState } from "react";
 import EmployeeService from "../../services/employeeService";
 import { Loader } from "../../components/Loader/Loader";
+import { NotFoundElement } from "../error/NotFoundElement";
 
 export function EmployeeById() {
   const { logout } = useUserContext();
@@ -17,6 +18,7 @@ export function EmployeeById() {
   const { id } = useParams();
   const [employee, setEmployee] = useState<EmployeeData>();
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
+  const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
     EmployeeService.employeeById(Number(id)).then((response) => {
@@ -24,6 +26,8 @@ export function EmployeeById() {
     }).catch(error => {
       if (error.status == 401) {
         logout();
+      } else if (error.status == 404) {
+        setIsNotFound(true);
       } else {
         console.log(error);
       }
@@ -60,6 +64,10 @@ export function EmployeeById() {
         console.log(error);
       }
     })
+  }
+
+  if (isNotFound) {
+    return <NotFoundElement elementType="employee" />
   }
 
   if (!employee) {

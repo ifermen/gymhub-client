@@ -13,6 +13,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import type { OfferData } from '../../types/offer';
 import { Pill } from "../../components/Pill/Pill";
 import { Loader } from "../../components/Loader/Loader";
+import { NotFoundElement } from "../error/NotFoundElement";
 
 export default function ClientById() {
   const { logout } = useUserContext();
@@ -26,6 +27,7 @@ export default function ClientById() {
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [renewalHistory, setRenewalHistory] = useState<RenewalDataWithoutClient[]>([]);
   const [isHistoryActive, setIsHistoryActive] = useState(false);
+  const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
     ClientService.clientById(Number(id)).then((response) => {
@@ -33,6 +35,8 @@ export default function ClientById() {
     }).catch(error => {
       if (error.status == 401) {
         logout();
+      } else if (error.status == 404) {
+        setIsNotFound(true);
       } else {
         console.log(error);
       }
@@ -113,6 +117,10 @@ export default function ClientById() {
         console.log(error);
       }
     })
+  }
+
+  if (isNotFound) {
+    return <NotFoundElement elementType="client" />
   }
 
   if (!client) {

@@ -10,6 +10,7 @@ import type { OfferData } from "../../types/offer";
 import { OfferService } from "../../services/offerService";
 import { Modal } from "../../components/Modal/Modal";
 import { Loader } from "../../components/Loader/Loader";
+import { NotFoundElement } from "../error/NotFoundElement";
 
 export function OfferById() {
   const { logout } = useUserContext();
@@ -17,6 +18,7 @@ export function OfferById() {
   const { id } = useParams();
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [offer, setOffer] = useState<OfferData | null>();
+  const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
     OfferService.offerById(Number(id))
@@ -26,6 +28,10 @@ export function OfferById() {
       .catch((error) => {
         if (error.status == 401) {
           logout();
+        } else if (error.status == 404) {
+          setIsNotFound(true);
+        } else {
+          console.log(error)
         }
       });
   }, [id]);
@@ -60,6 +66,10 @@ export function OfferById() {
         console.log(error);
       }
     })
+  }
+
+  if (isNotFound) {
+    return <NotFoundElement elementType="offer" />
   }
 
   if (!offer) {

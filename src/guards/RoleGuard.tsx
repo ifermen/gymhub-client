@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import type { Role } from "../types/auth";
+import { Forbidden } from "../pages/error/Forbidden";
 
 interface RoleGuardProps {
   allowedRoles: Role[]
@@ -12,5 +13,5 @@ export function RoleGuard({ allowedRoles }: RoleGuardProps) {
     return <Outlet />;
   }
 
-  return <span>No permitido</span>;
+  return <Forbidden />;
 }

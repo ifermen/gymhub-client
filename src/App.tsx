@@ -26,6 +26,7 @@ import { OfferList } from './pages/offer/OfferList'
 import { OfferById } from './pages/offer/OfferById'
 import { OfferForm } from './pages/offer/OfferForm'
 import { RoleGuard } from './guards/RoleGuard'
+import { NotFound } from './pages/error/NotFound'
 
 function App() {
 
@@ -83,6 +84,8 @@ function App() {
                 <Route path='/offer/:id' element={<OfferById />} />
                 <Route path='/offer/:id/edit' element={<OfferForm />} />
               </Route>
+
+              <Route path='*' element={<NotFound />} />
             </Route>
           </Route>
         </Routes>

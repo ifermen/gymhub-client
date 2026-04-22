@@ -13,6 +13,7 @@ import { LineVertical } from "../../components/Line/LineVertical";
 import { Modal } from "../../components/Modal/Modal";
 import DivContent from "../../components/Div/DivContent";
 import { Loader } from "../../components/Loader/Loader";
+import { NotFoundElement } from "../error/NotFoundElement";
 
 export function ReportById() {
   const { user, logout } = useUserContext();
@@ -20,6 +21,7 @@ export function ReportById() {
   const { id } = useParams();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [report, setReport] = useState<ReportData | null>(null);
+  const [isNotFound, setIsNotFound] = useState(false);
   const statusOption = new Map<string, string>([
     ["-1", "Nuevo Estado"],
     ["PENDING", "Pendiente"],
@@ -36,6 +38,10 @@ export function ReportById() {
         .catch((error) => {
           if (error.status == 401) {
             logout();
+          } else if (error.status == 404) {
+            setIsNotFound(true);
+          } else {
+            console.log(error)
           }
         });
     }
@@ -74,6 +80,10 @@ export function ReportById() {
   const closeModal = () => {
     setIsOpenModal(false);
   };
+
+  if (isNotFound) {
+    return <NotFoundElement elementType="report" />
+  }
 
   if (!report) {
     return <Loader />

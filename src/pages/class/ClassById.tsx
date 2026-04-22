@@ -11,6 +11,7 @@ import DivContent from "../../components/Div/DivContent";
 import { Pill } from '../../components/Pill/Pill';
 import toast from "react-hot-toast";
 import { Loader } from "../../components/Loader/Loader";
+import { NotFoundElement } from "../error/NotFoundElement";
 
 export function ClassById() {
   const { user, logout } = useUserContext();
@@ -18,6 +19,7 @@ export function ClassById() {
   const navegate = useNavigate();
   const { id } = useParams();
   const [classData, setClassData] = useState<ClassData | null>();
+  const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
     ClassService.classById(Number(id))
@@ -27,6 +29,8 @@ export function ClassById() {
       .catch((error) => {
         if (error.status == 401) {
           logout();
+        } else if (error.status == 404) {
+          setIsNotFound(true);
         }
       });
   }, [id, joinedClasses]);
@@ -76,6 +80,10 @@ export function ClassById() {
 
   const clickBackHandler = () => {
     navegate("/class");
+  }
+
+  if (isNotFound) {
+    return <NotFoundElement elementType="class" />
   }
 
   if (!classData) {
