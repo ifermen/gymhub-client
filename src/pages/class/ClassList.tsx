@@ -148,7 +148,7 @@ export function ClassList() {
             <div
               key={classData.id}
               onClick={() => viewClass(classData.id)}
-              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1"
+              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1 cursor-pointer"
             >
               <div className="flex w-full flex-col">
                 <span className="w-full text-xl">{classData.title}</span>

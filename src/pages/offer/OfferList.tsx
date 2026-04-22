@@ -144,7 +144,7 @@ export function OfferList() {
             <div
               key={offer.id}
               onClick={() => viewOffer(offer.id)}
-              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1"
+              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1 cursor-pointer"
             >
               <div className="flex w-full flex-col">
                 <span className="w-full text-xl">{offer.title}</span>

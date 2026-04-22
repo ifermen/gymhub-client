@@ -153,7 +153,7 @@ export function EmployeeList() {
             <div
               key={employee.id}
               onClick={() => viewEmployee(employee.id)}
-              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1"
+              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1 cursor-pointer"
             >
               <div className="flex w-full flex-col">
                 <span className="w-full text-xl">{employee.name}</span>

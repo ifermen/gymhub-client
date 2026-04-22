@@ -147,7 +147,7 @@ export function ReportList() {
             <div
               key={report.id}
               onClick={() => viewReport(report.id)}
-              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1"
+              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1 cursor-pointer"
             >
               <div className="flex flex-row items-center justify-between">
                 <span className="text-md h-fit">
