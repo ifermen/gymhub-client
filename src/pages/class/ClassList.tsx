@@ -91,7 +91,7 @@ export function ClassList() {
         <div className="hidden flex-row justify-between gap-1 md:flex">
           {user?.role == "ADMIN" ?
             <Button
-              id="btnCreateReport"
+              id="btnCreateClass"
               type="button"
               variant="primary"
               width="fit"
@@ -134,7 +134,7 @@ export function ClassList() {
               handlerChange={changeDirection}
               value={direction} />
             <Button
-              id="btnCreateReport"
+              id="btnCreateClass"
               type="button"
               width="full"
               handleClick={createClass}

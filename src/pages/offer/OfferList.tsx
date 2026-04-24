@@ -89,7 +89,7 @@ export function OfferList() {
       <Div>
         <div className="hidden flex-row justify-between gap-1 md:flex">
           <Button
-            id="btnCreateReport"
+            id="btnCreateOffer"
             type="button"
             variant="primary"
             width="fit"
@@ -130,7 +130,7 @@ export function OfferList() {
               handlerChange={changeDirection}
               value={direction} />
             <Button
-              id="btnCreateReport"
+              id="btnCreateOffer"
               type="button"
               width="full"
               handleClick={createOffer}
