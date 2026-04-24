@@ -12,12 +12,14 @@ import { Pill } from '../../components/Pill/Pill';
 import toast from "react-hot-toast";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
+import { Modal } from "../../components/Modal/Modal";
 
 export function ClassById() {
   const { user, logout } = useUserContext();
   const [joinedClasses, setJoinedClasses] = useState<ClassData[]>([]);
   const navegate = useNavigate();
   const { id } = useParams();
+  const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [classData, setClassData] = useState<ClassData | null>();
   const [isNotFound, setIsNotFound] = useState(false);
 
@@ -78,6 +80,30 @@ export function ClassById() {
     })
   }
 
+  const openModalDelete = () => {
+    setIsOpenModalDelete(true)
+  }
+
+  const closeModalDelete = () => {
+    setIsOpenModalDelete(false)
+  }
+
+  const clickDeleteHandler = () => {
+    openModalDelete();
+  }
+
+  const deleteClass = () => {
+    ClassService.deleteClass(classData!.id).then(() => {
+      navegate("/class", { state: { action: classData?.endDate ? "enable" : "disable", reference: classData?.title } });
+    }).catch(error => {
+      if (error.status == 401) {
+        logout();
+      } else {
+        console.log(error);
+      }
+    })
+  }
+
   const clickBackHandler = () => {
     navegate("/class");
   }
@@ -94,10 +120,14 @@ export function ClassById() {
     <Main>
       <TitlePage>Clase</TitlePage>
       <DivContent>
-        <div className="flex w-full flex-col gap-1">
-          <span className="text-center text-xl font-semibold sm:text-4xl">
+        <div className="flex w-full flex-row gap-1 justify-between">
+          <span className="text-center text-xl font-semibold sm:text-4xl w-full">
             {classData?.title}
           </span>
+          {classData?.endDate ?
+            <Pill variant="danger">Finalizado</Pill> :
+            ""
+          }
         </div>
         <LineHorizontal></LineHorizontal>
         <div
@@ -138,6 +168,45 @@ export function ClassById() {
               >
                 Unirse
               </Button> : ""
+        }
+        {
+          user?.role == "ADMIN" ? <>
+            <Button
+              id="btnDelete"
+              type="button"
+              variant={classData?.endDate == null ? "danger" : "success"}
+              handleClick={clickDeleteHandler}
+            >
+              {classData?.endDate == null ? "Desactivar" : "Activar"}
+            </Button>
+            <Modal isOpen={isOpenModalDelete} onClose={closeModalDelete}>
+              <span className="text-center text-lg">
+                {classData?.endDate == null ?
+                  "¿Estas seguro que quieres desactivar esta oferta?" :
+                  "¿Estas seguro que quieres activar esta oferta?"}
+
+              </span>
+              <div className="flex flex-col sm:flex-row w-full gap-5 sm:gap-1 mt-3 sm:mt-0">
+                <Button
+                  id="btnCancelDelete"
+                  type="button"
+                  variant="secondary"
+                  handleClick={() => setIsOpenModalDelete(false)}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  id="btnModalDelete"
+                  type="button"
+                  variant={classData?.endDate == null ? "danger" : "success"}
+                  handleClick={deleteClass}
+                >
+                  {classData?.endDate == null ? "Desactivar" : "Activar"}
+                </Button>
+              </div>
+            </Modal>
+          </>
+            : ""
         }
         <Button
           id="btnBack"

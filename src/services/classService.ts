@@ -33,7 +33,9 @@ export const ClassService = {
   classById: async (id: number) => {
     const response = await HTTPRequest.get<ClassData>(`${URL_BASE}${PATH}/${id}`);
 
-    response.endDate = new Date(response.endDate);
+    if (response.endDate) {
+      response.endDate = new Date(response.endDate);
+    }
 
     return response;
   },
@@ -68,6 +70,12 @@ export const ClassService = {
 
   joinedClasses: async () => {
     const response = await HTTPRequest.get<ClassData[]>(`${URL_BASE}${PATH}/joined`);
+
+    return response;
+  },
+
+  deleteClass: async (id: number) => {
+    const response = await HTTPRequest.delete(`${URL_BASE}${PATH}/${id}`);
 
     return response;
   }

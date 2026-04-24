@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Div } from "../../components/Div/Div";
 import DivList from "../../components/Div/DivList";
 import { Main } from "../../components/Main/Main";
@@ -6,12 +6,13 @@ import { TitlePage } from "../../components/TitlePage/TitlePage";
 import type { ClassData } from "../../types/class";
 import { ClassService } from "../../services/classService";
 import { useUserContext } from "../../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Modal } from "../../components/Modal/Modal";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { Loader } from "../../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 export function ClassList() {
   const { user, logout } = useUserContext();
@@ -22,6 +23,29 @@ export function ClassList() {
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [classes, setClasses] = useState<ClassData[] | null>();
+
+  const hasShownToast = useRef(false);
+  const { state } = useLocation();
+  const action = state?.action;
+
+  useEffect(() => {
+    if (action && !hasShownToast.current) {
+      if (action == "create") {
+        toast.success(`Clase \"${state.reference}\" creada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "edit") {
+        toast.success(`Clase \"${state.reference}\" editada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "enable") {
+        toast.success(`Clase \"${state.reference}\" activada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "disable") {
+        toast.success(`Clase \"${state.reference}\" desactivada con éxito`);
+        hasShownToast.current = true;
+      }
+    }
+  }, [action]);
+
   const directionOption = new Map<string, string>([
     ["-1", "Por defecto"],
     ["DESC", "Descendente"],

@@ -11,6 +11,7 @@ import { OfferService } from "../../services/offerService";
 import { Modal } from "../../components/Modal/Modal";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
+import toast from "react-hot-toast";
 
 export function OfferById() {
   const { logout } = useUserContext();
@@ -58,7 +59,7 @@ export function OfferById() {
 
   const deleteOffer = () => {
     OfferService.deleteOffer(offer!.id).then(() => {
-      navegate("/offer");
+      navegate("/offer", { state: { action: offer?.endDate ? "enable" : "disable", reference: offer?.title } });
     }).catch(error => {
       if (error.status == 401) {
         logout();

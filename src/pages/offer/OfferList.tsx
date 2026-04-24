@@ -1,17 +1,18 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Div } from "../../components/Div/Div";
 import DivList from "../../components/Div/DivList";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { useUserContext } from "../../contexts/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { OfferData } from "../../types/offer";
 import { Button } from "../../components/Button/Button";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Modal } from "../../components/Modal/Modal";
 import { OfferService } from "../../services/offerService";
 import { Loader } from "../../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 export function OfferList() {
   const { logout } = useUserContext();
@@ -22,6 +23,29 @@ export function OfferList() {
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [offers, setOffers] = useState<OfferData[] | null>();
+
+  const hasShownToast = useRef(false);
+  const { state } = useLocation();
+  const action = state?.action;
+
+  useEffect(() => {
+    if (action && !hasShownToast.current) {
+      if (action == "create") {
+        toast.success(`Oferta \"${state.reference}\" creada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "edit") {
+        toast.success(`Oferta \"${state.reference}\" editada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "enable") {
+        toast.success(`Oferta \"${state.reference}\" activada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "disable") {
+        toast.success(`Oferta \"${state.reference}\" desactivada con éxito`);
+        hasShownToast.current = true;
+      }
+    }
+  }, [action]);
+
   const directionOption = new Map<string, string>([
     ["DESC", "Descendente"],
     ["ASC", "Ascendente"],

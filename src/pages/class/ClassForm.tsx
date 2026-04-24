@@ -13,6 +13,7 @@ import type { ClassCreate, ClassData, ClassUpdate } from "../../types/class";
 import { ClassService } from "../../services/classService";
 import { useUserContext } from "../../contexts/UserContext";
 import { Loader } from "../../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 interface ClassFormForm {
   title: string;
@@ -86,11 +87,13 @@ export function ClassForm() {
         schedule: data.schedule
       }
 
-      ClassService.createClass(classCreate).then(() => {
-        navegate("/class")
+      ClassService.createClass(classCreate).then(response => {
+        navegate("/class", { state: { action: "create", reference: response.title } })
       }).catch(error => {
         if (error.status == 401) {
           logout();
+        } else if (error.status == 404) {
+          toast.error("Empleado no encontrado");
         } else {
           console.log(error)
         }
@@ -104,8 +107,16 @@ export function ClassForm() {
         facility: data.facility,
         schedule: data.schedule
       }
-      ClassService.updateClass(classData!.id, classUpdate).then(() => {
-        navegate("/class")
+      ClassService.updateClass(classData!.id, classUpdate).then(response => {
+        navegate("/class", { state: { action: "edit", reference: response.title } })
+      }).catch(error => {
+        if (error.status == 401) {
+          logout();
+        } else if (error.status == 404) {
+          toast.error("Empleado no encontrado");
+        } else {
+          console.log(error)
+        }
       })
     }
   }

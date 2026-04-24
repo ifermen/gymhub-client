@@ -35,7 +35,10 @@ function App() {
       <UserContextProvider>
         <Toaster position='top-center' toastOptions={{
           success: {
-            className: "!bg-success-800 !font-bold !rounded-full !pb-1 !border-2 border-success-600 !text-success-50"
+            className: "!bg-success-800 !font-bold !pb-1 !border-2 border-success-600 !text-success-50 !max-w-2xl"
+          },
+          error: {
+            className: "!bg-danger-800 !font-bold !pb-1 !border-2 border-danger-600 !text-danger-50 !max-w-2xl"
           }
         }} />
         <Routes>

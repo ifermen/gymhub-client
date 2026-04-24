@@ -56,8 +56,8 @@ export function OfferForm() {
         numDay: data.numDay
       }
 
-      OfferService.createOffer(OfferCreate).then(() => {
-        navegate("/offer")
+      OfferService.createOffer(OfferCreate).then(response => {
+        navegate("/offer", { state: { action: "create", reference: response.title } })
       }).catch(error => {
         if (error.status == 401) {
           logout();
@@ -71,8 +71,8 @@ export function OfferForm() {
         cost: data.cost,
         numDay: data.numDay
       }
-      OfferService.updateOffer(offer!.id, offerUpdate).then(() => {
-        navegate("/offer")
+      OfferService.updateOffer(offer!.id, offerUpdate).then(response => {
+        navegate("/offer", { state: { action: "edit", reference: response.title } })
       })
     }
   }
