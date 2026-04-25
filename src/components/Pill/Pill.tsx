@@ -25,7 +25,8 @@ export function Pill({ variant = "primary", width = "fit", children }: PillProps
       rounded-full
       font-bold
       border
-      text-base
+      sm:text-base
+      text-sm
       w-${width}
       ${variants[variant]}
     `}>

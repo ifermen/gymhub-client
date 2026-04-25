@@ -7,7 +7,6 @@ interface MainProps {
 export function Main({ children }: MainProps) {
   return (
     <main className="
-      py-3
       flex
       flex-col
       items-center

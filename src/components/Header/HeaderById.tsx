@@ -7,9 +7,9 @@ interface HeaderByIdProps {
 }
 export function HeaderById({ title, type, isActive }: HeaderByIdProps) {
   return (
-    <div className="p-7 flex flex-col w-full">
+    <div className="sm:p-7 p-3 flex flex-col w-full">
       <span className="font-bold text-text-500 text-sm">{type}</span>
-      <h3 className="text-3xl">{title}</h3>
+      <h3 className="sm:text-3xl text-xl">{title}</h3>
       {isActive ? <Pill variant="success">Activa</Pill> : <Pill variant="danger">Desactiva</Pill>}
     </div>
   );

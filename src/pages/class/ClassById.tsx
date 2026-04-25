@@ -121,19 +121,19 @@ export function ClassById() {
       <DivContent>
         <HeaderById title={classData.title} type="CLASE" isActive={classData.endDate ? false : true}></HeaderById>
         <LineHorizontal variant="grey"></LineHorizontal>
-        <div className="p-7 flex flex-col gap-3">
+        <div className="sm:p-7 p-3 flex flex-col gap-3">
           <div className="flex flex-row gap-3">
             <Data title="INSTRUCTOR" value={classData.nameTeacher} />
-            <Data title="HORARIO" value={classData.schedule} />
-          </div>
-          <div className="flex flex-row gap-3">
             <Data title="INSTALACIÓN" value={classData.facility} />
+          </div>
+          <div className="flex sm:flex-row flex-col gap-3">
+            <Data title="HORARIO" value={classData.schedule} />
             <Data title="CAPACIDAD" value={classData.numJoined + " / " + classData.capacity} />
           </div>
           <Data title="DESCRIPCIÓN" value={classData.description} />
         </div>
-        <LineHorizontal></LineHorizontal>
-        <div className="flex flex-col gap-3 w-full p-7">
+        <LineHorizontal variant="grey"></LineHorizontal>
+        <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
           {user?.role == "CLIENT" ?
             joinedClasses?.some(c => c.id == classData?.id) ?
               <Button

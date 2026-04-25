@@ -3,7 +3,6 @@ import { Button } from "../../components/Button/Button";
 import DivContent from "../../components/Div/DivContent";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import { Main } from "../../components/Main/Main";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { useUserContext } from "../../contexts/UserContext";
 import { useEffect, useState } from "react";
 import type { OfferData } from "../../types/offer";
@@ -11,6 +10,8 @@ import { OfferService } from "../../services/offerService";
 import { Modal } from "../../components/Modal/Modal";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
+import { HeaderById } from '../../components/Header/HeaderById';
+import { Data } from "../../components/Data/Data";
 
 export function OfferById() {
   const { logout } = useUserContext();
@@ -78,77 +79,74 @@ export function OfferById() {
 
   return (
     <Main>
-      <TitlePage>Oferta</TitlePage>
       <DivContent>
-        <div className="flex w-full flex-col gap-1">
-          <span className="text-center text-xl font-semibold sm:text-4xl">
-            {offer?.title}
-          </span>
-        </div>
-        <LineHorizontal></LineHorizontal>
-        {offer?.endDate ?
-          <span className="text-lg">Fin de la Oferta: {offer?.endDate.toLocaleDateString()}</span> :
-          ""
-        }
-        <div className="flex flex-row w-full gap-3">
-          <div className="flex flex-col w-full justify-center items-center bg-background-900 rounded-lg">
-            <span className="text-lg font-bold">Coste</span>
-            <span className="text-2xl">{offer?.cost}€</span>
+        <HeaderById title={offer.title} type="OFERTA" isActive={offer.endDate ? false : true} />
+        <LineHorizontal variant="grey"></LineHorizontal>
+        <div className="sm:p-7 p-3 flex flex-col gap-3 w-full">
+          <div className="flex flex-row gap-3">
+            <Data size="2xl" title="PRECIO" value={offer.cost + " €"} />
+            <Data size="2xl" title="DURACIÓN" value={offer.numDay + (offer.numDay > 1 ? " días" : " día")} />
           </div>
-          <div className="flex flex-col w-full justify-center items-center bg-background-900 rounded-lg">
-            <span className="text-lg font-bold">Días</span>
-            <span className="text-2xl">{offer?.numDay}</span>
-          </div>
+          {offer?.endDate ?
+            <Data size="2xl" title="FINALIZADO" value={offer.endDate.toLocaleDateString()} /> :
+            <Data size="2xl" title="ESTADO" value="En curso" />
+          }
         </div>
-        <LineHorizontal></LineHorizontal>
-        <Button
-          id="btnEdit"
-          type="button"
-          variant="accent"
-          handleClick={clickEditHandler}
-        >Editar</Button>
-        <Button
-          id="btnDelete"
-          type="button"
-          variant={offer?.endDate == null ? "danger" : "success"}
-          handleClick={clickDeleteHandler}
-        >
-          {offer?.endDate == null ? "Desactivar" : "Activar"}
-        </Button>
-        <Modal isOpen={isOpenModalDelete} onClose={closeModalDelete}>
-          <span className="text-center text-lg">
-            {offer?.endDate == null ?
-              "¿Estas seguro que quieres desactivar esta oferta?" :
-              "¿Estas seguro que quieres activar esta oferta?"}
+        <LineHorizontal variant="grey"></LineHorizontal>
+        <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
+          <div className="flex flex-row w-full gap-3">
+            <Modal isOpen={isOpenModalDelete} onClose={closeModalDelete}>
+              <span className="text-center text-lg">
+                {offer?.endDate == null ?
+                  "¿Estas seguro que quieres desactivar esta oferta?" :
+                  "¿Estas seguro que quieres activar esta oferta?"}
 
-          </span>
-          <div className="flex flex-col sm:flex-row w-full gap-5 sm:gap-1 mt-3 sm:mt-0">
+              </span>
+              <div className="flex flex-col sm:flex-row w-full gap-5 sm:gap-1 mt-3 sm:mt-0">
+                <Button
+                  id="btnCancelDelete"
+                  type="button"
+                  variant="secondary"
+                  handleClick={() => setIsOpenModalDelete(false)}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  id="btnModalDelete"
+                  type="button"
+                  variant={offer?.endDate == null ? "danger" : "success"}
+                  handleClick={deleteOffer}
+                >
+                  {offer?.endDate == null ? "Desactivar" : "Activar"}
+                </Button>
+              </div>
+            </Modal>
             <Button
-              id="btnCancelDelete"
+              id="btnEdit"
               type="button"
-              variant="secondary"
-              handleClick={() => setIsOpenModalDelete(false)}
+              variant="accent"
+              handleClick={clickEditHandler}
             >
-              Cancelar
+              Editar
             </Button>
             <Button
-              id="btnModalDelete"
+              id="btnDelete"
               type="button"
               variant={offer?.endDate == null ? "danger" : "success"}
-              handleClick={deleteOffer}
+              handleClick={clickDeleteHandler}
             >
               {offer?.endDate == null ? "Desactivar" : "Activar"}
             </Button>
           </div>
-        </Modal>
-        <Button
-          id="btnBack"
-          type="button"
-          variant="secondary"
-          handleClick={clickBackHandler}
-        >
-          Volver
-        </Button>
+          <Button
+            id="btnBack"
+            type="button"
+            variant="secondary"
+            handleClick={clickBackHandler}
+          >
+            Volver
+          </Button>
+        </div>
       </DivContent>
     </Main>
   );
