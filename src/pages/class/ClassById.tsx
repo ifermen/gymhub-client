@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import type { ClassData, JoinClass } from "../../types/class";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClassService } from "../../services/classService";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { Main } from "../../components/Main/Main";
 import { useUserContext } from "../../contexts/UserContext";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import { Button } from "../../components/Button/Button";
 import DivContent from "../../components/Div/DivContent";
-import { Pill } from '../../components/Pill/Pill';
 import toast from "react-hot-toast";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
 import { Modal } from "../../components/Modal/Modal";
+import { HeaderById } from "../../components/Header/HeaderById";
+import { Data } from '../../components/Data/Data';
 
 export function ClassById() {
   const { user, logout } = useUserContext();
@@ -118,104 +118,93 @@ export function ClassById() {
 
   return (
     <Main>
-      <TitlePage>Clase</TitlePage>
       <DivContent>
-        <div className="flex w-full flex-row gap-1 justify-between">
-          <span className="text-center text-xl font-semibold sm:text-4xl w-full">
-            {classData?.title}
-          </span>
-          {classData?.endDate ?
-            <Pill variant="danger">Finalizado</Pill> :
-            ""
-          }
+        <HeaderById title={classData.title} type="CLASE" isActive={classData.endDate ? false : true}></HeaderById>
+        <LineHorizontal variant="grey"></LineHorizontal>
+        <div className="p-7 flex flex-col gap-3">
+          <div className="flex flex-row gap-3">
+            <Data title="INSTRUCTOR" value={classData.nameTeacher} />
+            <Data title="HORARIO" value={classData.schedule} />
+          </div>
+          <div className="flex flex-row gap-3">
+            <Data title="INSTALACIÓN" value={classData.facility} />
+            <Data title="CAPACIDAD" value={classData.numJoined + " / " + classData.capacity} />
+          </div>
+          <Data title="DESCRIPCIÓN" value={classData.description} />
         </div>
         <LineHorizontal></LineHorizontal>
-        <div
-          className="flex w-full flex-col sm:flex-row gap-3 justify-between"
-        >
-          <Pill variant="primary">{classData?.nameTeacher}</Pill>
-          <Pill variant="primary">{classData?.schedule}</Pill>
-        </div>
-        <div className="flex w-full flex-col sm:flex-row gap-3 justify-between">
-          <Pill variant="primary">{classData?.facility}</Pill>
-          <Pill variant="primary">Capacidad: {classData?.numJoined}/{classData?.capacity}</Pill>
-        </div>
-        <span className="text-base sm:text-2xl">{classData?.description}</span>
-        <LineHorizontal></LineHorizontal>
-        {user?.role == "ADMIN" ?
-          <Button
-            id="btnEdit"
-            type="button"
-            variant="accent"
-            handleClick={clickEditHandler}
-          >
-            Editar
-          </Button> :
-          user?.role == "CLIENT" && joinedClasses?.some(c => c.id == classData?.id) ?
-            <Button
-              id="btnLeave"
-              type="button"
-              variant="danger"
-              handleClick={clickLeaveHandler}
-            >
-              Dejar clase
-            </Button> :
-            user?.role == "CLIENT" ?
+        <div className="flex flex-col gap-3 w-full p-7">
+          {user?.role == "CLIENT" ?
+            joinedClasses?.some(c => c.id == classData?.id) ?
+              <Button
+                id="btnLeave"
+                type="button"
+                variant="danger"
+                handleClick={clickLeaveHandler}
+              >
+                Dejar clase
+              </Button> :
               <Button
                 id="btnJoin"
                 type="button"
                 handleClick={clickJoinHandler}
               >
                 Unirse
-              </Button> : ""
-        }
-        {
-          user?.role == "ADMIN" ? <>
-            <Button
-              id="btnDelete"
-              type="button"
-              variant={classData?.endDate == null ? "danger" : "success"}
-              handleClick={clickDeleteHandler}
-            >
-              {classData?.endDate == null ? "Desactivar" : "Activar"}
-            </Button>
-            <Modal isOpen={isOpenModalDelete} onClose={closeModalDelete}>
-              <span className="text-center text-lg">
-                {classData?.endDate == null ?
-                  "¿Estas seguro que quieres desactivar esta oferta?" :
-                  "¿Estas seguro que quieres activar esta oferta?"}
+              </Button>
+            : <div className="flex flex-row w-full gap-3">
+              <Modal isOpen={isOpenModalDelete} onClose={closeModalDelete}>
+                <span className="text-center text-lg">
+                  {classData?.endDate == null ?
+                    "¿Estas seguro que quieres desactivar esta oferta?" :
+                    "¿Estas seguro que quieres activar esta oferta?"}
 
-              </span>
-              <div className="flex flex-col sm:flex-row w-full gap-5 sm:gap-1 mt-3 sm:mt-0">
-                <Button
-                  id="btnCancelDelete"
-                  type="button"
-                  variant="secondary"
-                  handleClick={() => setIsOpenModalDelete(false)}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  id="btnModalDelete"
-                  type="button"
-                  variant={classData?.endDate == null ? "danger" : "success"}
-                  handleClick={deleteClass}
-                >
-                  {classData?.endDate == null ? "Desactivar" : "Activar"}
-                </Button>
-              </div>
-            </Modal>
-          </>
-            : ""
-        }
-        <Button
-          id="btnBack"
-          type="button"
-          variant="secondary"
-          handleClick={clickBackHandler}
-        >
-          Volver
-        </Button>
+                </span>
+                <div className="flex flex-col sm:flex-row w-full gap-5 sm:gap-1 mt-3 sm:mt-0">
+                  <Button
+                    id="btnCancelDelete"
+                    type="button"
+                    variant="secondary"
+                    handleClick={() => setIsOpenModalDelete(false)}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    id="btnModalDelete"
+                    type="button"
+                    variant={classData?.endDate == null ? "danger" : "success"}
+                    handleClick={deleteClass}
+                  >
+                    {classData?.endDate == null ? "Desactivar" : "Activar"}
+                  </Button>
+                </div>
+              </Modal>
+              <Button
+                id="btnEdit"
+                type="button"
+                variant="accent"
+                handleClick={clickEditHandler}
+              >
+                Editar
+              </Button>
+              <Button
+                id="btnDelete"
+                type="button"
+                variant={classData?.endDate == null ? "danger" : "success"}
+                handleClick={clickDeleteHandler}
+              >
+                {classData?.endDate == null ? "Desactivar" : "Activar"}
+              </Button>
+            </div>
+          }
+          <Button
+            id="btnBack"
+            type="button"
+            variant="secondary"
+            handleClick={clickBackHandler}
+          >
+            Volver
+          </Button>
+        </div>
       </DivContent>
     </Main>
   );

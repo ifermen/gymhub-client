@@ -1,19 +1,20 @@
 import type { ReactNode } from "react"
 
 interface PillProps {
-  variant?: "primary" | "secondary" | "accent" | "success" | "warning" | "danger"
-  children: ReactNode
+  variant?: "primary" | "secondary" | "accent" | "success" | "warning" | "danger";
+  width?: "full" | "fit";
+  children: ReactNode;
 }
 
-export function Pill({ variant = "primary", children }: PillProps) {
+export function Pill({ variant = "primary", width = "fit", children }: PillProps) {
 
   const variants = {
-    primary: "to-primary-700 from-primary-800 border-primary-500 text-primary-50",
-    secondary: "to-secondary-700 from-secondary-800 border-secondary-500 text-secondary-50",
-    accent: "to-accent-700 from-accent-800 border-accent-500 text-accent-50",
-    success: "to-success-700 from-success-800 border-success-500 text-success-50",
-    warning: "to-warning-700 from-warning-800 border-warning-500 text-warning-50",
-    danger: "to-danger-700 from-danger-800 border-danger-500 text-danger-50"
+    primary: "bg-primary-900 border-primary-500 text-primary-400",
+    secondary: "bg-secondary-900 border-secondary-500 text-secondary-400",
+    accent: "bg-accent-900 border-accent-500 text-accent-400",
+    success: "bg-success-900 border-success-500 text-success-400",
+    warning: "bg-warning-900 border-warning-500 text-warning-400",
+    danger: "bg-danger-900 border-danger-500 text-danger-400"
   }
 
   return (
@@ -23,9 +24,9 @@ export function Pill({ variant = "primary", children }: PillProps) {
       h-fit
       rounded-full
       font-bold
-      bg-gradient-to-br
-      border-3
+      border
       text-base
+      w-${width}
       ${variants[variant]}
     `}>
       {children}
