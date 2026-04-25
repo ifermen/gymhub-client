@@ -215,8 +215,8 @@ export default function ClientById() {
             <Modal isOpen={isOpenModalDelete} onClose={closeModalDelete}>
               <span className="text-center text-lg">
                 {client.endDate == null ?
-                  "¿Estas seguro que quieres desactivar esta oferta?" :
-                  "¿Estas seguro que quieres activar esta oferta?"}
+                  "¿Estas seguro que quieres dar de baja al cliente?" :
+                  "¿Estas seguro que quieres dar de alta al cliente?"}
 
               </span>
               <div className="flex flex-col sm:flex-row w-full gap-5 sm:gap-1 mt-3 sm:mt-0">
