@@ -12,11 +12,11 @@ export default function DivContent({ children }: DivContentProps) {
       flex-col
       items-center
       justify-center
-      rounded-3xl
+      sm:rounded-3xl
       sm:w-3/4
       sm:border
       sm:border-background-800
-      sm:bg-white
+      bg-white
       sm:shadow-md
       md:w-2/3
       lg:w-2/4

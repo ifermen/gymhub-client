@@ -3,7 +3,7 @@ export interface LineProps {
   style?: string;
 }
 
-export function LineHorizontal({ variant = "black", style = "" }: LineProps) {
+export function LineHorizontal({ variant = "grey", style = "" }: LineProps) {
 
   const variants = {
     black: "border-background-50",
