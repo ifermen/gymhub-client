@@ -133,7 +133,7 @@ export default function ClientById() {
   return (
     <Main>
       <DivContent>
-        <HeaderById title={client.name} isActive={client.endDate ? false : true} type="CLIENTE" />
+        <HeaderById title={client.name} isActive={client.endDate ? false : true} type="client" />
         <LineHorizontal />
         <div className="sm:p-7 p-3 flex flex-col gap-3 w-full">
           <Data title="EMAIL" value={client.email} />

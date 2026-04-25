@@ -119,7 +119,7 @@ export function ClassById() {
   return (
     <Main>
       <DivContent>
-        <HeaderById title={classData.title} type="CLASE" isActive={classData.endDate ? false : true}></HeaderById>
+        <HeaderById title={classData.title} type="class" isActive={classData.endDate ? false : true}></HeaderById>
         <LineHorizontal variant="grey"></LineHorizontal>
         <div className="sm:p-7 p-3 flex flex-col gap-3">
           <div className="flex flex-row gap-3">

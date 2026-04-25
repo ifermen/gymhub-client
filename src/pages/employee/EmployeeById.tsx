@@ -78,7 +78,7 @@ export function EmployeeById() {
   return (
     <Main>
       <DivContent>
-        <HeaderById title={employee.name} type="EMPLEADO" isActive={employee.endDate ? false : true} />
+        <HeaderById title={employee.name} type="employee" isActive={employee.endDate ? false : true} />
         <LineHorizontal></LineHorizontal>
         <div className="sm:p-7 p-3 flex flex-col gap-3 w-full">
           <Data title="EMAIL" value={employee.email} />

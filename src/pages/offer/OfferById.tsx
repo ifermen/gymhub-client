@@ -80,7 +80,7 @@ export function OfferById() {
   return (
     <Main>
       <DivContent>
-        <HeaderById title={offer.title} type="OFERTA" isActive={offer.endDate ? false : true} />
+        <HeaderById title={offer.title} type="offer" isActive={offer.endDate ? false : true} />
         <LineHorizontal variant="grey"></LineHorizontal>
         <div className="sm:p-7 p-3 flex flex-col gap-3 w-full">
           <div className="flex flex-row gap-3">

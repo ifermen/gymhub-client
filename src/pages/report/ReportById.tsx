@@ -13,6 +13,7 @@ import DivContent from "../../components/Div/DivContent";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
 import { Data } from "../../components/Data/Data";
+import { Avatar } from "../../components/Avatar/Avatar";
 
 export function ReportById() {
   const { user, logout } = useUserContext();
@@ -91,16 +92,19 @@ export function ReportById() {
   return (
     <Main>
       <DivContent>
-        <div className="sm:p-7 p-3 flex flex-col w-full">
-          <span className="font-bold text-text-500 text-sm">INCIDENCIA</span>
-          <h3 className="sm:text-3xl text-xl">{report.title}</h3>
-          <div className="flex flex-row gap-3">
-            {
-              report.status == "PENDING" ? <Pill variant="warning">Pendiente</Pill> :
-                report.status == "RESOLVED" ? <Pill variant="success">Resuelto</Pill> :
-                  report.status == "CANCELED" ? <Pill variant="secondary">Cancelado</Pill> : ""
-            }
-            <Pill variant="secondary">{report.creationDate.toLocaleDateString()}</Pill>
+        <div className="sm:p-7 sm:pb-3 p-3 flex flex-row w-full gap-3">
+          <Avatar name={report.title} variant="yellow" />
+          <div className="flex flex-col w-full">
+            <span className="font-bold text-text-500 text-sm">INCIDENCIA</span>
+            <h3 className="sm:text-3xl text-xl">{report.title}</h3>
+            <div className="flex flex-row gap-3">
+              {
+                report.status == "PENDING" ? <Pill variant="warning">Pendiente</Pill> :
+                  report.status == "RESOLVED" ? <Pill variant="success">Resuelto</Pill> :
+                    report.status == "CANCELED" ? <Pill variant="secondary">Cancelado</Pill> : ""
+              }
+              <Pill variant="secondary">{report.creationDate.toLocaleDateString()}</Pill>
+            </div>
           </div>
         </div>
         <LineHorizontal></LineHorizontal>
