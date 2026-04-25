@@ -3,7 +3,7 @@ interface DropdownProps {
   title: string;
   options: Map<string, string>;
   handlerChange: (value: string) => void;
-  value?: string;
+  value?: string | number;
 }
 
 export function Dropdown({ id, title, options, handlerChange, value }: DropdownProps) {

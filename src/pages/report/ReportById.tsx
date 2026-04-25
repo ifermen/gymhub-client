@@ -4,17 +4,14 @@ import { useEffect, useState } from "react";
 import { ReportService } from "../../services/reportService";
 import { useUserContext } from "../../contexts/UserContext";
 import type { ReportData, ResolveReportRequest } from "../../types/report";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { LineHorizontal } from '../../components/Line/LineHorizontal';
 import { Button } from "../../components/Button/Button";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { Pill } from "../../components/Pill/Pill";
-import { LineVertical } from "../../components/Line/LineVertical";
 import { Modal } from "../../components/Modal/Modal";
 import DivContent from "../../components/Div/DivContent";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
-import { HeaderById } from "../../components/Header/HeaderById";
 import { Data } from "../../components/Data/Data";
 
 export function ReportById() {

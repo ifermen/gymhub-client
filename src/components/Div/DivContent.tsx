@@ -11,7 +11,7 @@ export default function DivContent({ children }: DivContentProps) {
       w-full
       h-full
       sm:h-fit
-      my-1
+      sm:my-1
       flex-col
       items-center
       justify-center

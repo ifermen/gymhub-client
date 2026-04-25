@@ -83,6 +83,7 @@ export default function Login() {
             name="email"
             type="email"
             placeholder="Email"
+            title="Email"
             value={formLogin.email}
             handleChange={handleChange}>
           </Input>
@@ -91,6 +92,7 @@ export default function Login() {
             name="password"
             type="password"
             placeholder="Contraseña"
+            title="Contraseña"
             value={formLogin.password}
             handleChange={handleChange}>
           </Input>
