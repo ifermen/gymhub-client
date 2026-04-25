@@ -57,8 +57,8 @@ export function EmployeeForm() {
         password: data.newPassword
       }
 
-      EmployeeService.createEmployee(employeeCreate).then(() => {
-        navegate("/employee")
+      EmployeeService.createEmployee(employeeCreate).then(response => {
+        navegate("/employee", { state: { action: "create", reference: response.name } })
       }).catch(error => {
         if (error.status == 401) {
           logout();
@@ -72,8 +72,8 @@ export function EmployeeForm() {
         email: data.email,
         password: data.newPassword
       }
-      EmployeeService.updateEmployee(employee!.id, employeeUpdate).then(() => {
-        navegate("/employee")
+      EmployeeService.updateEmployee(employee!.id, employeeUpdate).then(response => {
+        navegate("/employee", { state: { action: "edit", reference: response.name } })
       })
     }
   }

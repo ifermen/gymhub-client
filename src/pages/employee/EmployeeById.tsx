@@ -56,7 +56,7 @@ export function EmployeeById() {
 
   const deleteEmployee = () => {
     EmployeeService.deleteEmployee(employee!.id).then(() => {
-      navegate("/employee");
+      navegate("/employee", { state: { action: employee?.endDate ? "enable" : "disable", reference: employee?.name } });
     }).catch(error => {
       if (error.status == 401) {
         logout();

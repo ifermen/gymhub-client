@@ -14,7 +14,6 @@ import type { OfferData } from '../../types/offer';
 import { Pill } from "../../components/Pill/Pill";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
-import toast from "react-hot-toast";
 
 export default function ClientById() {
   const { logout } = useUserContext();

@@ -1,15 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Div } from "../../components/Div/Div";
 import DivList from "../../components/Div/DivList";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { useUserContext } from "../../contexts/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { EmployeeData } from "../../types/employee";
 import EmployeeService from "../../services/employeeService";
 import { SearchFilterSortAddOptions } from '../../components/ListOptions/SearchFilterSortAddOptions';
 import { Loader } from "../../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 export function EmployeeList() {
   const { logout } = useUserContext();
@@ -22,6 +23,29 @@ export function EmployeeList() {
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [employees, setEmployees] = useState<EmployeeData[] | null>();
+
+  const hasShownToast = useRef(false);
+  const { state } = useLocation();
+  const action = state?.action;
+
+  useEffect(() => {
+    if (action && !hasShownToast.current) {
+      if (action == "create") {
+        toast.success(`Empleado \"${state.reference}\" creada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "edit") {
+        toast.success(`Empleado \"${state.reference}\" editada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "enable") {
+        toast.success(`Empleado \"${state.reference}\" dado de alta con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "disable") {
+        toast.success(`Empleado \"${state.reference}\" dado de baja con éxito`);
+        hasShownToast.current = true;
+      }
+    }
+  }, [action]);
+
   const directionOption = new Map<string, string>([
     ["-1", "Por defecto"],
     ["DESC", "Descendente"],
