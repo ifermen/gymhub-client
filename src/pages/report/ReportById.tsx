@@ -14,6 +14,8 @@ import { Modal } from "../../components/Modal/Modal";
 import DivContent from "../../components/Div/DivContent";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
+import { HeaderById } from "../../components/Header/HeaderById";
+import { Data } from "../../components/Data/Data";
 
 export function ReportById() {
   const { user, logout } = useUserContext();
@@ -91,144 +93,89 @@ export function ReportById() {
 
   return (
     <Main>
-      <TitlePage>Incidencia</TitlePage>
       <DivContent>
-        <div className="flex w-full flex-col gap-1">
-          {user?.role == "ADMIN" || user?.role == "EMPLOYEE" ? (
-            <div className="hidden w-full justify-between md:flex">
-              {report?.status == "PENDING" ? (
-                <Pill variant="danger">Pendiente</Pill>
-              ) : report?.status == "RESOLVED" ? (
-                <Pill variant="success">Resuelto</Pill>
-              ) : report?.status == "CANCELED" ? (
-                <Pill variant="secondary">Cancelado</Pill>
-              ) : (
-                ""
-              )}
-              <Dropdown
-                id="ddChangeStatus"
-                title="Cambiar Estado"
-                value={"-1"}
-                options={statusOption}
-                handlerChange={changeStatusHandler}
-              ></Dropdown>
-            </div>
-          ) : (
-            <div className="hidden w-full justify-start md:flex">
-              {report?.status == "PENDING" ? (
-                <Pill variant="danger">Pendiente</Pill>
-              ) : report?.status == "RESOLVED" ? (
-                <Pill variant="success">Resuelto</Pill>
-              ) : report?.status == "CANCELED" ? (
-                <Pill variant="secondary">Cancelado</Pill>
-              ) : (
-                ""
-              )}
-            </div>
-          )}
-          <span className="text-center text-xl font-semibold sm:text-4xl">
-            {report?.title}
-          </span>
+        <div className="sm:p-7 p-3 flex flex-col w-full">
+          <span className="font-bold text-text-500 text-sm">INCIDENCIA</span>
+          <h3 className="sm:text-3xl text-xl">{report.title}</h3>
+          <div className="flex flex-row gap-3">
+            {
+              report.status == "PENDING" ? <Pill variant="warning">Pendiente</Pill> :
+                report.status == "RESOLVED" ? <Pill variant="success">Resuelto</Pill> :
+                  report.status == "CANCELED" ? <Pill variant="secondary">Cancelado</Pill> : ""
+            }
+            <Pill variant="secondary">{report.creationDate.toLocaleDateString()}</Pill>
+          </div>
         </div>
         <LineHorizontal></LineHorizontal>
-        <div className="flex w-full items-center justify-between px-3 md:hidden">
-          <span className="text-xl font-semibold sm:text-2xl">
-            {report?.creationDate.toLocaleDateString()}
-          </span>
-          {report?.status == "PENDING" ? (
-            <Pill variant="danger">Pendiente</Pill>
-          ) : report?.status == "RESOLVED" ? (
-            <Pill variant="success">Resuelto</Pill>
-          ) : report?.status == "CANCELED" ? (
-            <Pill variant="secondary">Cancelado</Pill>
-          ) : (
-            ""
-          )}
-        </div>
-        <span className="text-xl font-semibold hidden md:block">
-          {report?.creationDate.toLocaleDateString()}
-        </span>
-        <span className="text-base sm:text-2xl">{report?.description}</span>
-        <div
-          className={`flex w-full ${report?.userSolverId ? "justify-between" : "justify-start"}`}
-        >
-          <span className="text-md text-center">
-            Creado por: {report?.userCreatorName}
-          </span>
-          {report?.userSolverId ? (
-            <>
-              <LineVertical></LineVertical>
-              <span className="text-md text-center">
-                Resuelto por: {report.userCreatorName}
-              </span>
-            </>
-          ) : (
-            ""
-          )}
+        <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
+          <Data title="DESCRIPCIÓN" value={report.description} />
+          <div className="flex flex-row gap-3">
+            <Data title="CREADOR POR" value={report.userCreatorName} />
+            <Data title="RESUELTO POR" value={report.userSolverName ? report.userSolverName : "---"} />
+          </div>
         </div>
         <LineHorizontal></LineHorizontal>
-        <div className="flex w-full md:hidden">
+        <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
           <Dropdown
             id="ddChangeStatus"
             title="Cambiar Estado"
             value={"-1"}
             options={statusOption}
-            handlerChange={changeStatusHandler}
-          ></Dropdown>
+            handlerChange={changeStatusHandler} />
+
+          {user?.id == report?.userCreatorId ? (
+            <div className="flex flex-row w-full gap-3">
+              <Button
+                id="btnEdit"
+                type="button"
+                variant="accent"
+                handleClick={clickEditHandler}
+              >
+                Editar
+              </Button>
+              <Button
+                id="btnDelete"
+                type="button"
+                variant="danger"
+                handleClick={openModal}
+              >
+                Eliminar
+              </Button>
+              <Modal isOpen={isOpenModal} onClose={closeModal}>
+                <span className="text-center text-lg">
+                  ¿Estas seguro que quieres eliminar esta incidencia?
+                </span>
+                <div className="flex w-full gap-1">
+                  <Button
+                    id="btnCancelDelete"
+                    type="button"
+                    variant="secondary"
+                    handleClick={() => setIsOpenModal(false)}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    id="btnModalDelete"
+                    type="button"
+                    variant="danger"
+                    handleClick={deleteReport}
+                  >
+                    Eliminar
+                  </Button>
+                </div>
+              </Modal>
+            </div>
+          ) : (
+            ""
+          )}
+          <Button
+            id="btnBack"
+            type="button"
+            variant="secondary"
+            handleClick={clickBackHandler}>
+            Volver
+          </Button>
         </div>
-        {user?.id == report?.userCreatorId ? (
-          <>
-            <Button
-              id="btnEdit"
-              type="button"
-              variant="accent"
-              handleClick={clickEditHandler}
-            >
-              Editar
-            </Button>
-            <Button
-              id="btnDelete"
-              type="button"
-              variant="danger"
-              handleClick={openModal}
-            >
-              Eliminar
-            </Button>
-            <Modal isOpen={isOpenModal} onClose={closeModal}>
-              <span className="text-center text-lg">
-                ¿Estas seguro que quieres eliminar esta incidencia?
-              </span>
-              <div className="flex w-full gap-1">
-                <Button
-                  id="btnCancelDelete"
-                  type="button"
-                  variant="secondary"
-                  handleClick={() => setIsOpenModal(false)}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  id="btnModalDelete"
-                  type="button"
-                  variant="danger"
-                  handleClick={deleteReport}
-                >
-                  Eliminar
-                </Button>
-              </div>
-            </Modal>
-          </>
-        ) : (
-          ""
-        )}
-        <Button
-          id="btnBack"
-          type="button"
-          variant="secondary"
-          handleClick={clickBackHandler}
-        >
-          Volver
-        </Button>
       </DivContent>
     </Main>
   );
