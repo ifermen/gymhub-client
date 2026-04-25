@@ -14,6 +14,7 @@ import type { OfferData } from '../../types/offer';
 import { Pill } from "../../components/Pill/Pill";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
+import toast from "react-hot-toast";
 
 export default function ClientById() {
   const { logout } = useUserContext();
@@ -76,6 +77,7 @@ export default function ClientById() {
     ).then(response => {
       setRenewalHistory([...renewalHistory, response]);
       setIsHistoryActive(true);
+
     })
   }
 
@@ -109,7 +111,7 @@ export default function ClientById() {
 
   const deleteClient = () => {
     ClientService.deleteClient(client!.id).then(() => {
-      navegate("/client");
+      navegate("/client", { state: { action: client?.endDate ? "enable" : "disable", reference: client?.name } });
     }).catch(error => {
       if (error.status == 401) {
         logout();

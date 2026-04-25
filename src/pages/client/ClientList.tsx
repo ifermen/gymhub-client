@@ -3,13 +3,14 @@ import { Div } from "../../components/Div/Div";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import DivList from "../../components/Div/DivList";
 import type { ClientData } from "../../types/client";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ClientService } from "../../services/clientService";
 import { useUserContext } from "../../contexts/UserContext";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { SearchFilterSortAddOptions } from "../../components/ListOptions/SearchFilterSortAddOptions";
 import { Loader } from "../../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 export function ClientList() {
   const { logout } = useUserContext();
@@ -22,6 +23,29 @@ export function ClientList() {
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [clients, setClients] = useState<ClientData[] | null>();
+
+  const hasShownToast = useRef(false);
+  const { state } = useLocation();
+  const action = state?.action;
+
+  useEffect(() => {
+    if (action && !hasShownToast.current) {
+      if (action == "create") {
+        toast.success(`Cliente \"${state.reference}\" creada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "edit") {
+        toast.success(`Cliente \"${state.reference}\" editada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "enable") {
+        toast.success(`Cliente \"${state.reference}\" dado de alta con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "disable") {
+        toast.success(`Cliente \"${state.reference}\" dado de baja con éxito`);
+        hasShownToast.current = true;
+      }
+    }
+  }, [action]);
+
   const directionOption = new Map<string, string>([
     ["-1", "Por defecto"],
     ["DESC", "Descendente"],

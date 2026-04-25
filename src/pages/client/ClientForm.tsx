@@ -57,8 +57,8 @@ export default function ClientForm() {
         password: data.newPassword
       }
 
-      ClientService.createClient(clientCreate).then(() => {
-        navegate("/client")
+      ClientService.createClient(clientCreate).then(response => {
+        navegate("/client", { state: { action: "create", reference: response.name } })
       }).catch(error => {
         if (error.status == 401) {
           logout();
@@ -72,8 +72,8 @@ export default function ClientForm() {
         email: data.email,
         password: data.newPassword
       }
-      ClientService.updateClient(client!.id, clientUpdate).then(() => {
-        navegate("/client")
+      ClientService.updateClient(client!.id, clientUpdate).then(response => {
+        navegate("/client", { state: { action: "edit", reference: response.name } })
       })
     }
   }

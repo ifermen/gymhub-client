@@ -11,7 +11,6 @@ import { OfferService } from "../../services/offerService";
 import { Modal } from "../../components/Modal/Modal";
 import { Loader } from "../../components/Loader/Loader";
 import { NotFoundElement } from "../error/NotFoundElement";
-import toast from "react-hot-toast";
 
 export function OfferById() {
   const { logout } = useUserContext();
