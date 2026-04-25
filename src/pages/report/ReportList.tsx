@@ -1,7 +1,7 @@
 import { Main } from "../../components/Main/Main";
 import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ReportService } from "../../services/reportService";
 import type { ReportData } from "../../types/report";
 import { useUserContext } from "../../contexts/UserContext";
@@ -9,10 +9,11 @@ import { Pill } from "../../components/Pill/Pill";
 import { Button } from "../../components/Button/Button";
 import { Modal } from "../../components/Modal/Modal";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Div } from "../../components/Div/Div";
 import DivList from '../../components/Div/DivList';
 import { Loader } from "../../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 export function ReportList() {
   const { logout } = useUserContext();
@@ -23,6 +24,23 @@ export function ReportList() {
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [reportList, setReportList] = useState<ReportData[] | null>();
+
+  const hasShownToast = useRef(false);
+  const { state } = useLocation();
+  const action = state?.action;
+
+  useEffect(() => {
+    if (action && !hasShownToast.current) {
+      if (action == "create") {
+        toast.success(`Incidencia \"${state.reference}\" creada con éxito`);
+        hasShownToast.current = true;
+      } else if (action == "edit") {
+        toast.success(`Incidencia \"${state.reference}\" editada con éxito`);
+        hasShownToast.current = true;
+      }
+    }
+  }, [action]);
+
   const directionOption = new Map<string, string>([
     ["DESC", "Descendente"],
     ["ASC", "Ascendente"],

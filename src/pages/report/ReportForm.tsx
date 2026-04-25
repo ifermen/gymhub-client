@@ -59,16 +59,16 @@ export function ReportForm() {
         title: data.title,
         description: data.description
       }
-      ReportService.createReport(reportCreate).then(() => {
-        navegate("/report")
+      ReportService.createReport(reportCreate).then(response => {
+        navegate("/report", { state: { action: "create", reference: response.title } })
       })
     } else if (mode == "edit") {
       const reportUpdate: ReportUpdate = {
         title: data.title,
         description: data.description
       }
-      ReportService.updateReport(report!.id, reportUpdate).then(() => {
-        navegate("/report")
+      ReportService.updateReport(report!.id, reportUpdate).then(response => {
+        navegate("/report", { state: { action: "edit", reference: response.title } })
       })
     }
   }
