@@ -10,6 +10,8 @@ import DivContent from "../../components/Div/DivContent";
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import { Loader } from "../../components/Loader/Loader";
+import { HeaderForm } from "../../components/Header/HeaderForm";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
 
 interface OfferFormForm {
   title: string;
@@ -87,10 +89,11 @@ export function OfferForm() {
 
   return (
     <Main>
-      <TitlePage>{mode == "create" ? "Crear clase" : "Editar clase"}</TitlePage>
       <DivContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3">
-          <div>
+        <HeaderForm title={mode == "create" ? "Crear Oferta" : mode == "edit" ? "Editar Oferta" : ""} type="OFERTA" />
+        <LineHorizontal />
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3 sm:py-7 py-3">
+          <div className="sm:px-7 px-3">
             <Controller
               name="title"
               control={control}
@@ -105,8 +108,9 @@ export function OfferForm() {
                 <Input
                   id="title"
                   name="title"
-                  placeholder="Título"
+                  placeholder="Oferta . . ."
                   type="text"
+                  title="Título"
                   value={field.value || ""}
                   handleChange={field.onChange}
                 />
@@ -114,30 +118,31 @@ export function OfferForm() {
             />
             {errors.title && <p className="text-danger-500 text-sm">{errors.title.message}</p>}
           </div>
-          <div>
-            <Controller
-              name="cost"
-              control={control}
-              rules={{
-                min: {
-                  value: 0.01,
-                  message: "El coste no puede ser inferior a 0,01 €"
-                }
-              }}
-              render={({ field }) => (
-                <Input
-                  id="cost"
-                  name="cost"
-                  placeholder="Coste"
-                  type="number"
-                  value={field.value || ""}
-                  handleChange={field.onChange}
-                />
-              )}
-            />
-            {errors.cost && <p className="text-danger-500 text-sm">{errors.cost.message}</p>}
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-row gap-3 sm:px-7 px-3 sm:pb-7 pb-3">
+            <div className="w-full">
+              <Controller
+                name="cost"
+                control={control}
+                rules={{
+                  min: {
+                    value: 0.01,
+                    message: "El coste no puede ser inferior a 0,01 €"
+                  }
+                }}
+                render={({ field }) => (
+                  <Input
+                    id="cost"
+                    name="cost"
+                    placeholder="€"
+                    type="number"
+                    title="Coste"
+                    value={field.value || ""}
+                    handleChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.cost && <p className="text-danger-500 text-sm">{errors.cost.message}</p>}
+            </div>
             <div className="w-full">
               <Controller
                 name="numDay"
@@ -152,8 +157,9 @@ export function OfferForm() {
                   <Input
                     id="numDay"
                     name="numDay"
-                    placeholder="Número de Días"
+                    placeholder="? días"
                     type="number"
+                    title="Num. Días"
                     value={field.value || ""}
                     handleChange={(e) => {
                       const value = e.target.value === "" ? "" : parseInt(e.target.value, 10);
@@ -165,8 +171,11 @@ export function OfferForm() {
               {errors.numDay && <p className="text-danger-500 text-sm">{errors.numDay.message}</p>}
             </div>
           </div>
-          <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
-          <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
+          <LineHorizontal />
+          <div className="sm:px-7 px-3 sm:pt-7 pt-3 flex flex-col gap-3">
+            <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
+            <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
+          </div>
         </form>
       </DivContent>
     </Main>

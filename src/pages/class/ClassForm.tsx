@@ -151,7 +151,7 @@ export function ClassForm() {
                 <Input
                   id="title"
                   name="title"
-                  placeholder="Clase de ..."
+                  placeholder="Clase . . ."
                   type="text"
                   title="Título"
                   value={field.value || ""}
@@ -196,7 +196,7 @@ export function ClassForm() {
                 <TextArea
                   id="description"
                   name="description"
-                  placeholder="Descripción de ..."
+                  placeholder="Esta clase . . ."
                   title="Descripción"
                   value={field.value || ""}
                   rows={3}
@@ -251,7 +251,7 @@ export function ClassForm() {
                   <Input
                     id="facility"
                     name="facility"
-                    placeholder="Intalación donde ..."
+                    placeholder="Donde . . ."
                     type="text"
                     title="Intalación"
                     value={field.value || ""}
@@ -277,7 +277,7 @@ export function ClassForm() {
                 <Input
                   id="schedule"
                   name="schedule"
-                  placeholder="Horario cuando ..."
+                  placeholder="Cuando . . ."
                   type="text"
                   title="Horario"
                   value={field.value || ""}

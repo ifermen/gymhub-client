@@ -103,7 +103,7 @@ export function EmployeeForm() {
                 <Input
                   id="name"
                   name="name"
-                  placeholder="Nombre"
+                  placeholder="Empleado . . ."
                   type="text"
                   title="Nombre"
                   value={field.value || ""}
@@ -127,7 +127,7 @@ export function EmployeeForm() {
                 <Input
                   id="email"
                   name="email"
-                  placeholder="Email"
+                  placeholder="example@email.com"
                   type="email"
                   title="Email"
                   value={field.value || ''}
@@ -157,7 +157,7 @@ export function EmployeeForm() {
                 <Input
                   id="newPassword"
                   name="newPassword"
-                  placeholder="Nueva Contraseña"
+                  placeholder="? ? ? ? ?"
                   type="password"
                   title="Nueva Contraseña"
                   value={field.value || ''}
@@ -178,7 +178,7 @@ export function EmployeeForm() {
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
-                  placeholder="Confirmar Contraseña"
+                  placeholder="? ? ? ? ?"
                   type="password"
                   title="Confirmar Contraseña"
                   value={field.value || ''}
