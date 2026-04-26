@@ -12,6 +12,7 @@ import { HeaderList } from "../../components/Header/HeaderList";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import { Div } from "../../components/Div/Div";
 import { ListOptions } from "../../components/ListOptions/ListOptions";
+import type { PageResponse } from '../../types/api';
 
 export function ClientList() {
   const { logout } = useUserContext();
@@ -23,7 +24,7 @@ export function ClientList() {
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [clients, setClients] = useState<ClientData[] | null>();
+  const [clientList, setclientList] = useState<PageResponse<ClientData[]> | null>();
 
   const hasShownToast = useRef(false);
   const { state } = useLocation();
@@ -74,7 +75,7 @@ export function ClientList() {
         filter: filter
       })
         .then((response) => {
-          setClients(response.content);
+          setclientList(response);
           setTotalPages(response.totalPages);
         })
         .catch((error) => {
@@ -93,7 +94,7 @@ export function ClientList() {
           filter: filter
         })
         .then((response) => {
-          setClients(response.content);
+          setclientList(response);
           setTotalPages(response.totalPages);
         })
         .catch((error) => {
@@ -148,7 +149,7 @@ export function ClientList() {
     navegate("/client/create");
   };
 
-  if (!clients) {
+  if (!clientList) {
     return <Loader />
   }
 
@@ -175,7 +176,8 @@ export function ClientList() {
           closeModal={closeModal} />
         <LineHorizontal />
         <DivList>
-          {clients.map((client) => (
+          <span className="text-sm font-bold text-text-500">LISTADO - {clientList.totalElements}</span>
+          {clientList.content.map((client) => (
             <div
               key={client.id}
               onClick={() => viewClient(client.id)}

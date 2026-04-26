@@ -40,6 +40,7 @@ export function ListOptions({
 }: ListOptionsProps) {
   return (
     <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
+      <span className="text-sm font-bold text-text-500">OPCIONES DE LISTADO</span>
       <div className="flex flex-row gap-3 w-full">
         <SearchInput changeSearchString={changeSearchString} searchString={searchString} />
         <div className="hidden sm:block">
