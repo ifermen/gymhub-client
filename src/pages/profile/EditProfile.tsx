@@ -1,5 +1,4 @@
 import { Main } from "../../components/Main/Main";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
 import { useForm, Controller } from 'react-hook-form';

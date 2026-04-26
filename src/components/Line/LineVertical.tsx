@@ -1,13 +1,14 @@
 export interface LineProps {
-  variant?: "black" | "white";
+  variant?: "black" | "white" | "grey";
   style?: string;
 }
 
-export function LineVertical({ variant = "black", style = "" }: LineProps) {
+export function LineVertical({ variant = "grey", style = "" }: LineProps) {
 
   const variants = {
     black: "border-background-50",
-    white: "border-background-950"
+    white: "border-background-950",
+    grey: "border-background-800",
   }
 
   return (
