@@ -1,6 +1,5 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Main } from "../../components/Main/Main";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import DivContent from '../../components/Div/DivContent';
 import { Input } from "../../components/Input/Input";
 import { Controller, useForm } from "react-hook-form";
@@ -12,6 +11,8 @@ import { TextArea } from "../../components/Input/TextArea";
 import { useUserContext } from "../../contexts/UserContext";
 import type { ReportUpdate } from '../../types/report';
 import { Loader } from "../../components/Loader/Loader";
+import { HeaderForm } from "../../components/Header/HeaderForm";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
 
 interface ReportFormForm {
   title: string;
@@ -83,10 +84,11 @@ export function ReportForm() {
 
   return (
     <Main>
-      <TitlePage>{mode == "create" ? "Crear incidencia" : "Editar incidencia"}</TitlePage>
       <DivContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3">
-          <div>
+        <HeaderForm title={mode == "create" ? "Crear Incidencia" : mode == "edit" ? "Editar Incidencia" : ""} type="INCIDENCIA" />
+        <LineHorizontal />
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3 sm:py-7 py-3">
+          <div className="sm:px-7 px-3">
             <Controller
               name="title"
               control={control}
@@ -101,8 +103,9 @@ export function ReportForm() {
                 <Input
                   id="title"
                   name="title"
-                  placeholder="Título"
+                  placeholder="Incidencia . . ."
                   type="text"
+                  title="Título"
                   value={field.value || ""}
                   handleChange={field.onChange}
                 />
@@ -110,7 +113,7 @@ export function ReportForm() {
             />
             {errors.title && <p className="text-danger-500 text-sm">{errors.title.message}</p>}
           </div>
-          <div>
+          <div className="sm:px-7 px-3 sm:pb-7 pb-3">
             <Controller
               name="description"
               control={control}
@@ -125,7 +128,9 @@ export function ReportForm() {
                 <TextArea
                   id="description"
                   name="description"
-                  placeholder="Descripción"
+                  placeholder="Ocurrio . . ."
+                  title="Descripción"
+                  rows={3}
                   value={field.value || ""}
                   handleChange={field.onChange}
                 />
@@ -133,8 +138,11 @@ export function ReportForm() {
             />
             {errors.description && <p className="text-danger-500 text-sm">{errors.description.message}</p>}
           </div>
-          <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
-          <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
+          <LineHorizontal />
+          <div className="sm:px-7 px-3 sm:pt-7 pt-3 flex flex-col gap-3">
+            <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
+            <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
+          </div>
         </form>
       </DivContent>
     </Main>
