@@ -138,8 +138,8 @@ export default function ClientById() {
         <div className="sm:p-7 p-3 flex flex-col gap-3 w-full">
           <Data title="EMAIL" value={client.email} />
           <Data title="DESDE" value={client.creationDate.toLocaleDateString()} />
-          {/*SUSCRIPTIONS*/}
         </div>
+        {/*SUSCRIPTIONS*/}
         <LineHorizontal />
         <div className="sm:p-7 sm:pt-3 p-3 flex flex-col gap-3 w-full">
           <div className="flex w-full flex-row gap-5 mt-2 justify-between items-center">

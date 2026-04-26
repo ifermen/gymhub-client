@@ -1,12 +1,15 @@
 import { Button } from "../../components/Button/Button";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import { useUserContext } from "../../contexts/UserContext"
-import { TitlePage } from '../../components/TitlePage/TitlePage';
 import { Main } from "../../components/Main/Main";
 import { ClientService } from "../../services/clientService";
 import { useEffect, useState } from "react";
 import type { RenewalDataWithoutClient } from "../../types/client";
 import { useNavigate } from "react-router-dom";
+import DivContent from "../../components/Div/DivContent";
+import { Avatar } from "../../components/Avatar/Avatar";
+import { Pill } from "../../components/Pill/Pill";
+import { Data } from "../../components/Data/Data";
 
 export function Profile() {
   const { user, logout } = useUserContext();
@@ -36,134 +39,100 @@ export function Profile() {
     }, []);
   }
 
+  if (!user) {
+    navegate("/login")
+  }
+
   return (
     <Main>
-      <TitlePage>Perfil Personal</TitlePage>
-      <div className="flex w-full flex-col items-center justify-center gap-3 rounded-3xl p-3 sm:w-3/4 sm:border-4 sm:border-text-600 sm:bg-background-950 sm:shadow-md md:w-2/3 lg:w-2/4 xl:w-1/3">
-        <div className="      
-          flex
-          flex-col
-          justify-center        
-          items-center
-          w-full
-        ">
-          <span className="
-            font-semibold
-            text-2xl
-            sm:text-4xl
-          ">{user?.name}</span>
-          <span className="
-            text-sm
-            sm:text-lg
-          ">{
-              user?.role == "ADMIN" ? "Administrador" :
-                user?.role == "EMPLOYEE" ? "Empleado" :
-                  user?.role == "CLIENT" ? "Cliente" : ""}</span>
-          <LineHorizontal></LineHorizontal>
+      <DivContent>
+        <div className="sm:p-7 sm:pb-3 p-3 flex flex-row w-full gap-3">
+          <Avatar name={user?.name ?? ""} variant={
+            user?.role == "CLIENT" ? "green" :
+              user?.role == "EMPLOYEE" ? "cian" :
+                user?.role == "ADMIN" ? "blue" : "yellow"} />
+          <div className="flex flex-col w-full">
+            <span className="font-bold text-text-500 text-sm">PERFIL</span>
+            <h3 className="sm:text-3xl text-xl">{user?.name ?? ""}</h3>
+            {user?.role == "CLIENT" ? <Pill variant="success">Cliente</Pill> :
+              user?.role == "EMPLOYEE" ? <Pill variant="accent">Empleado</Pill> :
+                user?.role == "ADMIN" ? <Pill variant="primary">Administrador</Pill> :
+                  <Pill variant="danger">Sin Rol</Pill>}
+          </div>
         </div>
-        <span className="
-          font-semibold
-          text-xl
-          sm:text-2xl
-        ">{user?.email}</span>
-        <span className="
-          font-semibold
-          text-xl
-          sm:text-2xl
-        ">{user?.creationDate.toLocaleDateString()}</span>
+        <LineHorizontal></LineHorizontal>
+        <div className="sm:p-7 p-3 flex flex-col gap-3 w-full">
+          <Data title="EMAIL" value={user?.email ?? ""} />
+          <Data title="DESDE" value={user?.creationDate.toLocaleDateString() ?? ""} />
+        </div>
         {/*SUSCRIPTIONS*/}
         {
           user?.role == "CLIENT" ?
             (
-              <div className="
-              flex
-              flex-col
-              items-center
-              p-3
-              w-full
-              rounded-2xl
-              justify-center
-              bg-background-900
-            ">
-                <div className="
-                flex
-                flex-row
-                gap-5
-                w-full
-              ">
-                  <span className="
-                  text-2xl
-                  font-semibold
-                  w-full
-                  pt-1
-                  flex
-                  items-center
-                  text-center
-                ">Suscripción</span>
-                  {isHistoryActive ?
-                    <Button id="btnHistory" variant="secondary" type="button" handleClick={() => { setIsHistoryActive(false) }}>Ocultar</Button> :
-                    <Button id="btnHistory" variant="secondary" type="button" handleClick={() => { setIsHistoryActive(true) }}>Historial</Button>
-                  }
-                </div>
-                <div className="
-                  flex
-                  flex-row
-                  gap-5
-                  mt-2
-                  bg-background-800
-                  border-2
-                  border-background-500
-                  p-2
-                  rounded-2xl
-                ">
-                  <span className={isSuscriptionActive ?
-                    "text-xl flex items-center font-semibold text-success-400" :
-                    "text-xl flex items-center font-semibold text-danger-400"}>
-                    {isSuscriptionActive ? "Activa" : "Inactiva"}
-                  </span>
-                  {renewalHistory.length > 0 ?
-                    <span className="
-                      text-xl
-                      text-center
-                    ">
-                      {
-                        renewalHistory[0].startDate.toLocaleDateString()
-                      } - {
-                        renewalHistory[0].endDate.toLocaleDateString()
-                      }</span>
-                    : ""}
-                </div>
-                {isHistoryActive ? renewalHistory.slice(1).map(renewal => (
-                  <div key={renewal.startDate.getTime()} className="
-                  flex
-                  flex-row
-                  gap-5
-                  mt-2
-                  bg-background-800
-                  border-2
-                  border-background-500
-                  p-2
-                  rounded-2xl
-                ">
-                    <span className="
-                    flex
-                    items-center
-                    text-xl
-                  ">{
-                        renewal.startDate.toLocaleDateString()
-                      } - {
-                        renewal.endDate.toLocaleDateString()
-                      }</span>
+              <>
+                <LineHorizontal />
+                <div className="sm:p-7 sm:pt-3 p-3 flex flex-col gap-3 w-full">
+                  <div className="flex w-full flex-row gap-5 mt-2 justify-between items-center">
+                    <span className="font-bold text-sm text-text-500">
+                      SUSCRIPCION
+                    </span>
                   </div>
-                )) : ""}
-                { }
-              </div>
+                  {renewalHistory.length > 0 ? <>
+                    {isHistoryActive ? (
+                      <Button
+                        id="btnHistory"
+                        variant="secondary"
+                        type="button"
+                        width="full"
+                        handleClick={() => {
+                          setIsHistoryActive(false);
+                        }}
+                      >
+                        Ocultar
+                      </Button>
+                    ) : (
+                      <Button
+                        id="btnHistory"
+                        variant="secondary"
+                        type="button"
+                        width="full"
+                        handleClick={() => {
+                          setIsHistoryActive(true);
+                        }}
+                      >
+                        Historial
+                      </Button>
+                    )}
+                    <div className="flex flex-col w-full bg-background-950 border border-background-800 p-3 rounded-xl">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-sm text-text-500">{renewalHistory[0].offer.title}</span>
+                        <Pill variant={isSuscriptionActive ? "success" : "danger"}>
+                          {isSuscriptionActive ? "Activa" : "Terminada"}
+                        </Pill>
+                      </div>
+                      <span className={`sm:text-xl text-lg`}>{renewalHistory[0].startDate.toLocaleDateString()} - {renewalHistory[0].endDate.toLocaleDateString()}</span>
+                    </div>
+                    {isHistoryActive
+                      ? renewalHistory.slice(1).map((renewal) => (
+                        <div className="flex flex-col w-full bg-background-950 border border-background-800 p-3 rounded-xl">
+                          <span className={`sm:text-xl text-lg`}>{renewal.startDate.toLocaleDateString()} - {renewal.endDate.toLocaleDateString()}</span>
+                          <span className="font-bold text-sm text-text-500">{renewal.offer.title}</span>
+                        </div>
+                      ))
+                      : ""}
+                  </> : <span className="text-xl">Sin renovaciones</span>
+                  }
+                  { }
+                </div></>
             ) :
             ""
         }
-        <Button id="btnEdit" type="button" handleClick={clickEditProfileHandler}>Editar Perfil</Button>
-        <Button id="btnEdit" variant="secondary" type="button" handleClick={clickLogoutHandler}>Cerrar Sesión</Button>
-      </div>
-    </Main>
+        <LineHorizontal />
+        <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
+          <Button id="btnEdit" type="button" handleClick={clickEditProfileHandler}>Editar Perfil</Button>
+          <Button id="btnEdit" variant="secondary" type="button" handleClick={clickLogoutHandler}>Cerrar Sesión</Button>
+        </div>
+      </DivContent>
+    </Main >
   )
 }
