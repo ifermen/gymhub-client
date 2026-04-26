@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import { Loader } from "../../components/Loader/Loader";
+import { LineHorizontal } from '../../components/Line/LineHorizontal';
+import { HeaderForm } from '../../components/Header/HeaderForm';
 
 interface ClientFormForm {
   name: string;
@@ -90,10 +92,11 @@ export default function ClientForm() {
 
   return (
     <Main>
-      <TitlePage>{mode == "create" ? "Crear cliente" : "Editar cliente"}</TitlePage>
       <DivContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3">
-          <div>
+        <HeaderForm title={mode == "create" ? "Crear cliente" : mode == "edit" ? "Editar cliente" : ""} type="CLIENTE" />
+        <LineHorizontal />
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3 sm:py-7 py-3">
+          <div className="sm:px-7 px-3">
             <Controller
               name="name"
               control={control}
@@ -103,6 +106,7 @@ export default function ClientForm() {
                   name="name"
                   placeholder="Nombre"
                   type="text"
+                  title="Nombre"
                   value={field.value || ""}
                   handleChange={field.onChange}
                 />
@@ -110,7 +114,7 @@ export default function ClientForm() {
             />
             {errors.name && <p className="text-danger-500 text-sm">{errors.name.message}</p>}
           </div>
-          <div>
+          <div className="sm:px-7 px-3">
             <Controller
               name="email"
               control={control}
@@ -126,6 +130,7 @@ export default function ClientForm() {
                   name="email"
                   placeholder="Email"
                   type="email"
+                  title="Email"
                   value={field.value || ''}
                   handleChange={field.onChange}
                 />
@@ -133,7 +138,7 @@ export default function ClientForm() {
             />
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
-          <div>
+          <div className="sm:px-7 px-3">
             <Controller
               name="newPassword"
               control={control}
@@ -155,6 +160,7 @@ export default function ClientForm() {
                   name="newPassword"
                   placeholder="Nueva Contraseña"
                   type="password"
+                  title="Nueva Contraseña"
                   value={field.value || ''}
                   handleChange={field.onChange}
                 />
@@ -162,7 +168,7 @@ export default function ClientForm() {
             />
             {errors.newPassword && <p className="text-red-500 text-sm">{errors.newPassword.message}</p>}
           </div>
-          <div>
+          <div className="sm:px-7 px-3 sm:pb-7 pb-3">
             <Controller
               name="confirmPassword"
               control={control}
@@ -175,6 +181,7 @@ export default function ClientForm() {
                   name="confirmPassword"
                   placeholder="Confirmar Contraseña"
                   type="password"
+                  title="Cofirmar Contraseña"
                   value={field.value || ''}
                   handleChange={field.onChange}
                 />
@@ -182,8 +189,11 @@ export default function ClientForm() {
             />
             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
           </div>
-          <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
-          <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
+          <LineHorizontal />
+          <div className="sm:px-7 px-3 sm:pt-7 pt-3 flex flex-col gap-3">
+            <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
+            <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
+          </div>
         </form>
       </DivContent>
     </Main>
