@@ -12,25 +12,25 @@ export function ButtonPage({ children, id, type, variant = "primary", style, han
 
   const variants = {
     primary: `
-    to-primary-500 from-primary-600 border-primary-500
-    hover:to-primary-600 hover:from-primary-700 hover:border-primary-600
+    bg-primary-600 border-primary-400
+    hover:bg-primary-700 hover:border-primary-500
   `,
     secondary: `
-    to-secondary-500 from-secondary-600 border-secondary-500
-    hover:to-secondary-600 hover:from-secondary-700 hover:border-secondary-600
+    bg-secondary-600 border-secondary-400
+    hover:bg-secondary-700 hover:border-secondary-500
   `,
     accent: `
-    to-accent-500 from-accent-600 border-accent-500
-    hover:to-accent-600 hover:from-accent-700 hover:border-accent-600
+    bg-accent-600 border-accent-400
+    hover:bg-accent-700 hover:border-accent-500
   `,
     dark: `
-    to-background-100 from-background-200 border-background-100
-    hover:to-background-200 hover:from-background-300 hover:border-background-200
+    bg-background-200 border-background-100
+    hover:bg-background-300 hover:border-background-200
     text-text-950
   `,
     light: `
-    to-background-800 from-background-900 border-background-100
-    hover:to-background-900 hover:from-background-950 hover:border-background-300
+    bg-background-900 border-background-100
+    hover:bg-background-950 hover:border-background-200
   `
   }
 
@@ -44,11 +44,10 @@ export function ButtonPage({ children, id, type, variant = "primary", style, han
         pt-1
         px-2
         rounded-xl
-        border-3
+        border
         text-base
         sm:text-xl
         font-bold
-        bg-gradient-to-br
         ${style}
         ${variants[variant]}
       `}>

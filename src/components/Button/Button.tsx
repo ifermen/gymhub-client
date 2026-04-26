@@ -5,7 +5,7 @@ interface ButtonProps {
   id: string,
   type: 'button' | 'submit',
   variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'danger',
-  width?: 'full' | 'fit'
+  width?: 'full' | 'fit';
   handleClick: () => void
 }
 export function Button({ children, id, type, variant = "primary", width = "full", handleClick }: ButtonProps) {

@@ -16,11 +16,11 @@ export default function DivContent({ children }: DivContentProps) {
       items-center
       justify-center
       sm:rounded-3xl
-      sm:w-3/4
       sm:border
       sm:border-background-800
       bg-white
       sm:shadow-md
+      sm:w-3/4
       md:w-2/3
       lg:w-2/4
       xl:w-2/4">

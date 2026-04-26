@@ -1,6 +1,4 @@
 import { Main } from "../../components/Main/Main";
-import { Div } from "../../components/Div/Div";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import DivList from "../../components/Div/DivList";
 import type { ClientData } from "../../types/client";
 import { useEffect, useRef, useState } from "react";
@@ -8,9 +6,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ClientService } from "../../services/clientService";
 import { useUserContext } from "../../contexts/UserContext";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
-import { SearchFilterSortAddOptions } from "../../components/ListOptions/SearchFilterSortAddOptions";
 import { Loader } from "../../components/Loader/Loader";
 import toast from "react-hot-toast";
+import { HeaderList } from "../../components/Header/HeaderList";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
+import { Div } from "../../components/Div/Div";
+import { ListOptions } from "../../components/ListOptions/ListOptions";
 
 export function ClientList() {
   const { logout } = useUserContext();
@@ -47,12 +48,10 @@ export function ClientList() {
   }, [action]);
 
   const directionOption = new Map<string, string>([
-    ["-1", "Por defecto"],
     ["DESC", "Descendente"],
     ["ASC", "Ascendente"],
   ]);
   const sortOption = new Map<string, string>([
-    ["-1", "Por defecto"],
     ["name", "Nombre"],
     ["email", "Email"],
     ["creationDate", "Fecha"],
@@ -155,31 +154,32 @@ export function ClientList() {
 
   return (
     <Main>
-      <TitlePage>Clientes</TitlePage>
       <Div>
-        <SearchFilterSortAddOptions
+        <HeaderList title="Listado de clientes" type="CLIENTE" />
+        <LineHorizontal />
+        <ListOptions
           searchString={searchString}
           changeSearchString={changeSearchString}
+          create={createClient}
+          filter={filter}
+          changeFilter={changeFilter}
+          filterOption={filterOption}
+          sort={sort}
+          changeSort={changeSort}
+          sortOption={sortOption}
+          direction={direction}
+          changeDirection={changeDirection}
+          directionOption={directionOption}
           isOpenModal={isOpenModal}
           openModal={openModal}
-          closeModal={closeModal}
-          sort={sort}
-          sortOption={sortOption}
-          changeSort={changeSort}
-          direction={direction}
-          directionOption={directionOption}
-          changeDirection={changeDirection}
-          filter={filter}
-          filterOption={filterOption}
-          changeFilter={changeFilter}
-          createNavegate={createClient}
-        />
+          closeModal={closeModal} />
+        <LineHorizontal />
         <DivList>
           {clients.map((client) => (
             <div
               key={client.id}
               onClick={() => viewClient(client.id)}
-              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1 cursor-pointer"
+              className="flex flex-col w-full bg-background-950 border border-background-800 p-3 rounded-xl cursor-pointer"
             >
               <div className="flex w-full flex-col">
                 <span className="w-full text-xl">{client.name}</span>
@@ -187,6 +187,7 @@ export function ClientList() {
             </div>
           ))}
         </DivList>
+        <LineHorizontal />
         <PageButtonSection
           pageKey={pageKey}
           setPageKey={changePageKey}

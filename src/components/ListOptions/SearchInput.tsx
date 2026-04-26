@@ -1,5 +1,5 @@
-import { Input } from "../Input/Input";
 import search from "../../assets/icons/search.svg";
+import { LineVertical } from '../Line/LineVertical';
 
 interface SearchInputProps {
   searchString: string;
@@ -9,9 +9,14 @@ interface SearchInputProps {
 export function SearchInput({ searchString, changeSearchString }: SearchInputProps) {
 
   return (
-    <div className="flex justify-center items-center bg-primary-600 rounded-full w-full pr-0.5">
-      <img className="h-10 bg-white border-3 border-primary-500 rounded-full p-1" src={search} alt="" />
-      <Input id="search" name="search" placeholder="Buscar..." type="text" handleChange={(e) => changeSearchString(e.target.value)} value={searchString}></Input>
+    <div className="flex flex-row w-full border border-primary-400 rounded-xl items-center py-0.5 px-1">
+      <img className="h-6" src={search} alt="Icono de busqueda" />
+      <LineVertical />
+      <input
+        id="search"
+        onChange={(e) => changeSearchString(e.target.value)}
+        value={searchString}
+        className="w-full text-lg pl-1 focus:outline-none" />
     </div>
   )
 }

@@ -6,6 +6,6 @@ interface DivListProps {
 
 export default function DivList({ children }: DivListProps) {
   return (
-    <div className="flex w-full flex-col gap-2 py-1">{children}</div>
+    <div className="flex flex-col gap-3 w-full sm:p-7 p-3">{children}</div>
   )
 }
