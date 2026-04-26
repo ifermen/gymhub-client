@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Main } from "../../components/Main/Main";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import DivContent from "../../components/Div/DivContent";
 import { Controller, useForm } from "react-hook-form";
 import type { ClientCreateRequest, ClientData, ClientUpdateRequest } from "../../types/client";
@@ -93,7 +92,7 @@ export default function ClientForm() {
   return (
     <Main>
       <DivContent>
-        <HeaderForm title={mode == "create" ? "Crear cliente" : mode == "edit" ? "Editar cliente" : ""} type="CLIENTE" />
+        <HeaderForm title={mode == "create" ? "Crear Cliente" : mode == "edit" ? "Editar Cliente" : ""} type="CLIENTE" />
         <LineHorizontal />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3 sm:py-7 py-3">
           <div className="sm:px-7 px-3">
