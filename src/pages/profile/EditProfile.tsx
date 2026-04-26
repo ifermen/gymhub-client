@@ -10,6 +10,8 @@ import EmployeeService from "../../services/employeeService";
 import type { EmployeeUpdateRequest } from "../../types/employee";
 import { useNavigate } from "react-router-dom";
 import DivContent from "../../components/Div/DivContent";
+import { HeaderForm } from "../../components/Header/HeaderForm";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
 
 interface UserEditForm {
   name: string;
@@ -70,10 +72,11 @@ export function EditProfile() {
 
   return (
     <Main>
-      <TitlePage>Editar Perfil</TitlePage>
       <DivContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3">
-          <div>
+        <HeaderForm title="Editar Perfil" type="PERFIL" />
+        <LineHorizontal />
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-3 sm:py-7 py-3">
+          <div className="sm:px-7 px-3">
             <Controller
               name="name"
               control={control}
@@ -81,8 +84,9 @@ export function EditProfile() {
                 <Input
                   id="name"
                   name="name"
-                  placeholder="Nombre"
+                  placeholder="Mi nombre . . ."
                   type="text"
+                  title="Nombre"
                   value={field.value || ""}
                   handleChange={field.onChange}
                 />
@@ -90,7 +94,7 @@ export function EditProfile() {
             />
             {errors.name && <p className="text-danger-500 text-sm">{errors.name.message}</p>}
           </div>
-          <div>
+          <div className="sm:px-7 px-3">
             <Controller
               name="email"
               control={control}
@@ -104,8 +108,9 @@ export function EditProfile() {
                 <Input
                   id="email"
                   name="email"
-                  placeholder="Email"
+                  placeholder="example@email.com"
                   type="email"
+                  title="Email"
                   value={field.value || ''}
                   handleChange={field.onChange}
                 />
@@ -113,7 +118,7 @@ export function EditProfile() {
             />
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
-          <div>
+          <div className="sm:px-7 px-3">
             <Controller
               name="newPassword"
               control={control}
@@ -127,8 +132,9 @@ export function EditProfile() {
                 <Input
                   id="newPassword"
                   name="newPassword"
-                  placeholder="Nueva Contraseña"
+                  placeholder="? ? ? ? ?"
                   type="password"
+                  title="Nueva Contraseña"
                   value={field.value || ''}
                   handleChange={field.onChange}
                 />
@@ -136,7 +142,7 @@ export function EditProfile() {
             />
             {errors.newPassword && <p className="text-red-500 text-sm">{errors.newPassword.message}</p>}
           </div>
-          <div>
+          <div className="sm:px-7 px-3 sm:pb-7 pb-3">
             <Controller
               name="confirmPassword"
               control={control}
@@ -147,8 +153,9 @@ export function EditProfile() {
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
-                  placeholder="Confirmar Contraseña"
+                  placeholder="? ? ? ? ?"
                   type="password"
+                  title="Confirmar Contraseña"
                   value={field.value || ''}
                   handleChange={field.onChange}
                 />
@@ -156,8 +163,11 @@ export function EditProfile() {
             />
             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
           </div>
-          <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
-          <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
+          <LineHorizontal />
+          <div className="sm:px-7 px-3 sm:pt-7 pt-3 flex flex-col gap-3">
+            <Button id="submit" type="submit" handleClick={() => { }}>Guardar</Button>
+            <Button id="btnCacelar" variant="secondary" type="button" handleClick={btnCancel}>Cancelar</Button>
+          </div>
         </form>
       </DivContent>
     </Main>
