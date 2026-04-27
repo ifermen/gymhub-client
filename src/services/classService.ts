@@ -13,6 +13,7 @@ export const ClassService = {
     if (params?.pageSize !== undefined) queryParams.set('pageSize', String(params.pageSize));
     if (params?.sort) queryParams.set('sort', params.sort);
     if (params?.direction) queryParams.set('direction', params.direction);
+    if (params?.filter && params.filter != "") queryParams.set('filter', params.filter);
 
     const queryString = queryParams.toString();
     const url = `${URL_BASE}${PATH}${queryString ? `?${queryString}` : ''}`;
@@ -76,6 +77,23 @@ export const ClassService = {
 
   deleteClass: async (id: number) => {
     const response = await HTTPRequest.delete(`${URL_BASE}${PATH}/${id}`);
+
+    return response;
+  },
+
+  searchClass: async (search: string, params?: Partial<ListParams>) => {
+    const queryParams = new URLSearchParams();
+
+    queryParams.set("search", search);
+    if (params?.pageKey !== undefined) queryParams.set('pageKey', String(params.pageKey));
+    if (params?.pageSize !== undefined) queryParams.set('pageSize', String(params.pageSize));
+    if (params?.sort) queryParams.set('sort', params.sort);
+    if (params?.direction) queryParams.set('direction', params.direction);
+    if (params?.filter && params.filter != "") queryParams.set('filter', params.filter);
+
+    const queryString = queryParams.toString();
+    const url = `${URL_BASE}${PATH}/search${queryString ? `?${queryString}` : ''}`;
+    const response = await HTTPRequest.get<PageResponse<ClassData[]>>(url);
 
     return response;
   }

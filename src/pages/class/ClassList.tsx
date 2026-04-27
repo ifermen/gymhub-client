@@ -2,27 +2,29 @@ import { useEffect, useRef, useState } from "react";
 import { Div } from "../../components/Div/Div";
 import DivList from "../../components/Div/DivList";
 import { Main } from "../../components/Main/Main";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import type { ClassData } from "../../types/class";
 import { ClassService } from "../../services/classService";
 import { useUserContext } from "../../contexts/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "../../components/Button/Button";
-import { Dropdown } from "../../components/Dropdown/Dropdown";
-import { Modal } from "../../components/Modal/Modal";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { Loader } from "../../components/Loader/Loader";
 import toast from "react-hot-toast";
+import { HeaderList } from "../../components/Header/HeaderList";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
+import { ListOptions } from "../../components/ListOptions/ListOptions";
+import type { PageResponse } from '../../types/api';
 
 export function ClassList() {
   const { user, logout } = useUserContext();
   const navegate = useNavigate();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [sort, setSort] = useState("id");
+  const [searchString, setSearchString] = useState("");
+  const [filter, setFilter] = useState("");
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [classes, setClasses] = useState<ClassData[] | null>();
+  const [classList, setClassList] = useState<PageResponse<ClassData[]> | null>();
 
   const hasShownToast = useRef(false);
   const { state } = useLocation();
@@ -56,21 +58,50 @@ export function ClassList() {
     ["title", "Título"],
     ["teacher", "Profesor"]
   ]);
+  const filterOption = new Map<string, string>([
+    ["-1", "Ninguno"],
+    ["isActive", "Activo"]
+  ]);
+  if (user?.role == "CLIENT") {
+    filterOption.set("isJoined", "Mis Clases");
+  } else if (user?.role == "EMPLOYEE") {
+    filterOption.set("myClass", "Mis Clases");
+  }
+  filterOption.set("isFull", "Completas");
+  filterOption.set("isNotFull", "No completas");
+  filterOption.set("isDisactive", "No Activo");
 
   useEffect(() => {
-    ClassService.listClasses({
-      direction: direction,
-      pageKey: pageKey,
-      sort: sort,
-    }).then(response => {
-      setClasses(response.content);
-      setTotalPages(response.totalPages);
-    }).catch(error => {
-      if (error.status == 401) {
-        logout();
-      }
-    });
-  }, [sort, direction, pageKey, totalPages]);
+    if (searchString == "") {
+      ClassService.listClasses({
+        direction: direction,
+        pageKey: pageKey,
+        sort: sort,
+        filter: filter
+      }).then(response => {
+        setClassList(response);
+        setTotalPages(response.totalPages);
+      }).catch(error => {
+        if (error.status == 401) {
+          logout();
+        }
+      });
+    } else {
+      ClassService.searchClass(searchString, {
+        direction: direction,
+        pageKey: pageKey,
+        sort: sort,
+        filter: filter
+      }).then(response => {
+        setClassList(response);
+        setTotalPages(response.totalPages);
+      }).catch(error => {
+        if (error.status == 401) {
+          logout();
+        }
+      })
+    }
+  }, [sort, direction, pageKey, totalPages, searchString, filter]);
 
   const changeSort = (value: string) => {
     if (value != "-1") {
@@ -84,9 +115,21 @@ export function ClassList() {
     }
   };
 
+  const changeFilter = (value: string) => {
+    if (value != "-1") {
+      setFilter(value);
+    } else {
+      setFilter("");
+    }
+  }
+
   const changePageKey = (newPageKey: number) => {
     setPageKey(newPageKey);
   };
+
+  const changeSearchString = (searchString: string) => {
+    setSearchString(searchString)
+  }
 
   const openModal = () => {
     setIsOpenModal(true);
@@ -104,82 +147,46 @@ export function ClassList() {
     navegate("/class/" + id);
   }
 
-  if (!classes) {
+  if (!classList) {
     return <Loader />
   }
 
   return (
     <Main>
-      <TitlePage>Clases</TitlePage>
       <Div>
-        <div className="hidden flex-row justify-between gap-1 md:flex">
-          {user?.role == "ADMIN" ?
-            <Button
-              id="btnCreateClass"
-              type="button"
-              variant="primary"
-              width="fit"
-              handleClick={createClass}
-            >
-              Añadir
-            </Button> :
-            <div></div>
-          }
-          <div className="flex gap-1">
-            <Dropdown
-              id="sort"
-              title="Ordenar por"
-              options={sortOption}
-              handlerChange={changeSort}
-              value={sort} />
-            <Dropdown
-              id="direction"
-              title="Dirección"
-              options={directionOption}
-              handlerChange={changeDirection}
-              value={direction} />
-          </div>
-        </div>
-        <div className="flex flex-col md:hidden">
-          <Button id="btnShowOptions" type="button" handleClick={openModal}>
-            Opciones
-          </Button>
-          <Modal isOpen={isOpenModal} onClose={closeModal}>
-            <Dropdown
-              id="sort"
-              title="Ordenar por"
-              options={sortOption}
-              handlerChange={changeSort}
-              value={sort} />
-            <Dropdown
-              id="direction"
-              title="Dirección"
-              options={directionOption}
-              handlerChange={changeDirection}
-              value={direction} />
-            <Button
-              id="btnCreateClass"
-              type="button"
-              width="full"
-              handleClick={createClass}
-            >
-              Añadir Clase
-            </Button>
-          </Modal>
-        </div>
+        <HeaderList title="Listado de clases" type="CLASE" />
+        <LineHorizontal />
+        <ListOptions
+          searchString={searchString}
+          changeSearchString={changeSearchString}
+          create={createClass}
+          filter={filter}
+          changeFilter={changeFilter}
+          filterOption={filterOption}
+          sort={sort}
+          changeSort={changeSort}
+          sortOption={sortOption}
+          direction={direction}
+          changeDirection={changeDirection}
+          directionOption={directionOption}
+          isOpenModal={isOpenModal}
+          openModal={openModal}
+          closeModal={closeModal} />
+        <LineHorizontal />
         <DivList>
-          {classes.map(classData => (
+          <span className="text-sm font-bold text-text-500">LISTADO - {classList.totalElements}</span>
+          {classList.content.map(classData => (
             <div
               key={classData.id}
               onClick={() => viewClass(classData.id)}
-              className="flex w-full flex-col rounded-xl border-2 border-background-900 bg-background-950 p-1 cursor-pointer"
+              className="flex flex-col w-full bg-background-950 border border-background-800 p-3 rounded-xl cursor-pointer"
             >
               <div className="flex w-full flex-col">
                 <span className="w-full text-xl">{classData.title}</span>
               </div>
               <div className="flex flex-row items-center justify-between">
-                <span className="text-md h-fit">{classData.nameTeacher}</span>
-                <span className="text-md h-fit">{classData.numJoined}/{classData.capacity}</span>
+                <span className="font-bold text-sm text-text-500 h-fit">{classData.nameTeacher.toUpperCase()}</span>
+                <span className="font-bold text-sm text-text-500 h-fit">{classData.numJoined}/{classData.capacity}</span>
               </div>
             </div>
           ))}
