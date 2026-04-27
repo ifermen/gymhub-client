@@ -11,7 +11,7 @@ import { Loader } from "../../components/Loader/Loader";
 import toast from "react-hot-toast";
 import { HeaderList } from "../../components/Header/HeaderList";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
-import { ListOptions } from "../../components/ListOptions/ListOptions";
+import { ListOptionsWithSearch } from "../../components/ListOptions/ListOptionsWithSearch";
 import type { PageResponse } from '../../types/api';
 
 export function ClassList() {
@@ -156,7 +156,7 @@ export function ClassList() {
       <Div>
         <HeaderList title="Listado de clases" type="CLASE" />
         <LineHorizontal />
-        <ListOptions
+        <ListOptionsWithSearch
           searchString={searchString}
           changeSearchString={changeSearchString}
           create={createClass}
@@ -191,6 +191,7 @@ export function ClassList() {
             </div>
           ))}
         </DivList>
+        <LineHorizontal />
         <PageButtonSection pageKey={pageKey} setPageKey={changePageKey} totalPages={totalPages}></PageButtonSection>
       </Div>
     </Main>

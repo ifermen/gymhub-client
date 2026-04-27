@@ -13,6 +13,7 @@ export const ReportService = {
     if (params?.pageSize !== undefined) queryParams.set('pageSize', String(params.pageSize));
     if (params?.sort) queryParams.set('sort', params.sort);
     if (params?.direction) queryParams.set('direction', params.direction);
+    if (params?.filter && params.filter != "") queryParams.set('filter', params.filter);
 
     const queryString = queryParams.toString();
     const url = `${URL_BASE}${PATH}${queryString ? `?${queryString}` : ''}`;

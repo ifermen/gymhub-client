@@ -1,8 +1,11 @@
 import { Button } from "../Button/Button";
 import { Dropdown } from "../Dropdown/Dropdown";
 import { Modal } from "../Modal/Modal";
+import { SearchInput } from "./SearchInput";
 
 interface ListOptionsProps {
+  searchString: string;
+  changeSearchString: (search: string) => void;
   create: () => void;
   filter: string;
   changeFilter: (filter: string) => void;
@@ -18,7 +21,9 @@ interface ListOptionsProps {
   closeModal: () => void;
 }
 
-export function ListOptions({
+export function ListOptionsWithSearch({
+  searchString,
+  changeSearchString,
   create,
   filter,
   changeFilter,
@@ -35,8 +40,9 @@ export function ListOptions({
 }: ListOptionsProps) {
   return (
     <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
-      <div className="flex flex-row justify-between items-center">
-        <span className="text-sm font-bold text-text-500">OPCIONES DE LISTADO</span>
+      <span className="text-sm font-bold text-text-500">OPCIONES DE LISTADO</span>
+      <div className="flex flex-row gap-3 w-full">
+        <SearchInput changeSearchString={changeSearchString} searchString={searchString} />
         <div className="hidden sm:block">
           <Button id="btnAdd" type="button" width="fit" handleClick={create}>
             Añadir

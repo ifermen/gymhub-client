@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { HeaderList } from "../../components/Header/HeaderList";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import { Div } from "../../components/Div/Div";
-import { ListOptions } from "../../components/ListOptions/ListOptions";
+import { ListOptionsWithSearch } from "../../components/ListOptions/ListOptionsWithSearch";
 import type { PageResponse } from '../../types/api';
 
 export function ClientList() {
@@ -158,7 +158,7 @@ export function ClientList() {
       <Div>
         <HeaderList title="Listado de clientes" type="CLIENTE" />
         <LineHorizontal />
-        <ListOptions
+        <ListOptionsWithSearch
           searchString={searchString}
           changeSearchString={changeSearchString}
           create={createClient}

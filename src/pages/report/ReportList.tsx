@@ -1,19 +1,18 @@
 import { Main } from "../../components/Main/Main";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
-import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { useEffect, useRef, useState } from "react";
 import { ReportService } from "../../services/reportService";
 import type { ReportData } from "../../types/report";
 import { useUserContext } from "../../contexts/UserContext";
 import { Pill } from "../../components/Pill/Pill";
-import { Button } from "../../components/Button/Button";
-import { Modal } from "../../components/Modal/Modal";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Div } from "../../components/Div/Div";
 import DivList from '../../components/Div/DivList';
 import { Loader } from "../../components/Loader/Loader";
 import toast from "react-hot-toast";
+import { HeaderList } from "../../components/Header/HeaderList";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
+import { ListOptions } from "../../components/ListOptions/ListOptions";
 
 export function ReportList() {
   const { logout } = useUserContext();
@@ -21,6 +20,7 @@ export function ReportList() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [sort, setSort] = useState("creationDate");
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
+  const [filter, setFilter] = useState("");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [reportList, setReportList] = useState<ReportData[] | null>();
@@ -50,12 +50,19 @@ export function ReportList() {
     ["title", "Título"],
     ["status", "Estado"],
   ]);
+  const filterOption = new Map<string, string>([
+    ["-1", "Ninguno"],
+    ["pending", "Pendiente"],
+    ["resolved", "Resuelto"],
+    ["canceled", "Cancelado"],
+  ]);
 
   useEffect(() => {
     ReportService.listReports({
       direction: direction,
       sort: sort,
       pageKey: pageKey,
+      filter: filter,
     })
       .then((response) => {
         setReportList(response.content);
@@ -68,7 +75,15 @@ export function ReportList() {
           console.log(error);
         }
       });
-  }, [sort, direction, pageKey]);
+  }, [sort, direction, pageKey, filter]);
+
+  const changeFilter = (value: string) => {
+    if (value != "-1") {
+      setFilter(value);
+    } else {
+      setFilter("");
+    }
+  }
 
   const changeSort = (value: string) => {
     setSort(value);
@@ -106,60 +121,25 @@ export function ReportList() {
 
   return (
     <Main>
-      <TitlePage>Incidencias</TitlePage>
       <Div>
-        <div className="hidden flex-row justify-between gap-1 md:flex">
-          <Button
-            id="btnCreateReport"
-            type="button"
-            variant="primary"
-            width="fit"
-            handleClick={createReport}
-          >
-            Añadir
-          </Button>
-          <div className="flex gap-1">
-            <Dropdown
-              id="sort"
-              title="Ordenar por"
-              options={sortOption}
-              handlerChange={changeSort}
-              value={sort} />
-            <Dropdown
-              id="direction"
-              title="Dirección"
-              options={directionOption}
-              handlerChange={changeDirection}
-              value={direction} />
-          </div>
-        </div>
-        <div className="flex flex-col md:hidden">
-          <Button id="btnShowOptions" type="button" handleClick={openModal}>
-            Opciones
-          </Button>
-          <Modal isOpen={isOpenModal} onClose={closeModal}>
-            <Dropdown
-              id="sort"
-              title="Ordenar por"
-              options={sortOption}
-              handlerChange={changeSort}
-              value={sort} />
-            <Dropdown
-              id="direction"
-              title="Dirección"
-              options={directionOption}
-              handlerChange={changeDirection}
-              value={direction} />
-            <Button
-              id="btnCreateReport"
-              type="button"
-              width="full"
-              handleClick={createReport}
-            >
-              Añadir incidencia
-            </Button>
-          </Modal>
-        </div>
+        <HeaderList title="Listado de incidencias" type="INCIDENCIA" />
+        <LineHorizontal />
+        <ListOptions
+          isOpenModal={isOpenModal}
+          openModal={openModal}
+          closeModal={closeModal}
+          sort={sort}
+          sortOption={sortOption}
+          changeSort={changeSort}
+          direction={direction}
+          directionOption={directionOption}
+          changeDirection={changeDirection}
+          filter={filter}
+          filterOption={filterOption}
+          changeFilter={changeFilter}
+          create={createReport}
+        />
+        <LineHorizontal />
         <DivList>
           {reportList.map((report) => (
             <div
@@ -187,6 +167,7 @@ export function ReportList() {
             </div>
           ))}
         </DivList>
+        <LineHorizontal />
         <PageButtonSection
           pageKey={pageKey}
           setPageKey={changePageKey}

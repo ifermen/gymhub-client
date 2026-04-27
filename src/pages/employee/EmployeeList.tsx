@@ -9,7 +9,7 @@ import type { EmployeeData } from "../../types/employee";
 import EmployeeService from "../../services/employeeService";
 import { Loader } from "../../components/Loader/Loader";
 import toast from "react-hot-toast";
-import { ListOptions } from "../../components/ListOptions/ListOptions";
+import { ListOptionsWithSearch } from "../../components/ListOptions/ListOptionsWithSearch";
 import { HeaderList } from "../../components/Header/HeaderList";
 import { LineHorizontal } from "../../components/Line/LineHorizontal";
 import type { PageResponse } from "../../types/api";
@@ -156,7 +156,7 @@ export function EmployeeList() {
       <Div>
         <HeaderList title="Listado de empleado" type="EMPLEADO" />
         <LineHorizontal />
-        <ListOptions
+        <ListOptionsWithSearch
           searchString={searchString}
           changeSearchString={changeSearchString}
           isOpenModal={isOpenModal}
