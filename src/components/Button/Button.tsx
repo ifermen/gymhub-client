@@ -48,8 +48,8 @@ export function Button({ children, id, type, variant = "primary", width = "full"
         pt-1
         rounded-xl
         border
-        sm:text-xl
-        text-lg
+        sm:text-lg
+        text-base
         font-bold
         ${variants[variant]}
       `}>

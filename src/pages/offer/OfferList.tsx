@@ -3,16 +3,15 @@ import { Div } from "../../components/Div/Div";
 import DivList from "../../components/Div/DivList";
 import { PageButtonSection } from "../../components/ListOptions/PageButtonSection";
 import { Main } from "../../components/Main/Main";
-import { TitlePage } from "../../components/TitlePage/TitlePage";
 import { useUserContext } from "../../contexts/UserContext";
 import { useEffect, useState, useRef } from "react";
 import type { OfferData } from "../../types/offer";
-import { Button } from "../../components/Button/Button";
-import { Dropdown } from "../../components/Dropdown/Dropdown";
-import { Modal } from "../../components/Modal/Modal";
 import { OfferService } from "../../services/offerService";
 import { Loader } from "../../components/Loader/Loader";
 import toast from "react-hot-toast";
+import { HeaderList } from "../../components/Header/HeaderList";
+import { ListOptions } from "../../components/ListOptions/ListOptions";
+import { LineHorizontal } from "../../components/Line/LineHorizontal";
 
 export function OfferList() {
   const { logout } = useUserContext();
@@ -20,6 +19,7 @@ export function OfferList() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [sort, setSort] = useState("title");
   const [direction, setDirection] = useState<"DESC" | "ASC">("DESC");
+  const [filter, setFilter] = useState("");
   const [pageKey, setPageKey] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [offers, setOffers] = useState<OfferData[] | null>();
@@ -55,12 +55,19 @@ export function OfferList() {
     ["cost", "Coste"],
     ["numDay", "Número de días"],
   ]);
+  const filterOption = new Map<string, string>([
+    ["-1", "Ninguno"],
+    ["isActive", "Activo"],
+    ["isDisactive", "Desactivo"],
+  ]);
+
 
   useEffect(() => {
     OfferService.listOffers({
       direction: direction,
       pageKey: pageKey,
       sort: sort,
+      filter: filter
     }).then(response => {
       setOffers(response.content);
       setTotalPages(response.totalPages);
@@ -69,7 +76,15 @@ export function OfferList() {
         logout();
       }
     });
-  }, [sort, direction, pageKey, totalPages]);
+  }, [sort, direction, pageKey, totalPages, filter]);
+
+  const changeFilter = (value: string) => {
+    if (value != "-1") {
+      setFilter(value);
+    } else {
+      setFilter("");
+    }
+  }
 
   const changeSort = (value: string) => {
     if (value != "-1") {
@@ -109,60 +124,25 @@ export function OfferList() {
 
   return (
     <Main>
-      <TitlePage>Ofertas</TitlePage>
       <Div>
-        <div className="hidden flex-row justify-between gap-1 md:flex">
-          <Button
-            id="btnCreateOffer"
-            type="button"
-            variant="primary"
-            width="fit"
-            handleClick={createOffer}
-          >
-            Añadir
-          </Button>
-          <div className="flex gap-1">
-            <Dropdown
-              id="sort"
-              title="Ordenar por"
-              options={sortOption}
-              handlerChange={changeSort}
-              value={sort} />
-            <Dropdown
-              id="direction"
-              title="Dirección"
-              options={directionOption}
-              handlerChange={changeDirection}
-              value={direction} />
-          </div>
-        </div>
-        <div className="flex flex-col md:hidden">
-          <Button id="btnShowOptions" type="button" handleClick={openModal}>
-            Opciones
-          </Button>
-          <Modal isOpen={isOpenModal} onClose={closeModal}>
-            <Dropdown
-              id="sort"
-              title="Ordenar por"
-              options={sortOption}
-              handlerChange={changeSort}
-              value={sort} />
-            <Dropdown
-              id="direction"
-              title="Dirección"
-              options={directionOption}
-              handlerChange={changeDirection}
-              value={direction} />
-            <Button
-              id="btnCreateOffer"
-              type="button"
-              width="full"
-              handleClick={createOffer}
-            >
-              Añadir Clase
-            </Button>
-          </Modal>
-        </div>
+        <HeaderList title="Listado de Ofertas" type="OFERTA" />
+        <LineHorizontal />
+        <ListOptions
+          isOpenModal={isOpenModal}
+          openModal={openModal}
+          closeModal={closeModal}
+          sort={sort}
+          sortOption={sortOption}
+          changeSort={changeSort}
+          direction={direction}
+          directionOption={directionOption}
+          changeDirection={changeDirection}
+          filter={filter}
+          filterOption={filterOption}
+          changeFilter={changeFilter}
+          create={createOffer}
+        />
+        <LineHorizontal />
         <DivList>
           {offers.map((offer) => (
             <div
@@ -176,6 +156,7 @@ export function OfferList() {
             </div>
           ))}
         </DivList>
+        <LineHorizontal />
         <PageButtonSection
           pageKey={pageKey}
           setPageKey={changePageKey}
