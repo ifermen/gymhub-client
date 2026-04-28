@@ -4,10 +4,14 @@ import { jwtDecode } from "jwt-decode";
 import { AuthService } from "../services/authService";
 import { LocalStorageUtility } from "../utilities/LocalStorage";
 import { useNavigate } from "react-router-dom";
+import type { ClientData } from "../types/client";
+import type { EmployeeData } from "../types/employee";
 
 interface UserContextType {
-  loginContext: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
   user: UserType | null;
+  updateUser: (userData: ClientData | EmployeeData) => void;
   isLoading: boolean;
 }
 
@@ -68,7 +72,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     };
   }
 
-  const loginContext = async (email: string, password: string): Promise<void> => {
+  const login = async (email: string, password: string): Promise<void> => {
     try {
       const data: LoginResponse = await AuthService.login(email, password);
       LocalStorageUtility.saveToken(data.token);
@@ -84,10 +88,29 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   };
 
+  const logout = () => {
+    LocalStorageUtility.deleteToken();
+    navigate("/login")
+  }
+
+  const updateUser = (userData: ClientData | EmployeeData) => {
+    const data: UserType = {
+      id: user!.id,
+      name: userData.name,
+      email: userData.email,
+      creationDate: user!.creationDate,
+      role: user!.role,
+    }
+
+    setUser(data);
+  }
+
   return (
     <UserContext.Provider value={{
-      loginContext,
+      login,
+      logout,
       user,
+      updateUser,
       isLoading
     }}>
       {children}

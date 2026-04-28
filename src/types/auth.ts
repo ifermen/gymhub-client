@@ -15,7 +15,7 @@ export interface UserType {
   id: number;
   name: string;
   email: string;
-  role: 'admin' | 'employee' | 'client';
+  role: 'ADMIN' | 'EMPLOYEE' | 'CLIENT';
   creationDate: Date
 }
 
@@ -23,6 +23,8 @@ export interface JwtPayload {
   id: number;
   name: string;
   email: string;
-  role: 'admin' | 'employee' | 'client';
-  creationDate: Date
+  role: 'ADMIN' | 'EMPLOYEE' | 'CLIENT';
+  creationDate: Date;
 }
+
+export type Role = 'ADMIN' | 'EMPLOYEE' | 'CLIENT'
