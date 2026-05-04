@@ -16,16 +16,22 @@ import { NotFoundElement } from "../error/NotFoundElement";
 import DivContent from "../../components/Div/DivContent";
 import { HeaderById } from "../../components/Header/HeaderById";
 import { Data } from "../../components/Data/Data";
+import { ExerciseService } from "../../services/exerciseService";
+import type { ExerciseTableData } from "../../types/exercise";
 
 export default function ClientById() {
   const { logout } = useUserContext();
   const navegate = useNavigate();
   const { id } = useParams();
   const [client, setClient] = useState<ClientData>();
+  const [exerciseTable, setExerciseTable] = useState<ExerciseTableData | null>();
   const [offerOptions, setOfferOptions] = useState<Map<string, string>>(new Map());
+  const [exerciseTableOptions, setExerciseTableOptions] = useState<Map<string, string>>(new Map());
   const [offerSelected, setOfferSelected] = useState("");
+  const [exerciseSelected, setExerciseSelected] = useState("");
   const [isSuscriptionActive, setIsSuscriptionActive] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [renewalHistory, setRenewalHistory] = useState<RenewalDataWithoutClient[]>([]);
   const [isHistoryActive, setIsHistoryActive] = useState(false);
@@ -34,6 +40,11 @@ export default function ClientById() {
   useEffect(() => {
     ClientService.clientById(Number(id)).then((response) => {
       setClient(response);
+      if (response.exerciseTableId != null) {
+        ExerciseService.exerciseById(response.exerciseTableId).then((exerciseTableResponse) => {
+          setExerciseTable(exerciseTableResponse);
+        })
+      }
     }).catch(error => {
       if (error.status == 401) {
         logout();
@@ -57,6 +68,16 @@ export default function ClientById() {
   }, []);
 
   useEffect(() => {
+    ExerciseService.listAllExercise().then((response) => {
+      const mapExercise = new Map(response.map(e => [e.id + "", e.title]));
+      setExerciseTableOptions(mapExercise);
+      if (response.length > 0) {
+        setExerciseSelected(response[0].id + "");
+      }
+    })
+  }, []);
+
+  useEffect(() => {
     OfferService.listAllOffers().then((response: OfferData[]) => {
       const mapOffer = new Map(response.map(e => [e.id + "", e.title]));
       setOfferOptions(mapOffer);
@@ -68,6 +89,10 @@ export default function ClientById() {
 
   const changeOfferHandler = (value: string) => {
     setOfferSelected(value);
+  }
+
+  const changeExerciseHandler = (value: string) => {
+    setExerciseSelected(value);
   }
 
   const submitRenewHandler = () => {
@@ -82,12 +107,34 @@ export default function ClientById() {
     })
   }
 
+  const submitExerciseHandler = () => {
+    ExerciseService.assign({
+      clientId: client!.id,
+      exerciseTableId: Number(exerciseSelected)
+    }
+    ).then(response => {
+      setExerciseTable(response.exerciseTable);
+    }).catch(error => {
+      if (error.status == 401) {
+        logout();
+      }
+    })
+  }
+
   const openModal = () => {
     setIsOpenModal(true);
   };
 
   const closeModal = () => {
     setIsOpenModal(false);
+  };
+
+  const openModalExercise = () => {
+    setIsOpenModalExercise(true);
+  };
+
+  const closeModalExercise = () => {
+    setIsOpenModalExercise(false);
   };
 
   const clickEditClientHandler = () => {
@@ -113,6 +160,18 @@ export default function ClientById() {
   const deleteClient = () => {
     ClientService.deleteClient(client!.id).then(() => {
       navegate("/client", { state: { action: client?.endDate ? "enable" : "disable", reference: client?.name } });
+    }).catch(error => {
+      if (error.status == 401) {
+        logout();
+      } else {
+        console.log(error);
+      }
+    })
+  }
+
+  const unassign = () => {
+    ExerciseService.unassign(client!.id).then(() => {
+      setExerciseTable(null);
     }).catch(error => {
       if (error.status == 401) {
         logout();
@@ -208,6 +267,33 @@ export default function ClientById() {
           </> : <span className="text-xl">Sin renovaciones</span>
           }
           { }
+        </div>
+        <LineHorizontal />
+        <div className="sm:p-7 sm:pt-3 p-3 flex flex-col gap-3 w-full">
+          <div className="flex w-full flex-row gap-5 mt-2 justify-between items-center">
+            <span className="font-bold text-sm text-text-500">
+              TABLA DE EJERCICIOS
+            </span>
+            <div className="flex gap-3">
+              {exerciseTable == null ? "" :
+                <Button id="btnUnassign" width="fit" type="button" variant="danger" handleClick={unassign}>Desasignar</Button>}
+              <Button id="btnAssign" width="fit" type="button" handleClick={openModalExercise}>Asignar</Button>
+              <Modal isOpen={isOpenModalExercise} onClose={closeModalExercise}>
+                <form onSubmit={submitExerciseHandler} className="flex flex-col justify-center items-center gap-3">
+                  <Dropdown
+                    id="exerciste"
+                    title="TABLA DE EJERCICIOS"
+                    options={exerciseTableOptions}
+                    handlerChange={changeExerciseHandler}
+                  />
+                  <Button id="btnRenew" type="submit" handleClick={() => { }}>Asignar Tabla</Button>
+                </form>
+              </Modal>
+            </div>
+          </div>
+          {exerciseTable == null ? <div className="w-full justify-center flex">
+            <span className="sm:text-xl text-lg">Ninguna tabla de ejericios vinculada</span>
+          </div> : <Data title={exerciseTable!.title} value={exerciseTable!.description} />}
         </div>
         <LineHorizontal />
         <div className="flex flex-col gap-3 w-full sm:p-7 p-3">

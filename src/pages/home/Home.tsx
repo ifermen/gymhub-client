@@ -1,6 +1,9 @@
+import { Main } from "../../components/Main/Main";
+
 export function Home() {
   return (
-    <main>
-    </main>
+    <Main>
+      <h3>GymHub</h3>
+    </Main>
   )
 }

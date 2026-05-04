@@ -10,3 +10,12 @@ export interface ExerciseDayData {
   title: string;
   content: string;
 }
+
+export interface AssignRequest {
+  clientId: number;
+  exerciseTableId: number;
+}
+
+export interface UnassignRequest {
+  clientId: number;
+}
