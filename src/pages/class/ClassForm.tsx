@@ -253,7 +253,7 @@ export function ClassForm() {
                     name="facility"
                     placeholder="Donde . . ."
                     type="text"
-                    title="Intalación"
+                    title="Instalación"
                     value={field.value || ""}
                     handleChange={field.onChange}
                   />
