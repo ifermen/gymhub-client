@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { JwtPayload, LoginResponse, UserType, VerifyResponse } from "../types/auth";
+import type { JwtPayload, LoginResponse, UserType } from "../types/auth";
 import { jwtDecode } from "jwt-decode";
 import { AuthService } from "../services/authService";
 import { LocalStorageUtility } from "../utilities/LocalStorage";
@@ -42,7 +42,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
       navigate('/login');
     } else {
       AuthService.verifyToken().then(
-        response => {
+        () => {
           const user = mapJwtToUser(token);
           console.log(user)
           setUser(user);
