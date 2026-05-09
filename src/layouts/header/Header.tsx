@@ -61,13 +61,13 @@ export function Header() {
             className="flex w-fit cursor-pointer items-center gap-2"
           >
             <span className="mt-1 hidden h-fit text-2xl sm:block">
-              {user?.name}
+              {user ? user.name : "Iniciar Sesión"}
             </span>
             <img src={profile} alt="Logo de GymHub" className="w-8 sm:w-16" />
           </div>
         </div>
         <LineHorizontal variant="white"></LineHorizontal>
-        <NavMenu></NavMenu>
+        {user != null ? <NavMenu></NavMenu> : ""}
       </header>
     </>
   );

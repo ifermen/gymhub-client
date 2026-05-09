@@ -90,6 +90,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
 
   const logout = () => {
     LocalStorageUtility.deleteToken();
+    setUser(null);
     navigate("/login")
   }
 

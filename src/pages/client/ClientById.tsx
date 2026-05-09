@@ -276,7 +276,7 @@ export default function ClientById() {
             </span>
             <div className="flex gap-3">
               {exerciseTable == null ? "" :
-                <Button id="btnUnassign" width="fit" type="button" variant="danger" handleClick={unassign}>Desasignar</Button>}
+                <Button id="btnUnassign" width="fit" type="button" variant="danger" handleClick={unassign}>Quitar</Button>}
               <Button id="btnAssign" width="fit" type="button" handleClick={openModalExercise}>Asignar</Button>
               <Modal isOpen={isOpenModalExercise} onClose={closeModalExercise}>
                 <form onSubmit={submitExerciseHandler} className="flex flex-col justify-center items-center gap-3">

@@ -44,9 +44,9 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path='/' element={<Layout />}>
+            <Route index element={<Navigate to={"/home"} />} />
+            <Route path='/home' element={<Home />} />
             <Route element={<AuthGuard />}>
-              <Route index element={<Navigate to={"/home"} />} />
-              <Route path='/home' element={<Home />} />
 
               <Route path='/profile' element={<Profile />} />
               <Route path='/profile/edit' element={<EditProfile />} />

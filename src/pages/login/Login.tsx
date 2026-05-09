@@ -38,6 +38,10 @@ export default function Login() {
       });
   }
 
+  const btnGuest = () => {
+    navigate("/home");
+  }
+
   return (
     <main id="main-login">
       <div
@@ -99,7 +103,7 @@ export default function Login() {
           <Button id="btn-submit" type="submit" handleClick={() => { }}>
             Iniciar Sesión
           </Button>
-          <Button id="btn-submit" type="submit" handleClick={() => { }} variant="secondary">
+          <Button id="btn-submit" type="button" handleClick={btnGuest} variant="secondary">
             Entrar como invitado
           </Button>
         </form>

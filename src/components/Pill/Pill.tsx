@@ -3,10 +3,15 @@ import type { ReactNode } from "react"
 interface PillProps {
   variant?: "primary" | "secondary" | "accent" | "success" | "warning" | "danger";
   width?: "full" | "fit";
+  size?: "base" | "sm"
   children: ReactNode;
 }
 
-export function Pill({ variant = "primary", width = "fit", children }: PillProps) {
+export function Pill({ variant = "primary", width = "fit", children, size = "base" }: PillProps) {
+
+  const smText = size;
+  const text = size == "base" ? "sm" :
+    size == "sm" ? "xs" : "";
 
   const variants = {
     primary: "bg-primary-900 border-primary-500 text-primary-400",
@@ -25,8 +30,8 @@ export function Pill({ variant = "primary", width = "fit", children }: PillProps
       rounded-full
       font-bold
       border
-      sm:text-base
-      text-sm
+      sm:text-${smText}
+      text-${text}
       w-${width}
       ${variants[variant]}
     `}>
