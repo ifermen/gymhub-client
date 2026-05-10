@@ -117,12 +117,14 @@ export function ReportById() {
         </div>
         <LineHorizontal></LineHorizontal>
         <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
-          <Dropdown
-            id="ddChangeStatus"
-            title="Cambiar Estado"
-            value={"-1"}
-            options={statusOption}
-            handlerChange={changeStatusHandler} />
+          {user?.role == "EMPLOYEE" || user?.role == "ADMIN" ?
+            <Dropdown
+              id="ddChangeStatus"
+              title="Cambiar Estado"
+              value={"-1"}
+              options={statusOption}
+              handlerChange={changeStatusHandler} /> : ""
+          }
 
           {user?.id == report?.userCreatorId ? (
             <div className="flex flex-row w-full gap-3">
