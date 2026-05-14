@@ -20,7 +20,11 @@ export function Header() {
   }, [location]);
 
   const clickProfileHandler = () => {
-    navegate("/profile");
+    if (user) {
+      navegate("/profile");
+    } else {
+      navegate("/login")
+    }
   };
 
   const clickBrandHandler = () => {
