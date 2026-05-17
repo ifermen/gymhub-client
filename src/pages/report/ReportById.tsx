@@ -111,7 +111,7 @@ export function ReportById() {
         <div className="flex flex-col gap-3 w-full sm:p-7 p-3">
           <Data title="DESCRIPCIÓN" value={report.description} />
           <div className="flex flex-row gap-3">
-            <Data title="CREADOR POR" value={report.userCreatorName} />
+            <Data title="CREADO POR" value={report.userCreatorName} />
             <Data title="RESUELTO POR" value={report.userSolverName ? report.userSolverName : "---"} />
           </div>
         </div>
